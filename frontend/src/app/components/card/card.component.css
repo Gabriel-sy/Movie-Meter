@@ -74,3 +74,7 @@ p {
 .delete:hover {
   background-color: rgb(240, 56, 0, 0.8);
 }
+
+.edit:hover {
+  background-color: rgb(78, 195, 242, 0.8);
+}
