@@ -3,4 +3,6 @@ export class Movie {
   release_date!: string
   genre_ids!: string
   vote_average!: string
+  media_type!: string
+  name!: string
 }
