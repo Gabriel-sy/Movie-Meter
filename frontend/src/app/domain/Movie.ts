@@ -9,6 +9,5 @@ export class Movie {
   poster_path!: string
   user_rating!: string
   overview!: string
-
   
 }

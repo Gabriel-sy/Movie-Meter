@@ -19,11 +19,9 @@ export class CardComponent implements OnInit{
 
   ngOnInit(): void {
     this.shows = this.showService.findAllShows()
-    this.showService.findAllShows().subscribe((res) => console.log(res))
   }
 
   showImage(posterPath: string) {
-    console.log(posterPath)
     return 'https://image.tmdb.org/t/p/w500' + posterPath
   }
 }

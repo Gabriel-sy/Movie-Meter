@@ -104,3 +104,18 @@ label {
   padding-top: 5px;
   position: absolute;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.error-msg {
+  color: rgb(232, 32, 32);
+}

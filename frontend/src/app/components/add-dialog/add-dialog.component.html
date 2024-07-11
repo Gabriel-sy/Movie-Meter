@@ -1,27 +1,32 @@
 <div class="dialog-container">
   <h2 mat-dialog-title class="title">Adicionar novo titulo</h2>
   <mat-dialog-content class="form-container">
-    <form action="">
+    <form [formGroup]="formData" (ngSubmit)="saveMovie()">
       <div class="form-group">
         <label for="select-movie">Selecione o titulo</label>
         <div class="search">
-          <input [value]="inputValue" (keyup)="searchMovie($event)" class="select-movie" placeholder="Digite um titulo..." type="text" name="select-movie"
-            id="select-movie">
+          <input formControlName="show" [value]="inputValue" (keyup)="searchMovie($event)" class="select-movie"
+            placeholder="Digite um titulo..." type="text" name="select-movie" id="select-movie">
           <span class="icon"><i><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                 width="24px" fill="#e8eaed">
                 <path
                   d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
               </svg></i></span>
+
         </div>
+
         <ng-container>
           <div class="search-container">
             <div>
               <span class="seratch-title" *ngFor="let title of titles" (click)="setInputValue(title)">{{ title }}</span>
-              
             </div>
           </div>
         </ng-container>
+        <span class="error-msg" *ngIf="errorInputMsg == true">Por favor escolha um titulo válido</span>
+        <span class="error-msg" *ngIf="formData.get('show')?.hasError('required') && formData.get('show')?.touched">Esse
+          campo é obrigatório</span>
         <ng-template #loading>
+
           <div class="spinner-div">
             <span class="loader"></span>
           </div>
@@ -31,12 +36,20 @@
       </div>
       <div class="form-group">
         <label for="rating">Nota</label>
-        <input placeholder="Ex: 4.5" name="rating" id="rating" class="rating" type="text">
+        <input type="text" formControlName="rating" placeholder="Ex: 4.5" name="rating" id="rating" class="rating"
+          required>
+        <span class="error-msg" *ngIf="formData.get('rating')?.hasError('pattern')">Digite uma nota válida</span>
+        <span class="error-msg"
+          *ngIf="formData.get('rating')?.hasError('required') && formData.get('rating')?.touched">Esse campo é
+          obrigatório</span>
       </div>
+      <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancelar</button>
+        <button mat-button cdkFocusInitial type="submit">Salvar</button>
+      </mat-dialog-actions>
     </form>
   </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="saveMovie()">Salvar</button>
-  </mat-dialog-actions>
+
+
+
 </div>
