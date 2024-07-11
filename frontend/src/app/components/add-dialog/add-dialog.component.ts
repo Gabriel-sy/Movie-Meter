@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -7,6 +7,7 @@ import { Observable, debounceTime, delay, map, timer } from 'rxjs';
 import { Movie } from '../../domain/Movie';
 import { CommonModule } from '@angular/common';
 import { Results } from '../../domain/Results';
+import { ShowService } from '../../services/show.service';
 
 
 @Component({
@@ -16,15 +17,30 @@ import { Results } from '../../domain/Results';
   templateUrl: './add-dialog.component.html',
   styleUrl: './add-dialog.component.css'
 })
-export class AddDialogComponent {
-
+export class AddDialogComponent implements OnInit{
+  
   foundMovies: Observable<Results> = new Observable<Results>();
+  showToSave: Movie = new Movie()
   titles: string[] = []
+  foundShows: Movie[] = []
   inputValue: string = ''
-  timer = setTimeout(() => {
+  timer = setTimeout(() => {}, 0)
+  constructor(private searchMovieService: SearchMovieService, private showService: ShowService) { }
 
-  }, 0)
-  constructor(private searchMovieService: SearchMovieService) { }
+  ngOnInit(): void {
+  
+  }
+
+  saveMovie(){
+    this.searchMovieService.searchTitle(this.inputValue).subscribe({
+      next: (res: Results) => {
+        this.foundShows = res.results;
+        this.foundShows = this.foundShows.filter(show => show.title == this.inputValue || show.name == this.inputValue)
+        this.showToSave = this.foundShows[0] as Movie;
+        this.showService.saveShow(this.showToSave).subscribe()
+      }
+    })
+  }
 
 
   searchMovie(event: any) {

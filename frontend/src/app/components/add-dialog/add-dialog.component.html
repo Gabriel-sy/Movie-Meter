@@ -16,7 +16,8 @@
         <ng-container>
           <div class="search-container">
             <div>
-              <span class="seratch-title" *ngFor="let movie of titles" (click)="setInputValue(movie)">{{ movie }}</span>
+              <span class="seratch-title" *ngFor="let title of titles" (click)="setInputValue(title)">{{ title }}</span>
+              
             </div>
           </div>
         </ng-container>
@@ -36,6 +37,6 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Salvar</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="saveMovie()">Salvar</button>
   </mat-dialog-actions>
 </div>
