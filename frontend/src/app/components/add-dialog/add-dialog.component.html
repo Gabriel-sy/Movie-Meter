@@ -5,7 +5,7 @@
       <div class="form-group">
         <label for="select-movie">Selecione o titulo</label>
         <div class="search">
-          <input (keyup)="searchMovie($event)" class="select-movie" placeholder="Digite um titulo..." type="text" name="select-movie"
+          <input [value]="inputValue" (keyup)="searchMovie($event)" class="select-movie" placeholder="Digite um titulo..." type="text" name="select-movie"
             id="select-movie">
           <span class="icon"><i><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                 width="24px" fill="#e8eaed">
@@ -16,7 +16,7 @@
         <ng-container>
           <div class="search-container">
             <div>
-              <span class="seratch-title" *ngFor="let movie of titles">{{ movie }}</span>
+              <span class="seratch-title" *ngFor="let movie of titles" (click)="setInputValue(movie)">{{ movie }}</span>
             </div>
           </div>
         </ng-container>

@@ -20,23 +20,29 @@ export class AddDialogComponent {
 
   foundMovies: Observable<Results> = new Observable<Results>();
   titles: string[] = []
+  inputValue: string = ''
+  
 
   constructor(private searchMovieService: SearchMovieService) { }
 
 
   searchMovie(event: any) {
     const length = event.target.value.length
-    
     if (length > 3) {
       this.foundMovies = this.searchMovieService.searchTitle(event.target.value)
       this.foundMovies.subscribe({
         next: (res: Results) => {
-          res.results.map(movie => movie.title)
           this.titles = res.results.map(movie => movie.title);
-          console.log(this.titles)
         }
       })
+    } else if(length == 0) {
+      this.titles = []
     }
 
+  }
+
+  setInputValue(movie: string){
+    this.inputValue = movie;
+    this.titles = []
   }
 }
