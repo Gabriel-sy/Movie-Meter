@@ -24,7 +24,11 @@ public class Show {
     private String overview;
 
     public Show(ShowDTO showDTO) {
-        this.title = showDTO.title();
+        if (showDTO.name() == null){
+            this.title = showDTO.title();
+        } else if (showDTO.title() == null) {
+            this.title = showDTO.name();
+        }
         this.showId = showDTO.id();
         this.releaseDate = showDTO.release_date();
         this.genreIds = showDTO.genre_ids();

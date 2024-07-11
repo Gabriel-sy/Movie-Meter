@@ -3,7 +3,7 @@ import { CardComponent } from "../card/card.component";
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddDialogComponent } from '../add-dialog/add-dialog.component';
-import { HttpClient, HttpRequest } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-home',
@@ -15,7 +15,15 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 export class HomeComponent {
   readonly dialog = inject(MatDialog);
 
-  constructor(private http: HttpClient) { }
+  // shows: Observable<Movie[]> = new Observable<Movie[]>()
+
+  constructor() { }
+
+  
+
+  
+
+  
 
   openDialog() {
     const dialogRef = this.dialog.open(AddDialogComponent);
