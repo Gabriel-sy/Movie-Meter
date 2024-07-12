@@ -29,8 +29,6 @@ Movie RatingApp é um site que tem como função adicionar, avaliar e gerenciar 
 - Maven
 - PostgreSQL
 
-### Passo a Passo
-
 1. **Clone o repositório**
 
     ```bash
