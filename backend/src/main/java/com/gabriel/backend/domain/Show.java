@@ -29,8 +29,12 @@ public class Show {
         } else if (showDTO.title() == null) {
             this.title = showDTO.name();
         }
+        if (showDTO.release_date() == null && showDTO.first_air_date() != null) {
+            this.releaseDate = showDTO.first_air_date().substring(0, 4);
+        } else if (showDTO.first_air_date() == null && showDTO.release_date() != null) {
+            this.releaseDate = showDTO.release_date().substring(0, 4);
+        }
         this.showId = showDTO.id();
-        this.releaseDate = showDTO.release_date();
         this.genreIds = showDTO.genre_ids();
         this.userRating = showDTO.user_rating();
         this.publicRating = showDTO.vote_average();
