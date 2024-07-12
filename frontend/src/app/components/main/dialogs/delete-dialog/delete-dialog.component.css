@@ -1,0 +1,30 @@
+.dialog-container {
+  background-color: #222831;
+  padding: 20px;
+  border-radius: 10px;
+  min-width: 400px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+}
+
+.title,
+p,
+button {
+  color: white;
+}
+
+.title {
+  font-weight: bold;
+}
+
+button[mat-button] {
+  color: #ffffff;
+  background-color: #1f4068;
+  border-radius: 5px;
+  padding: 8px 16px;
+  margin-left: 10px;
+  transition: background-color 0.3s;
+}
+
+button[mat-button]:hover {
+  background-color: #162447;
+}

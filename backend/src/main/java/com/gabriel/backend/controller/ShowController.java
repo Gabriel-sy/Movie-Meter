@@ -29,4 +29,10 @@ public class ShowController {
     public ResponseEntity<List<Show>> findAll(){
         return ResponseEntity.ok(showService.findAllShows());
     }
+
+    @DeleteMapping(path = "{id}")
+    public ResponseEntity<Void> deleteShow(@PathVariable Long id){
+        showService.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 }

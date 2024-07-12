@@ -17,4 +17,8 @@ export class ShowService {
   findAllShows(){
     return this.http.get<MovieResponseDTO[]>(this.API + 'shows')
   }
+
+  deleteShowById(showId: string){
+    return this.http.delete(this.API + 'shows/' + showId);
+  }
 }

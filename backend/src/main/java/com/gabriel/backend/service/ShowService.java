@@ -25,4 +25,8 @@ public class ShowService {
 
         return showRepository.findAll();
     }
+
+    public void deleteById(Long id) {
+        showRepository.deleteById(id);
+    }
 }
