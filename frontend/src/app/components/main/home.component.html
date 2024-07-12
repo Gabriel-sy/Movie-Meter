@@ -9,11 +9,53 @@
 </button>
 
 <div class="header">
-  <p class="titles">Todos os títulos</p>
-  <p>Ordernar por</p>
+  <p class="titles">Sua lista</p>
+  <div class="order-container" (click)="showDropdown()">
+    <p class="order">Ordernar por</p>
+    <div class="svg-container">
+      <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+        fill="#e8eaed">
+        <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
+      </svg>
+    </div>
+  </div>
+  <div class="dropdown" *ngIf="dropdownDisplay" @dropdownAnimation>
+    <div class="dropdown-item" (click)="filterShowsByNameAsc()">
+      <p>Nome
+        <svg class="svg-dropdown" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+          fill="#e8eaed">
+          <path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z" />
+        </svg>
+      </p>
+    </div>
+    <div class="dropdown-item" (click)="filterShowsByNameDesc()">
+      <p>Nome
+        <svg class="svg-dropdown" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+          fill="#e8eaed">
+          <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
+        </svg>
+      </p>
+    </div>
+    <div class="dropdown-item" (click)="filterShowsByRatingAsc()">
+      <p>Avaliação
+        <svg class="svg-dropdown" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+          fill="#e8eaed">
+          <path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z" />
+        </svg>
+      </p>
+    </div>
+    <div class="dropdown-item" (click)="filterShowsByRatingDesc()">
+      <p>Avaliação
+        <svg class="svg-dropdown" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+          fill="#e8eaed">
+          <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
+        </svg>
+      </p>
+    </div>
+  </div>
 </div>
 
-  <app-card class="cards" [shows]="shows"></app-card>
+<app-card class="cards" [shows]="shows"></app-card>
 
 <div class="dialog">
 

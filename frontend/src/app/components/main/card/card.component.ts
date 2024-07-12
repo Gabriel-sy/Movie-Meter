@@ -22,7 +22,7 @@ export class CardComponent implements OnInit {
   constructor(private showService: ShowService) { }
 
   ngOnInit(): void {
-    this.shows = this.showService.findAllShows()
+    
   }
 
   showImage(posterPath: string) {

@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { ShowService } from '../../../../services/show.service';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-edit-dialog',
@@ -21,9 +22,11 @@ export class EditDialogComponent {
 
   constructor(private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: string,
-    private showService: ShowService) { }
+    private showService: ShowService,
+    private dialogRef: MatDialogRef<EditDialogComponent>) { }
 
   editShow() {
+    this.isSubmitted = true
     if (this.formData.valid) {
       if (this.formData.get('rating')?.value != null) {
         this.editUserRating(this.data, this.formData.get('rating')?.value as string)
@@ -33,9 +36,11 @@ export class EditDialogComponent {
   }
 
   editUserRating(showId: string, userRating: string) {
-    
     const editShow: Subscription = this.showService.editShowRating(showId, userRating).subscribe({
-      complete: () => editShow.unsubscribe()
+      complete: () => {
+        editShow.unsubscribe()
+        this.dialogRef.close(true)
+      }
     });
   }
 }

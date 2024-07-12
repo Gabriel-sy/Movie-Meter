@@ -40,7 +40,7 @@ export class AddDialogComponent implements OnDestroy {
     private showService: ShowService,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    public dialogRef: MatDialogRef<AddDialogComponent>) { }
+    private dialogRef: MatDialogRef<AddDialogComponent>) { }
 
   ngOnDestroy(): void {
     this.unsubscribeSignal.next()

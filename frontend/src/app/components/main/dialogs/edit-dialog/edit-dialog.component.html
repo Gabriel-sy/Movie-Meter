@@ -8,14 +8,14 @@
           required>
         <span class="error-msg" *ngIf="formData.get('rating')?.hasError('pattern')">Digite uma nota válida</span>
         <span class="error-msg"
-          *ngIf="(formData.get('rating')?.invalid && this.isSubmitted) || (formData.get('rating')?.hasError('required') && formData.get('rating')?.touched)">Esse
+          *ngIf="(formData.get('rating')?.hasError('required') && this.isSubmitted) || (formData.get('rating')?.hasError('required') && formData.get('rating')?.touched)">Esse
           campo é
           obrigatório</span>
       </div>
 
       <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Cancelar</button>
-        <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="editShow()">Editar</button>
+        <button mat-button cdkFocusInitial (click)="editShow()">Editar</button>
       </mat-dialog-actions>
     </form>
   </mat-dialog-content>

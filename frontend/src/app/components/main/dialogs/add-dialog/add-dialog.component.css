@@ -130,3 +130,8 @@ button[mat-button] {
 button[mat-button]:hover {
   background-color: #162447;
 }
+
+.select-movie {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
