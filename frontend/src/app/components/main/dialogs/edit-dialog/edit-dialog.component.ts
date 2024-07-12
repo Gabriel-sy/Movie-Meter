@@ -5,7 +5,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { ShowService } from '../../../../services/show.service';
-import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-edit-dialog',

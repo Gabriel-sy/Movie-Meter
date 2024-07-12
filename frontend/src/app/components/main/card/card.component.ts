@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { ShowService } from '../../../services/show.service';
 import { Observable, Subscription } from 'rxjs';
-import { Movie } from '../../../domain/Movie';
 import { CommonModule } from '@angular/common';
 import { MovieResponseDTO } from '../../../domain/MovieResponseDTO';
 import { MatDialog } from '@angular/material/dialog';
@@ -43,7 +42,7 @@ export class CardComponent implements OnInit {
     })
   }
 
-  openEditDialog(showId: string, userRating: string) {
+  openEditDialog(showId: string) {
     const dialog = this.dialog.open(EditDialogComponent, {
       data: showId 
     })

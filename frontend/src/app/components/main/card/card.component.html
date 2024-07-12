@@ -6,8 +6,8 @@
   <img [src]="showImage(show.posterPath)">
   <p> {{ show.overview }} </p>
     <div class="buttons">
-      <button class="delete" (click)="openDeleteDialog(show.userRating)">Remover avaliação</button>
-      <button class="edit" (click)="openEditDialog(show.id, show.userRating)">Editar nota</button>
+      <button class="delete" (click)="openDeleteDialog(show.id)">Remover avaliação</button>
+      <button class="edit" (click)="openEditDialog(show.id)">Editar nota</button>
     </div>
   
 </div>
