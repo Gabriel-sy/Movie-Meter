@@ -9,8 +9,8 @@ Movie RatingApp é um site que tem como função adicionar, avaliar e gerenciar 
 - **Busca por filmes/séries**: Busca por qualquer filme ou série pelo nome.
 - **Adicionar filmes/séries**: Adicione filmes e séries ao seu perfil pessoal.
 - **Avaliação**: Avalie os filmes e séries adicionados.
-- **Edição de avaliações**: Edite as notas de avaliação atribuídas aos filmes e séries.
-- **Remoção de avaliações**: Remova filmes e séries da sua lista.
+- **Edição**: Edite as avaliações dos filmes e séries.
+- **Remoção**: Remova filmes e séries da sua lista.
 - **Filtragem**: Filtre filmes e séries por nome e avaliação na página inicial.
 
 ## Tecnologias Utilizadas
