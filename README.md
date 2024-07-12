@@ -4,6 +4,12 @@
 
 Movie RatingApp é um site que tem como função adicionar, avaliar e gerenciar seus filmes e séries favoritos. Os usuários podem buscar por qualquer filme/série, e avaliar esse filme/série, adicionando ele ao seu perfil pessoal. Na página inicial, os filmes e séries adicionados são exibidos com a avaliação do usuário, nome, data e poster, e é possível editar ou remover essas avaliações, além de filtrar os itens por nome e avaliação.
 
+## Tecnologias Utilizadas
+
+- Angular
+- Spring
+- PostgreSQL
+
 ## Funcionalidades
 
 - **Busca por filmes/séries**: Busca por qualquer filme ou série pelo nome.
@@ -12,12 +18,6 @@ Movie RatingApp é um site que tem como função adicionar, avaliar e gerenciar 
 - **Edição**: Edite as avaliações dos filmes e séries.
 - **Remoção**: Remova filmes e séries da sua lista.
 - **Filtragem**: Filtre filmes e séries por nome e avaliação na página inicial.
-
-## Tecnologias Utilizadas
-
-- Angular
-- Spring
-- PostgreSQL
 
 ## Instalação
 
