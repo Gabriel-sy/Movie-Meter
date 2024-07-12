@@ -26,7 +26,6 @@ export class HomeComponent {
 
     const closeDialog: Subscription = dialogRef.afterClosed().subscribe({
       next: (res) => {
-        console.log(res)
         if (res) {
           this.shows = this.showService.findAllShows()
         }

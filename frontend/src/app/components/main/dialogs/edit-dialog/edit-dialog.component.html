@@ -1,0 +1,22 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title class="title">Remover avaliação</h2>
+  <mat-dialog-content>
+    <form [formGroup]="formData">
+      <div class="form-group">
+        <label for="rating">Nota</label>
+        <input [value]="data" type="text" formControlName="rating" placeholder="Ex: 4.5" name="rating" id="rating" class="rating"
+          required>
+        <span class="error-msg" *ngIf="formData.get('rating')?.hasError('pattern')">Digite uma nota válida</span>
+        <span class="error-msg"
+          *ngIf="(formData.get('rating')?.invalid && this.isSubmitted) || (formData.get('rating')?.hasError('required') && formData.get('rating')?.touched)">Esse
+          campo é
+          obrigatório</span>
+      </div>
+
+      <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancelar</button>
+        <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="editShow()">Editar</button>
+      </mat-dialog-actions>
+    </form>
+  </mat-dialog-content>
+</div>

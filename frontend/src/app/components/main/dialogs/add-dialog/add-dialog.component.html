@@ -1,7 +1,7 @@
 <div class="dialog-container">
   <h2 mat-dialog-title class="title">Adicionar novo titulo</h2>
   <mat-dialog-content class="form-container">
-    <form [formGroup]="formData" (ngSubmit)="saveMovie()">
+    <form [formGroup]="formData" (ngSubmit)="saveMovie()" autocomplete="off">
       <div class="form-group">
         <label for="select-movie">Selecione o titulo</label>
         <div class="search">

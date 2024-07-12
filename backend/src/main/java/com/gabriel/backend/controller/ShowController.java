@@ -2,6 +2,7 @@ package com.gabriel.backend.controller;
 
 import com.gabriel.backend.domain.Show;
 import com.gabriel.backend.domain.ShowDTO;
+import com.gabriel.backend.domain.ShowRequestDTO;
 import com.gabriel.backend.repository.ShowRepository;
 import com.gabriel.backend.service.ShowService;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,12 @@ public class ShowController {
     @DeleteMapping(path = "{id}")
     public ResponseEntity<Void> deleteShow(@PathVariable Long id){
         showService.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(path = "")
+    public ResponseEntity<Void> editRating(@RequestBody ShowRequestDTO showRequestDTO){
+        showService.editRating(showRequestDTO);
         return ResponseEntity.ok().build();
     }
 }
