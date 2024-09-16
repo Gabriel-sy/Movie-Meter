@@ -16,7 +16,6 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
 }
 
 .title-rating h4 {
@@ -24,6 +23,14 @@
   margin: 0;
   font-size: 1.5em;
   color: #FFD700;
+  
+}
+
+.director-name {
+  color: rgb(173, 166, 166);
+  padding-top: 7px;
+  padding-bottom: 5px;
+  
 }
 
 .title-rating p {
@@ -79,3 +86,21 @@ p {
 .edit:hover {
   background-color: rgb(78, 195, 242, 0.8);
 }
+
+.overview {
+  display: -webkit-box;
+  display: -moz-box; 
+  display: -ms-flexbox; 
+  display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-clamp: 5;
+  -webkit-line-clamp: 5; 
+  max-height: 170px; 
+}
+
+
+

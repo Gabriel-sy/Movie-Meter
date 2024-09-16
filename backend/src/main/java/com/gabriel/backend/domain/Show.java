@@ -17,11 +17,12 @@ public class Show {
     private String releaseDate;
     private int[] genreIds;
     private String userRating;
-    private String publicRating;
+        private String publicRating;
     private String mediaType;
     private String posterPath;
     @Column(columnDefinition = "TEXT")
     private String overview;
+    private String directorName;
 
     public Show(ShowDTO showDTO) {
         if (showDTO.name() == null){
@@ -34,6 +35,7 @@ public class Show {
         } else if (showDTO.first_air_date() == null && showDTO.release_date() != null) {
             this.releaseDate = showDTO.release_date().substring(0, 4);
         }
+        this.directorName = showDTO.directorName();
         this.showId = showDTO.id();
         this.genreIds = showDTO.genre_ids();
         this.userRating = showDTO.user_rating();

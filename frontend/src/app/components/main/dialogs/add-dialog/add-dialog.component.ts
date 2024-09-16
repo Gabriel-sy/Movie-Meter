@@ -49,7 +49,7 @@ export class AddDialogComponent implements OnDestroy {
 
   saveMovie() {
     if (this.formData.valid) {
-      
+
       this.searchMovieService.searchTitle(this.inputValue)
         .pipe(takeUntil(this.unsubscribeSignal))
         .subscribe({
@@ -58,17 +58,34 @@ export class AddDialogComponent implements OnDestroy {
             this.foundShows = this.foundShows.filter(show => show.title == this.inputValue || show.name == this.inputValue)
             this.showToSave = this.foundShows[0] as Movie;
 
+            let showId = this.showToSave.id;
+
             if (this.showToSave == undefined || this.showToSave == null) {
               this.errorInputMsg = true;
             }
             this.showToSave.user_rating = this.formData.get('rating')?.value as string
 
-            this.showService.saveShow(this.showToSave)
+            this.searchMovieService.findDirectorName(this.showToSave)
               .pipe(takeUntil(this.unsubscribeSignal))
               .subscribe({
-                next: () => this.dialogRef.close(true),
-                error: () => this.errorInputMsg = true
+                next: (res: Results) => {
+                  for (let i = 0; i < res.crew.length; i++) {
+                    if (res.crew[i].known_for_department == "Directing" && res.crew[i].job == "Director") {
+                      this.showToSave.directorName = res.crew[i].name;
+                    }
+                  }
+                },
+                complete: () => {
+                  this.showService.saveShow(this.showToSave)
+                    .pipe(takeUntil(this.unsubscribeSignal))
+                    .subscribe({
+                      next: () => this.dialogRef.close(true),
+                      error: () => this.errorInputMsg = true
+                    })
+                }
               })
+
+
           }
         })
     } else {

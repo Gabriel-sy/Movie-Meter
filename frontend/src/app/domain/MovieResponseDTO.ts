@@ -8,5 +8,6 @@ export class MovieResponseDTO {
   posterPath!: string
   userRating!: string
   overview!: string
-
+  showId!: string
+  directorName!: string
 }

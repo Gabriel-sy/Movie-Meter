@@ -10,4 +10,5 @@ export class Movie {
   user_rating!: string
   overview!: string
   first_air_date!: string
+  directorName!: string
 }
