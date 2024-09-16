@@ -1,35 +1,33 @@
 # Movie RatingApp
-
+![Imagem demo](demoImage.png)
 ## Descrição
 
 Movie RatingApp é um site que tem como função adicionar, avaliar e gerenciar seus filmes e séries favoritos. Os usuários podem buscar por qualquer filme/série, e avaliar esse filme/série, adicionando ele ao seu perfil pessoal. Na página inicial, os filmes e séries adicionados são exibidos com a avaliação do usuário, nome, data e poster, e é possível editar ou remover essas avaliações, além de filtrar os itens por nome e avaliação.
 
-## Funcionalidades
-
-- **Busca por filmes/séries**: Busca por qualquer filme ou série pelo nome.
-- **Adicionar filmes/séries**: Adicione filmes e séries ao seu perfil pessoal.
-- **Avaliação**: Avalie os filmes e séries adicionados.
-- **Edição de avaliações**: Edite as notas de avaliação atribuídas aos filmes e séries.
-- **Remoção de avaliações**: Remova filmes e séries da sua lista.
-- **Filtragem**: Filtre filmes e séries por nome e avaliação na página inicial.
-
-## Tecnologias Utilizadas
+## Tecnologias
 
 - Angular
 - Spring
 - PostgreSQL
 
+## Funcionalidades
+
+- Busca por qualquer filme ou série pelo nome.
+- Adicionar filmes e séries ao seu perfil pessoal.
+- Avaliar os filmes e séries adicionados.
+- Editar as avaliações dos filmes e séries.
+- Remover filmes e séries da sua lista.
+- Filtrar filmes e séries por nome e avaliação na página inicial.
+
 ## Instalação
 
-### Pré-requisitos
+### Requisitos
 
 - Node.js
 - Angular CLI
-- Java 11+
+- Java
 - Maven
 - PostgreSQL
-
-### Passo a Passo
 
 1. **Clone o repositório**
 
@@ -67,6 +65,6 @@ Movie RatingApp é um site que tem como função adicionar, avaliar e gerenciar 
     ng serve
     ```
 
-5. **Acesso**
+5. **Uso**
 
     Abra o navegador e acesse `http://localhost:4200` para usar a aplicação.
