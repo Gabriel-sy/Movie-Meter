@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Tvrating.API.props" />
+</Project>

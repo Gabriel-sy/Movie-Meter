@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tvrating.API", "Tvrating.API.csproj", "{63EBCC70-587B-4897-AC71-522C2AAE6016}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tvrating.Application", "Tvrating.Application\Tvrating.Application.csproj", "{72C9B533-89C3-43DF-AF85-0161924644E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tvrating.Core", "Tvrating.Core\Tvrating.Core.csproj", "{6544B7C9-73F1-4E8C-965E-45082042B326}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tvrating.Infrastructure", "Tvrating.Infrastructure\Tvrating.Infrastructure.csproj", "{8F86D680-20A3-4666-B522-73642944C445}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,17 @@ Global
 		{63EBCC70-587B-4897-AC71-522C2AAE6016}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63EBCC70-587B-4897-AC71-522C2AAE6016}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63EBCC70-587B-4897-AC71-522C2AAE6016}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72C9B533-89C3-43DF-AF85-0161924644E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72C9B533-89C3-43DF-AF85-0161924644E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72C9B533-89C3-43DF-AF85-0161924644E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72C9B533-89C3-43DF-AF85-0161924644E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6544B7C9-73F1-4E8C-965E-45082042B326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6544B7C9-73F1-4E8C-965E-45082042B326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6544B7C9-73F1-4E8C-965E-45082042B326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6544B7C9-73F1-4E8C-965E-45082042B326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F86D680-20A3-4666-B522-73642944C445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F86D680-20A3-4666-B522-73642944C445}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F86D680-20A3-4666-B522-73642944C445}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F86D680-20A3-4666-B522-73642944C445}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
