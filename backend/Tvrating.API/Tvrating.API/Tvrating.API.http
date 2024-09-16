@@ -1,0 +1,6 @@
+@Tvrating.API_HostAddress = http://localhost:5030
+
+GET {{Tvrating.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

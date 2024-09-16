@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Tvrating.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cd59e0ede4359db3f6e12b19ee6226ca732af7ec")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0f4eff22b81414c579847e538887cc665c9cd5ea")]
 [assembly: System.Reflection.AssemblyProductAttribute("Tvrating.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Tvrating.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
