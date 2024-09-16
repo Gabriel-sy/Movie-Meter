@@ -1,5 +1,6 @@
 export class Movie {
   id!: string
+  showId!: string
   title!: string
   release_date!: string
   genre_ids!: number[]

@@ -1491,6 +1491,19 @@
           }
         }
       },
+      "Tvrating.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Tvrating.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Tvrating.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Tvrating.Application.dll": {}
+        }
+      },
       "Tvrating.Core/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -4069,6 +4082,11 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "Tvrating.Application/1.0.0": {
+      "type": "project",
+      "path": "../Tvrating.Application/Tvrating.Application.csproj",
+      "msbuildProject": "../Tvrating.Application/Tvrating.Application.csproj"
+    },
     "Tvrating.Core/1.0.0": {
       "type": "project",
       "path": "../Tvrating.Core/Tvrating.Core.csproj",
@@ -4079,6 +4097,7 @@
     "net8.0": [
       "Microsoft.EntityFrameworkCore.Design >= 8.0.8",
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.8",
+      "Tvrating.Application >= 1.0.0",
       "Tvrating.Core >= 1.0.0"
     ]
   },
@@ -4110,6 +4129,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
+            "C:\\v\\tv-ratingapp\\backend\\Tvrating.API\\Tvrating.Application\\Tvrating.Application.csproj": {
+              "projectPath": "C:\\v\\tv-ratingapp\\backend\\Tvrating.API\\Tvrating.Application\\Tvrating.Application.csproj"
+            },
             "C:\\v\\tv-ratingapp\\backend\\Tvrating.API\\Tvrating.Core\\Tvrating.Core.csproj": {
               "projectPath": "C:\\v\\tv-ratingapp\\backend\\Tvrating.API\\Tvrating.Core\\Tvrating.Core.csproj"
             }

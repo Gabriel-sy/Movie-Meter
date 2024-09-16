@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using Tvrating.Application.Services;
+using Tvrating.Core.Repositories;
 using Tvrating.Infrastructure.Persistence;
+using Tvrating.Infrastructure.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,9 @@ builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("Tvrating");
 builder.Services.AddDbContext<TvratingDbContext>(o => o.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IShowRepository, ShowRepository>();
+builder.Services.AddScoped<IShowService, ShowService>();
 
 var app = builder.Build();
 

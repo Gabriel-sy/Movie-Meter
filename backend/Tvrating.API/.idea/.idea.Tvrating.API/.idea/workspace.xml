@@ -10,57 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ef234a27-a311-48c6-b71c-23702066adda" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Tvrating.Core/Entities/BaseEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tvrating.Core/Entities/Show.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tvrating.Infrastructure/Persistence/TvratingDbContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Tvrating.API/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Tvrating.API/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tvrating.Core/Entities/BaseEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tvrating.Core/Entities/Show.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tvrating.Infrastructure/Persistence/TvratingDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tvrating.API/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tvrating.API/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tvrating.API/bin/Debug/net8.0/Tvrating.API.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tvrating.API/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tvrating.API/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.API.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Application/obj/Debug/net8.0/Tvrating.Application.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Application/obj/Debug/net8.0/Tvrating.Application.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Application/obj/Debug/net8.0/Tvrating.Application.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Application/obj/Debug/net8.0/Tvrating.Application.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Application/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Application/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Application/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Application/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Core/Tvrating.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Core/Tvrating.Core.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Core/obj/Debug/net8.0/Tvrating.Core.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Core/obj/Debug/net8.0/Tvrating.Core.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Core/obj/Debug/net8.0/Tvrating.Core.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Core/obj/Debug/net8.0/Tvrating.Core.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Core/obj/Debug/net8.0/Tvrating.Core.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Core/obj/Debug/net8.0/Tvrating.Core.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Core/obj/Tvrating.Core.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Core/obj/Tvrating.Core.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Core/obj/Tvrating.Core.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Core/obj/Tvrating.Core.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Core/obj/Tvrating.Core.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Core/obj/Tvrating.Core.csproj.nuget.g.targets" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Core/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Core/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Core/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Core/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Core/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Core/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Core/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Core/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Core/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Core/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Infrastructure/Tvrating.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Infrastructure/Tvrating.Infrastructure.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/Debug/net8.0/Tvrating.Infrastructure.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/Debug/net8.0/Tvrating.Infrastructure.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/Debug/net8.0/Tvrating.Infrastructure.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/Debug/net8.0/Tvrating.Infrastructure.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/Debug/net8.0/Tvrating.Infrastructure.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/Debug/net8.0/Tvrating.Infrastructure.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/Debug/net8.0/Tvrating.Infrastructure.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/Debug/net8.0/Tvrating.Infrastructure.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/Tvrating.Infrastructure.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/Tvrating.Infrastructure.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/Tvrating.Infrastructure.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/Tvrating.Infrastructure.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/Tvrating.Infrastructure/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Tvrating.API.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Tvrating.API.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Tvrating.API.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Tvrating.API.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Tvrating.API.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Tvrating.API.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Tvrating.API.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Tvrating.API.sourcelink.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Tvrating.API.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Tvrating.API.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.restore.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +23,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Tvrating.API/bin/Debug/net8.0/Tvrating.API.deps.json" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -156,7 +110,17 @@
       <updated>1724708357310</updated>
       <workItem from="1724708358378" duration="294000" />
       <workItem from="1726519925621" duration="638000" />
+      <workItem from="1726520603972" duration="715000" />
     </task>
+    <task id="LOCAL-00001" summary="fix backend, add sqlserver e show entity">
+      <option name="closed" value="true" />
+      <created>1726520704551</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1726520704551</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,5 +131,7 @@
   <component name="VcsManagerConfiguration">
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="fix backend, add sqlserver e show entity" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix backend, add sqlserver e show entity" />
   </component>
 </project>
