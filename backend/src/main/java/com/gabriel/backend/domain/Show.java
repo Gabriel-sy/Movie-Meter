@@ -17,7 +17,7 @@ public class Show {
     private String releaseDate;
     private int[] genreIds;
     private String userRating;
-        private String publicRating;
+    private String publicRating;
     private String mediaType;
     private String posterPath;
     @Column(columnDefinition = "TEXT")

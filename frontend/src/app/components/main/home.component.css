@@ -9,11 +9,12 @@
   background-color: #93BFCF;
   margin-top: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 25px;
+  border-radius: 30px;
+  margin-left: 10px;
 }
 
 .add:hover {
-  background-color: rgb(147, 191, 207, 0.9);
+  opacity: 0.8;
 }
 
 .header {
@@ -102,6 +103,24 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: start;
+}
+
+@media (max-width: 900px) {
+  .cards {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 1400px){
+  .cards {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 1850px){
+  .cards {
+    justify-content: center;
+  }
 }
 

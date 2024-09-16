@@ -6,11 +6,12 @@ import { MovieResponseDTO } from '../../../domain/MovieResponseDTO';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.component';
 import { EditDialogComponent } from '../dialogs/edit-dialog/edit-dialog.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './card.component.html',
   styleUrl: './card.component.css'
 })

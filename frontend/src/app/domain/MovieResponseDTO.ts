@@ -10,4 +10,5 @@ export class MovieResponseDTO {
   overview!: string
   showId!: string
   directorName!: string
+  publicRating!: string
 }

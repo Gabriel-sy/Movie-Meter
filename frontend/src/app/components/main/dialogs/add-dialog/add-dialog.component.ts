@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, ViewEncapsulation, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -18,6 +18,7 @@ import { MovieSearchDTO } from '../../../../domain/MovieSearchDTO';
   imports: [MatDialogModule, MatButtonModule, MatProgressSpinnerModule, CommonModule, ReactiveFormsModule],
   templateUrl: './add-dialog.component.html',
   styleUrl: './add-dialog.component.css'
+  // encapsulation: ViewEncapsulation.None
 })
 export class AddDialogComponent implements OnDestroy {
 
@@ -30,6 +31,7 @@ export class AddDialogComponent implements OnDestroy {
   inputValue: string = ''
   errorInputMsg: boolean = false;
   isSubmitted: boolean = false;
+  isExpanded: boolean = false;
   readonly dialog = inject(MatDialog);
   formData = this.fb.group({
     rating: ['', [Validators.required, Validators.pattern('^(10([.]0)?|[0-9]([.][0-9])?)$')]],
@@ -58,8 +60,6 @@ export class AddDialogComponent implements OnDestroy {
             this.foundShows = res.results;
             this.foundShows = this.foundShows.filter(show => show.title == this.inputValue || show.name == this.inputValue)
             this.showToSave = this.foundShows[0] as Movie;
-
-            let showId = this.showToSave.id;
 
             if (this.showToSave == undefined || this.showToSave == null) {
               this.errorInputMsg = true;
@@ -124,10 +124,12 @@ export class AddDialogComponent implements OnDestroy {
               }
               
               this.shows = this.shows.filter(movie => movie.title != undefined && movie.release_date != undefined && movie.first_air_date != undefined)
+              this.isExpanded = true;
             }
           })
       } else if (length == 0) {
         this.shows = []
+        this.isExpanded = false;
       }
     }, 500);
   }
@@ -136,6 +138,7 @@ export class AddDialogComponent implements OnDestroy {
     this.inputValue = movie;
     this.formData.patchValue({ show: movie });
     this.shows = []
+    this.isExpanded = false;
     this.errorInputMsg = false;
     this.cdr.detectChanges();
   }
