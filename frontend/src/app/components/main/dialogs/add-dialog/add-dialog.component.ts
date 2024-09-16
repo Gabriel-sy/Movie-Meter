@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { Results } from '../../../../domain/Results';
 import { ShowService } from '../../../../services/show.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MovieSearchDTO } from '../../../../domain/MovieSearchDTO';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class AddDialogComponent implements OnDestroy {
   showToSave: Movie = new Movie()
   timer = setTimeout(() => { }, 0)
   foundShows: Movie[] = []
-  titles: string[] = []
+  shows: MovieSearchDTO[] = []
   inputValue: string = ''
   errorInputMsg: boolean = false;
   isSubmitted: boolean = false;
@@ -106,18 +107,27 @@ export class AddDialogComponent implements OnDestroy {
           .pipe(takeUntil(this.unsubscribeSignal))
           .subscribe({
             next: (res: Results) => {
-              //Filmes
-              this.titles = res.results.map(movie => movie.title);
-              //Series
-              let tvseries: string[] = res.results.filter(movie => movie.media_type == 'tv').map(movie => movie.name)
-              //Juntando os dois (series no começo)
-              tvseries = tvseries.concat(this.titles)
-
-              this.titles = tvseries.filter(movie => movie != undefined)
+              
+              this.shows = res.results.map(movie => movie as MovieSearchDTO).filter(movie => movie.media_type == 'tv' || movie.media_type == 'movie');
+              
+              //A api retorna filmes com 'title' e series com 'name', mesma coisa com release_date e first_air_date
+              for(let i = 0; i < this.shows.length; i++) {
+                if(this.shows[i].title == undefined){
+                  this.shows[i].title = this.shows[i].name;
+                }
+                
+                if(this.shows[i].release_date == undefined){
+                  this.shows[i].release_date = this.shows[i].first_air_date;
+                } else if (this.shows[i].first_air_date == undefined){
+                  this.shows[i].first_air_date = this.shows[i].release_date;
+                }
+              }
+              
+              this.shows = this.shows.filter(movie => movie.title != undefined && movie.release_date != undefined && movie.first_air_date != undefined)
             }
           })
       } else if (length == 0) {
-        this.titles = []
+        this.shows = []
       }
     }, 500);
   }
@@ -125,7 +135,7 @@ export class AddDialogComponent implements OnDestroy {
   setInputValue(movie: string) {
     this.inputValue = movie;
     this.formData.patchValue({ show: movie });
-    this.titles = []
+    this.shows = []
     this.errorInputMsg = false;
     this.cdr.detectChanges();
   }

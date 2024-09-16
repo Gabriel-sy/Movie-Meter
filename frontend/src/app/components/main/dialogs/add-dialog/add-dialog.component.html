@@ -17,8 +17,9 @@
 
         <ng-container>
           <div class="search-container">
-            <div>
-              <span class="seratch-title" *ngFor="let title of titles" (click)="setInputValue(title)">{{ title }}</span>
+            <div *ngFor="let show of shows">
+              <span class="seratch-title"  (click)="setInputValue(show.title)">{{ show.title }} ({{ show.release_date.slice(0,4) }})
+              </span>
             </div>
           </div>
         </ng-container>
