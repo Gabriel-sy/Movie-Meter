@@ -1719,6 +1719,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "Microsoft.EntityFrameworkCore": "8.0.8",
+          "Microsoft.EntityFrameworkCore.Abstractions": "8.0.8",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.8",
           "MovieMeter.Application": "1.0.0",
           "MovieMeter.Core": "1.0.0"

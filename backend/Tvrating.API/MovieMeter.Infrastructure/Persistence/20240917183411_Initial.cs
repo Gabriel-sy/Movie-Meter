@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MovieMeter.Infrastructure.Migrations
+namespace MovieMeter.Infrastructure.Persistence
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -17,12 +17,12 @@ namespace MovieMeter.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ShowId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShowId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReleaseDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Genres = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserRating = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PublicRating = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PublicRating = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
                     MediaType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PosterPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Overview = table.Column<string>(type: "nvarchar(max)", nullable: false),

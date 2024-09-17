@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using MovieMeter.Application.Models;
 using MovieMeter.Application.Services;
@@ -17,9 +17,9 @@ public class ShowController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult SaveShow(CreateShowInputModel model)
+    public async Task<IActionResult> SaveShow([FromBody]CreateShowInputModel model)
     {
-        _service.SaveShow(model);
+        var result = await _service.SaveShow(model);
 
         return NoContent();
     }
@@ -37,10 +37,10 @@ public class ShowController : ControllerBase
         return Ok(shows.Data);
     }
 
-    [HttpPut("{id}")]
-    public IActionResult EditRating(int id, [FromBody] string rating)
+    [HttpPut]
+    public async Task<IActionResult> EditRating(EditShowInputModel model)
     {
-        var result = _service.EditUserRating(id, rating);
+        var result = await _service.EditUserRating(model.Id, model.Rating);
 
         if (!result.IsSuccess)
         {
@@ -51,9 +51,9 @@ public class ShowController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public IActionResult DeleteShow(int id)
+    public async Task<IActionResult> DeleteShow(int id)
     {
-        var result = _service.DeleteShow(id);
+        var result = await _service.DeleteShow(id);
         
         if (!result.IsSuccess)
         {

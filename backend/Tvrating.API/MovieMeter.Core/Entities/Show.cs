@@ -6,8 +6,8 @@ public class Show : BaseEntity
     {
         
     }
-    public Show(string showId, string title, string releaseDate, List<string> genres, string userRating, 
-        string publicRating, string mediaType, string posterPath, string overview, 
+    public Show(int showId, string title, string releaseDate, List<string> genres, string userRating, 
+        decimal publicRating, string mediaType, string posterPath, string overview, 
         string directorName) : base()
     {
         ShowId = showId;
@@ -22,12 +22,12 @@ public class Show : BaseEntity
         DirectorName = directorName;
     }
 
-    public string ShowId { get; private set; }
+    public int ShowId { get; private set; }
     public string Title { get; private set; }
     public string ReleaseDate { get; private set; }
     public List<string> Genres { get; private set; }
     public string UserRating { get; private set; }
-    public string PublicRating { get; private set; }
+    public decimal PublicRating { get; private set; }
     public string MediaType { get; private set; }
     public string PosterPath { get; private set; }
     public string Overview { get; private set; }

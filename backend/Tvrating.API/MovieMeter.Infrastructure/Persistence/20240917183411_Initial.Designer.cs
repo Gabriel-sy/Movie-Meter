@@ -9,10 +9,10 @@ using MovieMeter.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace MovieMeter.Infrastructure.Migrations
+namespace MovieMeter.Infrastructure.Persistence
 {
     [DbContext(typeof(MovieMeterDbContext))]
-    [Migration("20240916210128_Initial")]
+    [Migration("20240917183411_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace MovieMeter.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Tvrating.Core.Entities.Show", b =>
+            modelBuilder.Entity("MovieMeter.Core.Entities.Show", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,17 +59,16 @@ namespace MovieMeter.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PublicRating")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("PublicRating")
+                        .HasPrecision(3, 2)
+                        .HasColumnType("decimal(3,2)");
 
                     b.Property<string>("ReleaseDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ShowId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ShowId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()

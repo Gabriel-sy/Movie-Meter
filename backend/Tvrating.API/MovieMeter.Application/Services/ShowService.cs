@@ -21,16 +21,18 @@ public class ShowService : IShowService
         return ResultViewModel<List<ShowViewModel>>.Success(model);
     }
 
-    public ResultViewModel SaveShow(CreateShowInputModel model)
+    public async Task<ResultViewModel> SaveShow(CreateShowInputModel model)
     {
         var showToSave = model.FromEntity();
 
-        _repository.SaveShow(showToSave);
+        await _repository.SaveShow(showToSave); 
+        
+        
 
         return ResultViewModel.Success();
     }
 
-    public ResultViewModel DeleteShow(int id)
+    public async Task<ResultViewModel> DeleteShow(int id)
     {
         var show = _repository.GetById(id);
 
@@ -39,12 +41,12 @@ public class ShowService : IShowService
             return ResultViewModel.Error("Show não encontrado");
         }
         
-        _repository.DeleteShow(show.Result);
+        await _repository.DeleteShow(show.Result);
         
         return ResultViewModel.Success();
     }
 
-    public ResultViewModel EditUserRating(int id, string rating)
+    public async Task<ResultViewModel> EditUserRating(int id, string rating)
     {
         var show = _repository.GetById(id);
 
@@ -53,7 +55,7 @@ public class ShowService : IShowService
             return ResultViewModel.Error("Show não encontrado");
         }
 
-        _repository.EditShowRating(show.Result, rating);
+        await _repository.EditShowRating(show.Result, rating);
         
         return ResultViewModel.Success();
     }

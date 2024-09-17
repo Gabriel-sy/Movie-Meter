@@ -13,7 +13,20 @@ export class ShowService {
   constructor(private http: HttpClient) { }
 
   saveShow(show: Movie) {
-    return this.http.post(this.API + 'api/show', show);
+    var showToSend = {
+      ShowId: show.id,
+      Title: show.title,
+      ReleaseDate: show.release_date,
+      Genres: show.genre_ids,
+      UserRating: show.user_rating,
+      PublicRating: show.vote_average,
+      MediaType: show.media_type,
+      PosterPath: show.poster_path,
+      Overview: show.overview,
+      DirectorName: show.directorName
+    }
+    console.log(show.genre_ids)
+    return this.http.post(this.API + 'api/show', showToSend);
   }
 
   findAllShows() {
@@ -21,13 +34,13 @@ export class ShowService {
   }
 
   deleteShowById(showId: string) {
-    return this.http.delete(this.API + 'api/show' + showId);
+    return this.http.delete(this.API + 'api/show/' + showId);
   }
 
   editShowRating(showId: string, userRating: string) {
     let header = new HttpHeaders();
     header = header.set('Content-Type', 'application/json; charset=utf-8')
-    var json = JSON.stringify({ id: showId, userRating: userRating })
-    return this.http.put(this.API + 'shows', json, { headers: header })
+    var json = JSON.stringify({ Id: showId, Rating: userRating as unknown as number })
+    return this.http.put(this.API + 'api/show', json, { headers: header })
   }
 }

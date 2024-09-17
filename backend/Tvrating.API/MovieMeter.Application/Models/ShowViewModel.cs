@@ -4,8 +4,9 @@ namespace MovieMeter.Application.Models;
 
 public class ShowViewModel
 {
-    public ShowViewModel(string showId, string title, string releaseDate, List<string> genres, string userRating, string publicRating, string mediaType, string posterPath, string overview, string directorName)
+    public ShowViewModel(int id, int showId, string title, string releaseDate, List<string> genres, string userRating, decimal publicRating, string mediaType, string posterPath, string overview, string directorName)
     {
+        Id = id;
         ShowId = showId;
         Title = title;
         ReleaseDate = releaseDate;
@@ -18,20 +19,21 @@ public class ShowViewModel
         DirectorName = directorName;
     }
 
-    public string ShowId { get; private set; }
-    public string Title { get; private set; }
-    public string ReleaseDate { get; private set; }
-    public List<string> Genres { get; private set; }
-    public string UserRating { get; private set; }
-    public string PublicRating { get; private set; }
-    public string MediaType { get; private set; }
-    public string PosterPath { get; private set; }
-    public string Overview { get; private set; }
-    public string DirectorName { get; private set; }
+    public int Id { get; set; }
+    public int ShowId { get; set; }
+    public string Title { get; set; }
+    public string ReleaseDate { get; set; }
+    public List<string> Genres { get; set; }
+    public string UserRating { get; set; }
+    public decimal PublicRating { get; set; }
+    public string MediaType { get; set; }
+    public string PosterPath { get; set; }
+    public string Overview { get; set; }
+    public string DirectorName { get; set; }
 
     public static ShowViewModel FromEntity(Show show)
     {
-        return new ShowViewModel(show.ShowId, show.Title, show.ReleaseDate, show.Genres, show.UserRating,
+        return new ShowViewModel(show.Id, show.ShowId, show.Title, show.ReleaseDate, show.Genres, show.UserRating,
         show.PublicRating, show.MediaType, show.PosterPath, show.Overview, show.DirectorName);
     }
 }

@@ -8,12 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 var AllowFront = "AllowFront";
 
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration.GetConnectionString("MovieMeter");
-builder.Services.AddDbContext<MovieMeterDbContext>(o => o.UseSqlServer(connectionString));
+
 
 builder.Services.AddScoped<IShowRepository, ShowRepository>();
 builder.Services.AddScoped<IShowService, ShowService>();
+
+var connectionString = builder.Configuration.GetConnectionString("MovieMeter");
+builder.Services.AddDbContext<MovieMeterDbContext>(o => o.UseSqlServer(connectionString));
 
 builder.Services.AddCors(options =>
 {
@@ -32,10 +36,13 @@ var app = builder.Build();
 
 app.UseCors(AllowFront);
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 app.UseHttpsRedirection();
-
-app.UseRouting();
-
 
 app.UseAuthorization();
 

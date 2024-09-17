@@ -8,10 +8,10 @@ using MovieMeter.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace MovieMeter.Infrastructure.Migrations
+namespace MovieMeter.Infrastructure.Persistence
 {
     [DbContext(typeof(MovieMeterDbContext))]
-    partial class TvratingDbContextModelSnapshot : ModelSnapshot
+    partial class MovieMeterDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -56,17 +56,16 @@ namespace MovieMeter.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PublicRating")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("PublicRating")
+                        .HasPrecision(3, 2)
+                        .HasColumnType("decimal(3,2)");
 
                     b.Property<string>("ReleaseDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ShowId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ShowId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()

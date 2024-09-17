@@ -5,21 +5,31 @@ namespace MovieMeter.Application.Models;
 
 public class CreateShowInputModel
 {
-    public string ShowId { get; private set; }
-    public string Title { get; private set; }
-    public string ReleaseDate { get; private set; }
-    public int[] Genres { get; private set; }
-    public string UserRating { get; private set; }
-    public string PublicRating { get; private set; }
-    public string MediaType { get; private set; }
-    public string PosterPath { get; private set; }
-    public string Overview { get; private set; }
-    public string DirectorName { get; private set; }
+    public int ShowId { get; set; }
+    public string Title { get; set; }
+    public string ReleaseDate { get; set; }
+    public int[] Genres { get; set; }
+    public string UserRating { get; set; }
+    public decimal PublicRating { get; set; }
+    public string MediaType { get; set; }
+    public string PosterPath { get; set; }
+    public string Overview { get; set; }
+    public string DirectorName { get; set; }
 
     public Show FromEntity()
     {
-
-        return new Show(ShowId, Title, ReleaseDate, ConvertGenre.Convert(Genres), UserRating
-            ,PublicRating, MediaType, PosterPath, Overview, DirectorName);
+        List<string> genres;
+        if (Genres != null)
+        {
+            genres = ConvertGenre.Convert(Genres);
+        }
+        else
+        {
+            genres = [];
+        }
+        
+            return new Show(ShowId, Title, ReleaseDate, genres, UserRating
+                ,PublicRating, MediaType, PosterPath, Overview, DirectorName);
+        
     }
 }

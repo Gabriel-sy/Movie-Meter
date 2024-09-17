@@ -66,6 +66,10 @@ export class AddDialogComponent implements OnDestroy {
             }
             this.showToSave.user_rating = this.formData.get('rating')?.value as string
 
+            if(this.showToSave.title == undefined){
+              this.showToSave.title = this.showToSave.name;
+            }
+
             this.searchMovieService.findDirectorName(this.showToSave)
               .pipe(takeUntil(this.unsubscribeSignal))
               .subscribe({

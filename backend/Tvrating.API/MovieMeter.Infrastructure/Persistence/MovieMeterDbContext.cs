@@ -17,6 +17,10 @@ public class MovieMeterDbContext : DbContext
             .Entity<Show>(e =>
             {
                 e.HasKey(s => s.Id);
+                e.Property(s => s.PublicRating)
+                    .HasPrecision(3, 2)
+                    .HasConversion(d => decimal.Round(d, 2, MidpointRounding.ToZero),
+                        d => d);
             });
     }
 }

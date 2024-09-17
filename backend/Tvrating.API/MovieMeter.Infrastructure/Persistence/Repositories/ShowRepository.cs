@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic.CompilerServices;
-using MovieMeter.Application.Models;
 using MovieMeter.Core.Entities;
 using MovieMeter.Core.Repositories;
 
@@ -24,25 +22,28 @@ public class ShowRepository : IShowRepository
         return shows;
     }
 
-    public async Task SaveShow(Show show)
+    public async Task<Show> SaveShow(Show show)
     {
         await _context.Shows.AddAsync(show);
         await _context.SaveChangesAsync();
+        return show;
     }
 
-    public async Task DeleteShow(Show show)
+    public async Task<Show> DeleteShow(Show show)
     {
         show.SetAsDeleted();
         _context.Shows.Update(show);
         await _context.SaveChangesAsync();
+        return show;
     }
 
-    public async Task EditShowRating(Show show, string rating)
+    public async Task<Show> EditShowRating(Show show, string rating)
     {
         show.UpdateRating(rating);
 
         _context.Shows.Update(show);
         await _context.SaveChangesAsync();
+        return show;
     }
 
     public async Task<Show?> GetById(int id)
