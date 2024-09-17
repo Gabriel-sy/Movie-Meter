@@ -32,6 +32,9 @@ public class Show : BaseEntity
     public string PosterPath { get; private set; }
     public string Overview { get; private set; }
     public string DirectorName { get; private set; }
-    
-    
+
+    public void UpdateRating(string rating)
+    {
+        UserRating = rating;
+    }
 }

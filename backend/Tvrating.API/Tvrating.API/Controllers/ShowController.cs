@@ -27,6 +27,38 @@ public class ShowController : ControllerBase
     public async Task<IActionResult> GetAllShows()
     {
         var shows = await _service.GetAllShows();
-        return Ok(shows);
+
+        if (!shows.IsSuccess)
+        {
+            return BadRequest(shows.Message);
+        }
+        
+        return Ok(shows.Data);
+    }
+
+    [HttpPut("{id}")]
+    public IActionResult EditRating(int id, [FromBody] string rating)
+    {
+        var result = _service.EditUserRating(id, rating);
+
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult DeleteShow(int id)
+    {
+        var result = _service.DeleteShow(id);
+        
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
+
+        return NoContent();
     }
 }

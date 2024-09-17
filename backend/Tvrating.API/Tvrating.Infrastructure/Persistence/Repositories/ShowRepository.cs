@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic.CompilerServices;
 using Tvrating.Application.Models;
 using Tvrating.Core.Entities;
 using Tvrating.Core.Repositories;
@@ -27,5 +28,26 @@ public class ShowRepository : IShowRepository
     {
         await _context.Shows.AddAsync(show);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteShow(Show show)
+    {
+        show.SetAsDeleted();
+        _context.Shows.Update(show);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task EditShowRating(Show show, string rating)
+    {
+        show.UpdateRating(rating);
+
+        _context.Shows.Update(show);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<Show?> GetById(int id)
+    {
+        var show = await _context.Shows.SingleOrDefaultAsync(s => s.Id == id && !s.IsDeleted);
+        return show;
     }
 }
