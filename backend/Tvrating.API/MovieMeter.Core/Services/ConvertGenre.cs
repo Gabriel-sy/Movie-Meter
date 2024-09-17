@@ -63,6 +63,31 @@ public class ConvertGenre
                case 10752:
                    newArr.Add("Guerra");
                    break;
+               case 10759:
+                   newArr.Add("Ação e Aventura");
+                   break;
+               case 10762:
+                   newArr.Add("Kids");
+                   break;
+               case 10763:
+                   newArr.Add("Notícias");
+                   break;
+               case 10764:
+                   newArr.Add("Reality");
+                   break;
+               case 10765:
+                   newArr.Add("Ficção científica");
+                   newArr.Add("Fantasia");
+                   break;
+               case 10766:
+                   newArr.Add("Soap");
+                   break;
+               case 10767:
+                   newArr.Add("Talk");
+                   break;
+               case 10768:
+                   newArr.Add("Guerra e política");
+                   break;
                case 37:
                    newArr.Add("Faroeste");
                    break;

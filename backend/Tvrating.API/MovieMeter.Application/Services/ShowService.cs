@@ -26,8 +26,6 @@ public class ShowService : IShowService
         var showToSave = model.FromEntity();
 
         await _repository.SaveShow(showToSave); 
-        
-        
 
         return ResultViewModel.Success();
     }

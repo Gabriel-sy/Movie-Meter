@@ -1,4 +1,4 @@
-<div  class="card-container" *ngFor="let show of shows | async">
+<div [routerLink]="['media/details', formatTitle(show.title)]" class="card-container" *ngFor="let show of shows | async">
   <div class="title-rating">
     <h4> {{ show.title }} ({{ show.releaseDate }})</h4>
     
@@ -8,8 +8,8 @@
   <img [src]="showImage(show.posterPath)">
   <p class="overview"> {{ show.overview }} </p>
     <div class="buttons">
-      <button class="delete" (click)="openDeleteDialog(show.id)">Remover avaliação</button>
-      <button class="edit" (click)="openEditDialog(show.id)">Editar nota</button>
+      <button class="delete" (click)="openDeleteDialog(show.id, $event)">Remover avaliação</button>
+      <button class="edit" (click)="openEditDialog(show.id, $event)">Editar nota</button>
     </div>
   
 </div>

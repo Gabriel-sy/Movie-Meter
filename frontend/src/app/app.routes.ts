@@ -4,5 +4,5 @@ import { MediaPageComponent } from './components/main/media-page/media-page.comp
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'media/details/:id', component: MediaPageComponent }
+  { path: 'media/details/:name', component: MediaPageComponent }
 ];

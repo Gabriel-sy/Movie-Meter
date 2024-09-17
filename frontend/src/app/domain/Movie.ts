@@ -4,6 +4,7 @@ export class Movie {
   title!: string
   release_date!: string
   genre_ids!: number[]
+  genre_names!: string[]
   vote_average!: string
   media_type!: string
   name!: string

@@ -60,6 +60,10 @@ export class AddDialogComponent implements OnDestroy {
             this.foundShows = res.results;
             this.foundShows = this.foundShows.filter(show => show.title == this.inputValue || show.name == this.inputValue)
             this.showToSave = this.foundShows[0] as Movie;
+            
+            if(this.showToSave.release_date == undefined){
+              this.showToSave.release_date = this.showToSave.first_air_date;
+            }
 
             if (this.showToSave == undefined || this.showToSave == null) {
               this.errorInputMsg = true;

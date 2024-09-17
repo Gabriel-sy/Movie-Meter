@@ -21,6 +21,11 @@ public class ShowController : ControllerBase
     {
         var result = await _service.SaveShow(model);
 
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
+
         return NoContent();
     }
     

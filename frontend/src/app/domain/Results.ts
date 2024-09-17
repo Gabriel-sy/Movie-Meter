@@ -7,4 +7,5 @@ export class Results {
   total_pages!: number
   total_results!: number
   crew!: Person[]
+  cast!: Person[]
 }

@@ -21,15 +21,23 @@ export class CardComponent implements OnInit {
 
   constructor(private showService: ShowService) { }
 
+  
+
   ngOnInit(): void {
     
   }
 
-  showImage(posterPath: string) {
-    return 'https://image.tmdb.org/t/p/w400' + posterPath
+  formatTitle(title: string){
+    return title.replace(new RegExp(" ", "g"), '-')
   }
 
-  openDeleteDialog(showId: string) {
+  showImage(posterPath: string) {
+    return 'https://image.tmdb.org/t/p/w400' + posterPath
+    
+  }
+
+  openDeleteDialog(showId: string, event: Event) {
+    event.stopPropagation();
     const dialog = this.dialog.open(DeleteDialogComponent, {
       data: showId
     })
@@ -43,7 +51,8 @@ export class CardComponent implements OnInit {
     })
   }
 
-  openEditDialog(showId: string) {
+  openEditDialog(showId: string, event: Event) {
+    event.stopPropagation();
     const dialog = this.dialog.open(EditDialogComponent, {
       data: showId 
     })
