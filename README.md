@@ -2,13 +2,13 @@
 ![Imagem demo](demoImage.png)
 ## Descrição
 
-Movie RatingApp é um site que tem como função adicionar, avaliar e gerenciar seus filmes e séries favoritos. Os usuários podem buscar por qualquer filme/série, e avaliar esse filme/série, adicionando ele ao seu perfil pessoal. Na página inicial, os filmes e séries adicionados são exibidos com a avaliação do usuário, nome, data e poster, e é possível editar ou remover essas avaliações, além de filtrar os itens por nome e avaliação.
+MovieMeter é um site que tem como função adicionar, avaliar e gerenciar seus filmes e séries favoritos. Os usuários podem buscar por qualquer filme/série, e avaliar esse filme/série, adicionando ele ao seu perfil pessoal. Na página inicial, os filmes e séries adicionados são exibidos com a avaliação do usuário, nome, data e poster, e é possível editar ou remover essas avaliações, além de filtrar os itens por nome e avaliação.
 
 ## Tecnologias
 
 - Angular
-- Spring
-- PostgreSQL
+- ASP.NET Core
+- Sqlserver
 
 ## Funcionalidades
 
@@ -19,52 +19,83 @@ Movie RatingApp é um site que tem como função adicionar, avaliar e gerenciar 
 - Remover filmes e séries da sua lista.
 - Filtrar filmes e séries por nome e avaliação na página inicial.
 
-## Instalação
+[//]: # (## Instalação)
 
-### Requisitos
+[//]: # ()
+[//]: # (### Requisitos)
 
-- Node.js
-- Angular CLI
-- Java
-- Maven
-- PostgreSQL
+[//]: # ()
+[//]: # (- Node.js)
 
-1. **Clone o repositório**
+[//]: # (- Angular CLI)
 
-    ```bash
-    git clone https://github.com/Gabriel-sy/movie-ratingapp.git
-    cd movie-ratingapp
-    ```
+[//]: # (- .NET SDK)
 
-2. **Configuração do Banco de Dados**
+[//]: # (- Sqlserver)
 
-    Crie um banco de dados PostgreSQL e configure o arquivo `application.properties`:
+[//]: # ()
+[//]: # (1. **Clone o repositório**)
 
-    ```properties
-    spring.datasource.url=jdbc:postgresql://localhost:5432/seu_banco_de_dados
-    spring.datasource.username=seu_usuario
-    spring.datasource.password=sua_senha
-    ```
+[//]: # ()
+[//]: # (    ```bash)
 
-3. **Backend**
+[//]: # (    git clone https://github.com/Gabriel-sy/movie-ratingapp.git)
 
-    Navegue até o diretório do backend e inicie o servidor Spring:
+[//]: # (    cd movie-ratingapp)
 
-    ```bash
-    cd backend
-    ./mvnw spring-boot:run
-    ```
+[//]: # (    ```)
 
-4. **Frontend**
+[//]: # ()
+[//]: # (2. **Configuração do Banco de Dados**)
 
-    Navegue até o diretório do frontend, instale as dependências e inicie o servidor Angular:
+[//]: # ()
+[//]: # (    Crie um banco de dados PostgreSQL e configure o arquivo `application.properties`:)
 
-    ```bash
-    cd frontend
-    npm install
-    ng serve
-    ```
+[//]: # ()
+[//]: # (    ```properties)
 
-5. **Uso**
+[//]: # (    spring.datasource.url=jdbc:postgresql://localhost:5432/seu_banco_de_dados)
 
-    Abra o navegador e acesse `http://localhost:4200` para usar a aplicação.
+[//]: # (    spring.datasource.username=seu_usuario)
+
+[//]: # (    spring.datasource.password=sua_senha)
+
+[//]: # (    ```)
+
+[//]: # ()
+[//]: # (3. **Backend**)
+
+[//]: # ()
+[//]: # (    Navegue até o diretório do backend e inicie o servidor Spring:)
+
+[//]: # ()
+[//]: # (    ```bash)
+
+[//]: # (    cd backend)
+
+[//]: # (    ./mvnw spring-boot:run)
+
+[//]: # (    ```)
+
+[//]: # ()
+[//]: # (4. **Frontend**)
+
+[//]: # ()
+[//]: # (    Navegue até o diretório do frontend, instale as dependências e inicie o servidor Angular:)
+
+[//]: # ()
+[//]: # (    ```bash)
+
+[//]: # (    cd frontend)
+
+[//]: # (    npm install)
+
+[//]: # (    ng serve)
+
+[//]: # (    ```)
+
+[//]: # ()
+[//]: # (5. **Uso**)
+
+[//]: # ()
+[//]: # (    Abra o navegador e acesse `http://localhost:4200` para usar a aplicação.)
