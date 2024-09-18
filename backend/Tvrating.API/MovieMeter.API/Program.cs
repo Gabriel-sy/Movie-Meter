@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MovieMeter.Application.Services;
 using MovieMeter.Core.Repositories;
+using MovieMeter.Core.Services;
+using MovieMeter.Infrastructure.AuthServices;
 using MovieMeter.Infrastructure.Persistence;
 using MovieMeter.Infrastructure.Persistence.Repositories;
 
@@ -15,6 +17,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IShowRepository, ShowRepository>();
 builder.Services.AddScoped<IShowService, ShowService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var connectionString = builder.Configuration.GetConnectionString("MovieMeter");
 builder.Services.AddDbContext<MovieMeterDbContext>(o => o.UseSqlServer(connectionString));

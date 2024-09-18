@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MovieMeter.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3c69c2bda52dbedaa1931e196f1446e864e0215d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7286bd97fb0f12c0f7d7d18d8658cbe2cac8d8e1")]
 [assembly: System.Reflection.AssemblyProductAttribute("MovieMeter.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MovieMeter.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
