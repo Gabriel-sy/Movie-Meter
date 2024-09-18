@@ -284,3 +284,4 @@ C:\v\Movie-Meter\backend\Tvrating.API\MovieMeter.API\obj\Debug\net8.0\refint\Mov
 C:\v\Movie-Meter\backend\Tvrating.API\MovieMeter.API\obj\Debug\net8.0\MovieMeter.API.pdb
 C:\v\Movie-Meter\backend\Tvrating.API\MovieMeter.API\obj\Debug\net8.0\MovieMeter.API.genruntimeconfig.cache
 C:\v\Movie-Meter\backend\Tvrating.API\MovieMeter.API\obj\Debug\net8.0\ref\MovieMeter.API.dll
+C:\v\Movie-Meter\backend\Tvrating.API\MovieMeter.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

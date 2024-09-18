@@ -5,12 +5,12 @@ public class User : BaseEntity
 {
     protected User(){}
     
-    public User(string name, string email, string password, List<Show> shows, string role)
+    public User(string name, string email, string password, string role)
     {
         Name = name;
         Email = email;
         Password = password;
-        Shows = shows;
+        Shows = [];
         Role = role;
     }
 

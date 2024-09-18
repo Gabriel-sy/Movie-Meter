@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieMeter.Application.Models;
 using MovieMeter.Application.Services;
@@ -7,6 +8,7 @@ namespace MovieMeter.API.Controllers;
 
 [ApiController]
 [Route("api/show")]
+[Authorize]
 public class ShowController : ControllerBase
 {
     private readonly IShowService _service;
