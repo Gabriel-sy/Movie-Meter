@@ -36,11 +36,11 @@
       </div>
       <div class="info-card">
         <h4 class="info-card-title">Ano de Lançamento</h4>
-        <p class="info-card-content">{{ foundShow.release_date }}</p>
+        <p class="info-card-content">{{ foundShow.release_date.substring(0, 4) }}</p>
       </div>
       <div class="info-card">
         <h4 class="info-card-title">Elenco Principal</h4>
-        <p class="info-card-content">Matthew McConaughey, Anne Hathaway, Jessica Chastain</p>
+        <p class="info-card-content"><span *ngFor="let name of mainActorsName">{{ name }} </span></p>
       </div>
     </aside>
   </div>

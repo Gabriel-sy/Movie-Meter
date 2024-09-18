@@ -1,0 +1,53 @@
+.dialog-container {
+  background-color: #34495e;
+  padding: 16px;
+  border-radius: 8px;
+  width: 280px;
+  text-align: start;
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+  background-color: #34495e !important;
+  border-radius: none !important;
+}
+
+.error-icon {
+  font-size: 36px;
+  color: #e74c3c;
+  margin-bottom: 8px;
+  margin-left: 25px;
+}
+
+.title {
+  color: #c0392b;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+p {
+  color: #c0392b;
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0 0 16px;
+}
+
+button {
+  background-color: #e74c3c;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.mat-mdc-button:not(:disabled) {
+  color: white;
+}
+
+button:hover {
+  background-color: #c0392b;
+}

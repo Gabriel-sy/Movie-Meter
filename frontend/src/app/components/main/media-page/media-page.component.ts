@@ -21,6 +21,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   showId: string = "";
   foundShow: Movie = new Movie();
   actors: Person[] = [];
+  mainActorsName: string[] = [];
 
   constructor(private route: ActivatedRoute, private showService: ShowService,
     private searchMovieService: SearchMovieService) { }
@@ -57,8 +58,15 @@ export class MediaPageComponent implements OnInit, OnDestroy {
                     this.foundShow.directorName = res.crew[i].name;
                   }
                 }
-                for (let i = 0; i < 8; i++) {
+                for (let i = 0; i <= 7; i++) {
                   this.actors.push(res.cast[i]);
+                  this.mainActorsName.push(res.cast[i].name)
+                  if(i < 7){
+                    this.mainActorsName[i] += ",";
+                  } else if(i == 7){
+                    this.mainActorsName[i] += ".";
+                  }
+                  
                 }
               },
             })

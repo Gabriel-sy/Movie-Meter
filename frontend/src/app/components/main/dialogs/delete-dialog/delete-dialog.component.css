@@ -6,6 +6,11 @@
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
 }
 
+::ng-deep .mat-mdc-dialog-surface {
+  background-color: #222831 !important;
+  border-radius: none !important;
+}
+
 .title,
 p,
 button {

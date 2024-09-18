@@ -10,6 +10,7 @@ import { Results } from '../../../../domain/Results';
 import { ShowService } from '../../../../services/show.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MovieSearchDTO } from '../../../../domain/MovieSearchDTO';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 
 @Component({
@@ -84,18 +85,29 @@ export class AddDialogComponent implements OnDestroy {
                     }
                   }
                 },
+                error: () => {
+                  this.openErrorDialog("Ocorreu um erro ao se comunicar com a API", "Por favor, tente novamente em alguns instantes")
+                  this.dialogRef.close(true)
+                },
                 complete: () => {
                   this.showService.saveShow(this.showToSave)
                     .pipe(takeUntil(this.unsubscribeSignal))
                     .subscribe({
                       next: () => this.dialogRef.close(true),
-                      error: () => this.errorInputMsg = true
+                      error: () => {
+                        this.openErrorDialog("Ocorreu um erro ao salvar o filme/série", "Por favor, tente novamente em alguns instantes.")
+                        this.dialogRef.close(true)
+                      }
                     })
                 }
               })
 
 
-          }
+          },
+          error: () => {
+            this.openErrorDialog("Ocorreu um erro ao se comunicar com a API", "Por favor, tente novamente em alguns instantes.")
+            this.dialogRef.close(true)
+          },
         })
     } else {
       this.isSubmitted = true
@@ -133,11 +145,16 @@ export class AddDialogComponent implements OnDestroy {
               
               this.shows = this.shows.filter(movie => movie.title != undefined && movie.release_date != undefined && movie.first_air_date != undefined)
               this.isExpanded = true;
-            }
+            },
+            error: () => {
+              this.openErrorDialog("Ocorreu um erro ao se comunicar com a API", "Por favor, tente novamente em alguns instantes.")
+              this.dialogRef.close(true)
+            },
           })
       } else if (length == 0) {
         this.shows = []
         this.isExpanded = false;
+        this.inputValue = '';
       }
     }, 500);
   }
@@ -149,6 +166,12 @@ export class AddDialogComponent implements OnDestroy {
     this.isExpanded = false;
     this.errorInputMsg = false;
     this.cdr.detectChanges();
+  }
+
+  openErrorDialog(title: string, subtitle: string){
+    this.dialog.open(ErrorDialogComponent, {
+      data: { title: title, subtitle: subtitle }
+    })
   }
 
 }

@@ -12,6 +12,11 @@
   margin-bottom: 15px;
 }
 
+::ng-deep .mat-mdc-dialog-surface {
+  background-color: #222831 !important;
+  border-radius: none !important;
+}
+
 input,
 .rating {
   background-color: rgba(60, 110, 179, 0.3);
