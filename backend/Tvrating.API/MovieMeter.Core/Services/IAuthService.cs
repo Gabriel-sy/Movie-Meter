@@ -1,4 +1,5 @@
 ﻿
+
 namespace MovieMeter.Core.Services;
 
 public interface IAuthService

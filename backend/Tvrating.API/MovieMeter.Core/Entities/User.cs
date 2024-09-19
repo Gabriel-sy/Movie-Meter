@@ -1,4 +1,5 @@
 ﻿
+
 namespace MovieMeter.Core.Entities;
 
 public class User : BaseEntity

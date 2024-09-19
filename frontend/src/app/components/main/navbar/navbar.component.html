@@ -1,15 +1,20 @@
 <nav>
   <div class="nav-container">
-    
-      <a [routerLink]="['/']" routerLinkActive="router-link-active"  class="home">
-        <span>Home</span>
-      </a>
-    <div class="search-bar">
+    <a [routerLink]="['/']" routerLinkActive="router-link-active" class="home">
+      <span>Home</span>
+    </a>
+
+    <div class="search-bar" *ngIf="shouldShowSearchBar">
       <input placeholder="Pesquise um título" class="search" type="text">
-      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="10" cy="10" r="7"></circle>
         <line x1="21" y1="21" x2="15" y2="15"></line>
-    </svg>
+      </svg>
+    </div>
+    <div class="auth-container">
+      <a [routerLink]="['/register']" class="registrar" *ngIf="shouldShowRegister">Registrar</a>
+      <a [routerLink]="['/login']" class="login" *ngIf="shouldShowLogin">Login</a>
     </div>
   </div>
 </nav>

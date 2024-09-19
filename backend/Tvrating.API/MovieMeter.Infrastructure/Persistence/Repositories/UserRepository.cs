@@ -15,9 +15,9 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> Register(User user)
     {
-        var checkUserExists = await _context.Users.SingleOrDefaultAsync(u => u.Email == user.Email && !u.IsDeleted);
+        var checkUserExists = await _context.Users.AnyAsync(u => u.Email == user.Email && !u.IsDeleted);
 
-        if (checkUserExists is null)
+        if (!checkUserExists)
         {
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();

@@ -34,6 +34,7 @@ export class AddDialogComponent implements OnDestroy {
   isSubmitted: boolean = false;
   isExpanded: boolean = false;
   readonly dialog = inject(MatDialog);
+  
   formData = this.fb.group({
     rating: ['', [Validators.required, Validators.pattern('^(10([.]0)?|[0-9]([.][0-9])?)$')]],
     show: [this.inputValue, [Validators.required]]
