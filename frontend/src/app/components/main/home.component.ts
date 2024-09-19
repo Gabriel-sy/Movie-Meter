@@ -9,6 +9,7 @@ import { ShowService } from '../../services/show.service';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 
 @Component({
@@ -48,9 +49,10 @@ export class HomeComponent implements OnInit {
   
   dropdownDisplay: boolean = false
 
-  constructor(private showService: ShowService) { }
+  constructor(private showService: ShowService, private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
+    this.localStorageService.isLoggedIn()
     this.shows = this.showService.findAllShows()
 
   }

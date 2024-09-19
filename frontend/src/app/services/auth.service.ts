@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { JwtResponse } from '../domain/JwtResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +19,14 @@ export class AuthService {
     }
     
     return this.http.post(this.API + "api/user/register", objectToSend);
+  }
+
+  login(email: string, password: string){
+    var objectToSend = {
+      email: email,
+      password: password
+    }
+    
+    return this.http.post<JwtResponse>(this.API + "api/user/login", objectToSend);
   }
 }

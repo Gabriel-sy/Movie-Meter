@@ -204,10 +204,6 @@
 /backend/Tvrating.API/MovieMeter.Application/obj/project.packagespec.json
 /backend/Tvrating.API/MovieMeter.Core/obj/project.packagespec.json
 /backend/Tvrating.API/MovieMeter.Infrastructure/obj/project.packagespec.json
-/frontend/src/app/components/main/auth/register-page/register-page.component.css
-/frontend/src/app/components/main/auth/register-page/register-page.component.html
-/frontend/src/app/components/main/auth/register-page/register-page.component.spec.ts
-/frontend/src/app/components/main/auth/register-page/register-page.component.ts
 /backend/Tvrating.API/MovieMeter.API/obj/rider.project.restore.info
 /backend/Tvrating.API/MovieMeter.Application/obj/rider.project.restore.info
 /backend/Tvrating.API/MovieMeter.Core/obj/rider.project.restore.info
