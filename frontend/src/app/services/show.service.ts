@@ -30,7 +30,7 @@ export class ShowService {
   }
 
   findAllShows() {
-    return this.http.get<MovieResponseDTO[]>(this.API + 'api/show')
+    return this.http.get<MovieResponseDTO[]>(this.API + 'api/show/showByToken')
   }
 
   deleteShowById(showId: string) {

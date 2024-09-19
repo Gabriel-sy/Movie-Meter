@@ -20,4 +20,5 @@ public class User : BaseEntity
     public string Password { get; private set; }
     public List<Show> Shows { get; private set; }
     public string Role { get; private set; }
+    
 }

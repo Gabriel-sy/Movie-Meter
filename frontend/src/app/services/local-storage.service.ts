@@ -82,6 +82,7 @@ export class LocalStorageService {
     if(this.storage){
       this.storage.removeItem('jwt');
       this.storage.removeItem('expireDate');
+      this.storage.removeItem('userName');
       return true;
     }
     return false;

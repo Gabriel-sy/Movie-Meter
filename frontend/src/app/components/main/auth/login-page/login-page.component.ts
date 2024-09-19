@@ -44,6 +44,7 @@ export class LoginPageComponent {
               if(this.localStorageService.logout()){
                 this.localStorageService.set("jwt", res.jwt)
                 this.localStorageService.set("expireDate", (Date.now().toString()))
+                this.localStorageService.set("userName", res.name)
                 
                 this.router.navigateByUrl('')
               }

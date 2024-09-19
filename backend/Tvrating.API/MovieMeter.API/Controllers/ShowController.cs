@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Extensions;
 using MovieMeter.Application.Models;
 using MovieMeter.Application.Services;
+using MovieMeter.Core.Entities;
 
 namespace MovieMeter.API.Controllers;
 
@@ -72,5 +73,21 @@ public class ShowController : ControllerBase
         }
 
         return NoContent();
+    }
+    
+    [HttpGet("showByToken")]
+    public async Task<IActionResult> FindByToken()
+    {
+        var header = HttpContext.User.Claims.Single(c => c.Type == "Name");
+
+        var user = await _service.GetAllByEmail(header.Value);
+        
+        if (user.IsSuccess && user.Data != null)
+        {
+            return Ok(user.Data);
+        }
+
+        return BadRequest();
+
     }
 }

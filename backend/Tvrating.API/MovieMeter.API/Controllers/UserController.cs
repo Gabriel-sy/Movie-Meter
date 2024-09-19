@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieMeter.Application.Models;
 using MovieMeter.Application.Services;
 
@@ -43,7 +44,8 @@ public class UserController : ControllerBase
         return BadRequest();
     }
 
-    [HttpGet("findByToken")]
+    [Authorize]
+    [HttpGet("userByToken")]
     public async Task<IActionResult> FindByToken()
     {
         var header = HttpContext.User.Claims.Single(c => c.Type == "Name");
