@@ -42,4 +42,20 @@ public class UserController : ControllerBase
 
         return BadRequest();
     }
+
+    [HttpGet("findByToken")]
+    public async Task<IActionResult> FindByToken()
+    {
+        var header = HttpContext.User.Claims.Single(c => c.Type == "Name");
+
+        var user = await _service.FindByEmail(header.Value);
+
+        if (user.IsSuccess && user.Data != null)
+        {
+            return Ok(new UserViewModel(user.Data.Name, user.Data.Email, user.Data.Shows));
+        }
+
+        return BadRequest();
+
+    }
 }

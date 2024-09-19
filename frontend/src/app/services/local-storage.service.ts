@@ -66,7 +66,6 @@ export class LocalStorageService {
         expireDateAsNumber /= 60000;
   
         if(parseInt((dateNow - expireDateAsNumber).toFixed()) > 200){
-          console.log('nao logado')
           return false;
         } else {
           return true;
@@ -75,6 +74,15 @@ export class LocalStorageService {
       } else {
         return false;
       }
+    }
+    return false;
+  }
+
+  logout(): boolean{
+    if(this.storage){
+      this.storage.removeItem('jwt');
+      this.storage.removeItem('expireDate');
+      return true;
     }
     return false;
   }

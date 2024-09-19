@@ -1,4 +1,5 @@
 ﻿using MovieMeter.Application.Models;
+using MovieMeter.Core.Entities;
 using MovieMeter.Core.Repositories;
 
 namespace MovieMeter.Application.Services;
@@ -6,10 +7,12 @@ namespace MovieMeter.Application.Services;
 public class ShowService : IShowService
 {
     private readonly IShowRepository _repository;
+    private readonly IUserService _userService;
 
-    public ShowService(IShowRepository repository)
+    public ShowService(IShowRepository repository, IUserService userService)
     {
         _repository = repository;
+        _userService = userService;
     }
 
     public async Task<ResultViewModel<List<ShowViewModel>>> GetAllShows()
@@ -21,13 +24,19 @@ public class ShowService : IShowService
         return ResultViewModel<List<ShowViewModel>>.Success(model);
     }
 
-    public async Task<ResultViewModel> SaveShow(CreateShowInputModel model)
+    public async Task<ResultViewModel> SaveShow(CreateShowInputModel model, string userEmail)
     {
-        var showToSave = model.FromEntity();
+        var user = await _userService.FindByEmail(userEmail);
 
-        await _repository.SaveShow(showToSave); 
-
-        return ResultViewModel.Success();
+        if (user.Data != null)
+        {
+            var showToSave = model.FromEntity(user.Data, user.Data.Id);
+            
+            await _repository.SaveShow(showToSave);
+            
+            return ResultViewModel.Success();
+        }
+        return ResultViewModel.Error("Usuário não encontrado");
     }
 
     public async Task<ResultViewModel> DeleteShow(int id)
@@ -57,4 +66,6 @@ public class ShowService : IShowService
         
         return ResultViewModel.Success();
     }
+
+    
 }

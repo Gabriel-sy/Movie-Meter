@@ -1,4 +1,4 @@
-<div [routerLink]="['media/details', formatTitle(show.title)]" class="card-container" *ngFor="let show of shows | async">
+<div [routerLink]="['/media/details', formatTitle(show.title)]" class="card-container" *ngFor="let show of shows | async">
   <div class="title-rating">
     <h4> {{ show.title }} ({{ show.releaseDate }})</h4>
     

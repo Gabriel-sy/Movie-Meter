@@ -8,7 +8,7 @@ public class Show : BaseEntity
     }
     public Show(int showId, string title, string releaseDate, List<string> genres, string userRating, 
         decimal publicRating, string mediaType, string posterPath, string overview, 
-        string directorName) : base()
+        string directorName, User user, int userId) : base()
     {
         ShowId = showId;
         Title = title;
@@ -20,6 +20,8 @@ public class Show : BaseEntity
         PosterPath = posterPath;
         Overview = overview;
         DirectorName = directorName;
+        User = user;
+        UserId = userId;
     }
 
     public int ShowId { get; private set; }

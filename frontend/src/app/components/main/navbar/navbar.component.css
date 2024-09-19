@@ -17,15 +17,15 @@ a:hover {
   padding: 10px;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   flex: 1;
   width: 100%;
-  justify-content: start;
   align-items: center;
   gap: 20px;
 }
 
 .auth-container {
-  margin-left: auto;
+  
 }
 
 a {
@@ -36,6 +36,7 @@ a {
 .search-bar {
   position: relative;
   width: 300px;
+  margin-left: auto;
 }
 .search {
   width: 100%;

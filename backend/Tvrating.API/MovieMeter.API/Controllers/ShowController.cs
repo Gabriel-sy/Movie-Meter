@@ -1,4 +1,5 @@
 ﻿
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Extensions;
@@ -22,8 +23,10 @@ public class ShowController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> SaveShow([FromBody]CreateShowInputModel model)
     {
-        var result = await _service.SaveShow(model);
-
+        var header = HttpContext.User.Claims.Single(c => c.Type == "Name");
+        
+        var result = await _service.SaveShow(model, header.Value);
+        
         if (!result.IsSuccess)
         {
             return BadRequest(result.Message);
