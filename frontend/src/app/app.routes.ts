@@ -8,5 +8,6 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'media/details/:name', component: MediaPageComponent },
   { path: 'register', component: RegisterPageComponent },
+  { path: 'login', component: LoginPageComponent },
   { path: 'login', component: LoginPageComponent }
 ];

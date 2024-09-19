@@ -2,12 +2,12 @@
 
 public class LoginViewModel
 {
-    public LoginViewModel(string email, string token)
+    public LoginViewModel(string name, string token)
     {
-        Email = email;
+        Name = name;
         Token = token;
     }
 
-    public string Email { get; set; }
+    public string Name { get; set; }
     public string Token { get; set; }
 }

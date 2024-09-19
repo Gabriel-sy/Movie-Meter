@@ -36,7 +36,7 @@ public class UserController : ControllerBase
 
         if (result.IsSuccess && result.Data != null)
         {
-            var token = new { jwt = result.Data };
+            var token = new { jwt = result.Data.Token, name = result.Data.Name };
             return Ok(token);
         }
 

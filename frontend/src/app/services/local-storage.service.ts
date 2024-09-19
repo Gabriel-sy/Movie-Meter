@@ -1,14 +1,22 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalStorageService {
 
-  private storage: Storage;
+  private storage: any;
+  private readonly platformId = inject(PLATFORM_ID)
+
 
   constructor() {
-    this.storage = window.localStorage;
+    if(isPlatformBrowser(this.platformId)){
+      this.storage = localStorage;
+    } else {
+      this.storage = undefined;
+    }
+    
   }
 
   set(key: string, value: string): boolean {
@@ -57,7 +65,7 @@ export class LocalStorageService {
         dateNow /= 60000;
         expireDateAsNumber /= 60000;
   
-        if(parseInt((dateNow - expireDateAsNumber).toFixed()) > 2){
+        if(parseInt((dateNow - expireDateAsNumber).toFixed()) > 200){
           console.log('nao logado')
           return false;
         } else {

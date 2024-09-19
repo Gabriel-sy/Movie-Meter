@@ -33,7 +33,7 @@ public class UserService : IUserService
         return ResultViewModel.Error("Email já existe");
     }
 
-    public async Task<ResultViewModel<string?>> Login(LoginInputModel model)
+    public async Task<ResultViewModel<LoginViewModel?>> Login(LoginInputModel model)
     {
         var encryptedPassowrd = _authService.EncryptPassword(model.Password);
 
@@ -41,12 +41,12 @@ public class UserService : IUserService
 
         if (user is null)
         {
-            return ResultViewModel<string?>.Error("Email ou senha inválidos");
+            return ResultViewModel<LoginViewModel?>.Error("Email ou senha inválidos");
         }
 
         var token = _authService.GenerateJwtToken(user.Email, user.Role);
         
-        return ResultViewModel<string?>.Success(token);
+        return ResultViewModel<LoginViewModel?>.Success(new LoginViewModel(user.Name, token));
     }
 
     public async Task<ResultViewModel<User?>> FindById(int id)
