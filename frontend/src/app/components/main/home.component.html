@@ -1,1 +1,13 @@
-<p>home component</p>
+<div class="carousel-container">
+    <h2>Filmes Populares</h2>
+    <div class="carousel" #carousel>
+        <div class="carousel-inner" [style.transform]="'translateX(' + translateValue + 'px)'">
+            <div class="carousel-item" *ngFor="let movie of displayedMovies">
+                <div class="movie-wrapper">
+                    <img [routerLink]="['media/details', movie.title]" [src]="showImage(movie.posterPath)"
+                        [alt]="movie.title">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

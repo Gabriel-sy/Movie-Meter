@@ -19,7 +19,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
 
   unsubscribeSignal: Subject<void> = new Subject();
   showId: string = "";
-  foundShow: Movie = new Movie();
+  foundShow: any;
   actors: Person[] = [];
   mainActorsName: string[] = [];
 
@@ -37,7 +37,9 @@ export class MediaPageComponent implements OnInit, OnDestroy {
     this.searchMovieService.searchTitle(this.showId)
       .subscribe({
         next: (res: Results) => {
-          this.foundShow = res.results[0];
+          
+
+          this.foundShow = res.results.find(m => m.original_title == this.showId || m.original_name == this.showId)
 
           this.foundShow.genre_names = this.showService.convertGenres(this.foundShow.genre_ids);
 

@@ -13,4 +13,6 @@ export class Movie {
   overview!: string
   first_air_date!: string
   directorName!: string
+  original_title!: string
+  original_name!: string
 }

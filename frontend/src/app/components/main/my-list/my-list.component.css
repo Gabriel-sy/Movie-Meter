@@ -1,4 +1,6 @@
 .add {
+  color: aliceblue;
+  font-weight: bold;
   border: none;
   display: flex;
   flex-direction: row;
@@ -6,11 +8,12 @@
   padding: 7px;
   align-items: center;
   justify-content: center;
-  background-color: #93BFCF;
+  background-color: #e67e22;
   margin-top: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 30px;
   margin-left: 10px;
+  transition: opacity 0.2s ease;
 }
 
 .add:hover {

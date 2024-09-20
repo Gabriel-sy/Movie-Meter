@@ -10,10 +10,11 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   margin: 20px;
   margin-left: 40px;
+  transition: opacity 0.2s ease;
 }
 
 .card-container:hover {
-  opacity: 0.8;
+  opacity: 0.9;
   cursor: pointer;
 }
 
