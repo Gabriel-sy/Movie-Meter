@@ -1,44 +1,45 @@
 <div class="dialog-container" [class.expanded]="isExpanded">
-  <h2 mat-dialog-title class="title">Adicionar Novo Título</h2>
+  <h2 mat-dialog-title class="title">Adicionar Avaliação de Filme</h2>
   <mat-dialog-content class="form-container">
     <form [formGroup]="formData" (ngSubmit)="saveMovie()" autocomplete="off">
       <div class="form-group">
         <label for="select-movie">Selecione o Título</label>
         <div class="search">
-          <input formControlName="show" [value]="inputValue" (keyup)="searchMovie($event)" class="select-movie"
-            placeholder="Digite um título..." type="text" name="select-movie" id="select-movie">
-          <span class="icon">
-            <i *ngIf="inputValue == ''">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
-              </svg>
-            </i>
-          </span>
+          <input formControlName="show" [ngStyle]="{'border-color': changeInputColor('show')}" [value]="inputValue"
+            (keyup)="searchMovie($event)" class="select-movie" placeholder="Digite um título..." type="text"
+            name="select-movie" id="select-movie">
         </div>
-
         <ng-container>
           <div class="search-container">
             <div *ngFor="let show of shows">
-              <span class="search-title" (click)="setInputValue(show.title)">{{ show.title }} ({{ show.release_date.slice(0,4) }})</span>
+              <span class="search-title" (click)="setInputValue(show.title)">{{ show.title }} ({{
+                show.release_date.slice(0,4) }})</span>
             </div>
           </div>
         </ng-container>
-        <span class="error-msg" *ngIf="errorInputMsg">Por favor escolha uma das opções de título</span>
-        <span class="error-msg" *ngIf="formData.get('show')?.hasError('required') && formData.get('show')?.touched && !errorInputMsg">Esse campo é obrigatório</span>
-        <ng-template #loading>
-          <div class="spinner-div">
-            <span class="loader"></span>
-          </div>
-        </ng-template>
+        <app-form-error
+          [condition]="fieldHasRequiredError('show') || false"
+          text="Esse campo é obrigatório"></app-form-error>
       </div>
-
-      <div class="form-group">
+      <div class="form-group rating-group">
         <label for="rating">Nota</label>
-        <input type="text" formControlName="rating" placeholder="Ex: 4.5" name="rating" id="rating" class="rating" required>
-        <span class="error-msg" *ngIf="formData.get('rating')?.hasError('pattern')">Digite uma nota válida</span>
-        <span class="error-msg" *ngIf="(formData.get('rating')?.hasError('required') && this.isSubmitted) || (formData.get('rating')?.hasError('required') && formData.get('rating')?.touched)">Esse campo é obrigatório</span>
-      </div>
+        <input type="number" [ngStyle]="{'border-color': changeInputColor('rating')}" formControlName="rating"
+          placeholder="Ex: 4.5" name="rating" id="rating" class="rating" min="0" max="10" step="0.1" required>
+          
+        <app-form-error
+          [condition]="formData.get('rating')?.hasError('min') || formData.get('rating')?.hasError('max') || false"
+          text="A nota deve estar entre 0 e 10"></app-form-error>
+        <app-form-error
+          [condition]="fieldHasRequiredError('rating') || false"
+          text="Esse campo é obrigatório"></app-form-error>
 
+      </div>
+      <div class="form-group">
+        <label for="review">Sua Opinião</label>
+        <textarea formControlName="review" [ngStyle]="{'border-color': changeInputColor('review')}"
+          placeholder="O que você achou do filme?" name="review" id="review" rows="4"></textarea>
+          <app-form-error [condition]="fieldHasRequiredError('review') || false" text="Esse campo é obrigatório "></app-form-error>
+      </div>
       <mat-dialog-actions align="end">
         <button mat-button [mat-dialog-close]="false">Cancelar</button>
         <button mat-button cdkFocusInitial type="submit">Salvar</button>

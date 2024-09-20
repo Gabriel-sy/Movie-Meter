@@ -11,15 +11,15 @@ import { ShowService } from '../../../../services/show.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MovieSearchDTO } from '../../../../domain/MovieSearchDTO';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { FormErrorComponent } from "../../form-error/form-error.component";
 
 
 @Component({
   selector: 'app-add-dialog',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatProgressSpinnerModule, CommonModule, ReactiveFormsModule],
+  imports: [MatDialogModule, MatButtonModule, MatProgressSpinnerModule, CommonModule, ReactiveFormsModule, FormErrorComponent],
   templateUrl: './add-dialog.component.html',
   styleUrl: './add-dialog.component.css'
-  // encapsulation: ViewEncapsulation.None
 })
 export class AddDialogComponent implements OnDestroy {
 
@@ -30,14 +30,14 @@ export class AddDialogComponent implements OnDestroy {
   foundShows: Movie[] = []
   shows: MovieSearchDTO[] = []
   inputValue: string = ''
-  errorInputMsg: boolean = false;
-  isSubmitted: boolean = false;
+  showErrorMsg: boolean = false;
   isExpanded: boolean = false;
   readonly dialog = inject(MatDialog);
   
   formData = this.fb.group({
     rating: ['', [Validators.required, Validators.pattern('^(10([.]0)?|[0-9]([.][0-9])?)$')]],
-    show: [this.inputValue, [Validators.required]]
+    show: [this.inputValue, [Validators.required]],
+    review: ['', Validators.required]
   })
 
 
@@ -62,19 +62,27 @@ export class AddDialogComponent implements OnDestroy {
             this.foundShows = res.results;
             this.foundShows = this.foundShows.filter(show => show.title == this.inputValue || show.name == this.inputValue)
             this.showToSave = this.foundShows[0] as Movie;
+
             
             if(this.showToSave.release_date == undefined){
               this.showToSave.release_date = this.showToSave.first_air_date;
             }
 
             if (this.showToSave == undefined || this.showToSave == null) {
-              this.errorInputMsg = true;
+              this.showErrorMsg = true;
             }
             this.showToSave.user_rating = this.formData.get('rating')?.value as string
+
+            
 
             if(this.showToSave.title == undefined){
               this.showToSave.title = this.showToSave.name;
             }
+
+            if(this.showToSave.original_title == undefined){
+              this.showToSave.original_title = this.showToSave.original_name;
+            }
+
 
             this.searchMovieService.findDirectorName(this.showToSave)
               .pipe(takeUntil(this.unsubscribeSignal))
@@ -111,8 +119,7 @@ export class AddDialogComponent implements OnDestroy {
           },
         })
     } else {
-      this.isSubmitted = true
-      this.errorInputMsg = true;
+      this.formData.markAllAsTouched()
     }
   }
 
@@ -165,7 +172,6 @@ export class AddDialogComponent implements OnDestroy {
     this.formData.patchValue({ show: movie });
     this.shows = []
     this.isExpanded = false;
-    this.errorInputMsg = false;
     this.cdr.detectChanges();
   }
 
@@ -173,6 +179,17 @@ export class AddDialogComponent implements OnDestroy {
     this.dialog.open(ErrorDialogComponent, {
       data: { title: title, subtitle: subtitle }
     })
+  }
+
+  changeInputColor(fieldName: string){
+    if(this.fieldHasRequiredError(fieldName) || this.showErrorMsg){
+      return '#FF6B6B';
+    }
+    return 'transparent'
+  }
+
+  fieldHasRequiredError(fieldName: string){
+    return this.formData.get(fieldName)?.hasError('required') && this.formData.get(fieldName)?.touched;
   }
 
 }

@@ -18,14 +18,15 @@ export class ShowService {
       Title: show.title,
       ReleaseDate: show.release_date,
       Genres: show.genre_ids,
-      UserRating: show.user_rating,
+      UserRating: show.user_rating.toString(),
       PublicRating: show.vote_average,
       MediaType: show.media_type,
       PosterPath: show.poster_path,
       Overview: show.overview,
-      DirectorName: show.directorName
+      DirectorName: show.directorName,
+      OriginalTitle: show.original_title
     }
-    console.log(show.genre_ids)
+    console.log(show.user_rating)
     return this.http.post(this.API + 'api/show', showToSend);
   }
 

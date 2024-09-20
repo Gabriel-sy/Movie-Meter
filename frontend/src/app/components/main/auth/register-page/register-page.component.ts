@@ -5,11 +5,12 @@ import { AuthService } from '../../../../services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
+import { FormErrorComponent } from "../../form-error/form-error.component";
 
 @Component({
   selector: 'app-register-page',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, FormErrorComponent],
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.css'
 })
@@ -43,14 +44,14 @@ export class RegisterPageComponent {
 
   changeInputColor(fieldName: string){
     if(this.fieldHasRequiredError(fieldName) || this.fieldHasPatternError(fieldName)){
-      return '#EA3323';
+      return '#FF6B6B';
     }
     return 'transparent'
   }
 
-  fieldHasRequiredError(fieldName: string){
+  fieldHasRequiredError(fieldName: string): boolean{
     
-    return this.formData.get(fieldName)?.hasError('required') && this.formData.get(fieldName)?.touched;  
+    return this.formData.get(fieldName)?.hasError('required') && this.formData.get(fieldName)?.touched || false;  
   }
 
   fieldHasPatternError(fieldName: string){

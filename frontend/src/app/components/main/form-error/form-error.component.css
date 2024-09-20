@@ -1,0 +1,26 @@
+.error-box {
+  color: #FF6B6B;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: row;
+  gap: 3px;
+  padding: 5px;
+  animation: slideIn 0.3s ease-out;
+  transform-origin: top;
+}
+
+.error-text {
+  padding-top: 2px;
+}
+
+@keyframes slideIn {
+  from {
+      opacity: 0;
+      transform: translateY(-10px) scaleY(0.95);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0) scaleY(1);
+  }
+}

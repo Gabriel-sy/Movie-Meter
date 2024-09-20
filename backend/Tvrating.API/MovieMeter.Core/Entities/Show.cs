@@ -8,7 +8,7 @@ public class Show : BaseEntity
     }
     public Show(int showId, string title, string releaseDate, List<string> genres, string userRating, 
         decimal publicRating, string mediaType, string posterPath, string overview, 
-        string directorName, User user, int userId) : base()
+        string directorName, User user, int userId, string originalTitle) : base()
     {
         ShowId = showId;
         Title = title;
@@ -22,6 +22,7 @@ public class Show : BaseEntity
         DirectorName = directorName;
         User = user;
         UserId = userId;
+        OriginalTitle = originalTitle;
     }
 
     public int ShowId { get; private set; }
@@ -36,6 +37,7 @@ public class Show : BaseEntity
     public string? DirectorName { get; private set; }
     public User User { get; private set; }
     public int UserId { get; private set; }
+    public string OriginalTitle { get; private set; }
 
     public void UpdateRating(string rating)
     {

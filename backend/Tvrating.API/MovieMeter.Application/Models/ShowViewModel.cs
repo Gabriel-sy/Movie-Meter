@@ -4,7 +4,9 @@ namespace MovieMeter.Application.Models;
 
 public class ShowViewModel
 {
-    public ShowViewModel(int id, int showId, string title, string releaseDate, List<string> genres, string userRating, decimal publicRating, string mediaType, string posterPath, string overview, string directorName)
+    public ShowViewModel(int id, int showId, string title, string releaseDate, List<string> genres, string userRating, 
+        decimal publicRating, string mediaType, string posterPath, 
+        string overview, string directorName, string originalTitle)
     {
         Id = id;
         ShowId = showId;
@@ -17,6 +19,7 @@ public class ShowViewModel
         PosterPath = posterPath;
         Overview = overview;
         DirectorName = directorName;
+        OriginalTitle = originalTitle;
     }
 
     public int Id { get; set; }
@@ -30,10 +33,11 @@ public class ShowViewModel
     public string PosterPath { get; set; }
     public string Overview { get; set; }
     public string DirectorName { get; set; }
+    public string OriginalTitle { get; set; }
 
     public static ShowViewModel FromEntity(Show show)
     {
         return new ShowViewModel(show.Id, show.ShowId, show.Title, show.ReleaseDate, show.Genres, show.UserRating,
-        show.PublicRating, show.MediaType, show.PosterPath, show.Overview, show.DirectorName);
+        show.PublicRating, show.MediaType, show.PosterPath, show.Overview, show.DirectorName, show.OriginalTitle);
     }
 }

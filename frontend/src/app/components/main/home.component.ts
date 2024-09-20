@@ -21,8 +21,11 @@ import { RouterLink } from '@angular/router';
 export class HomeComponent implements OnInit {
 
   popularMovies: PopularMovies[] = [];
+  popularSeries: PopularMovies[] = []
+  displayedSeries: PopularMovies[] = [];
   displayedMovies: PopularMovies[] = [];
-  translateValue = 0;
+  translateValueSeries = 0;
+  translateValueMovies = 0;
   isBrowser: boolean;
   itemWidth = 150;
   visibleItems = 0;
@@ -33,20 +36,31 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.searchMovieService.searchPopular()
+    this.searchMovieService.searchPopularMovies()
       .subscribe({
         next: (res: Results) => {
           this.popularMovies = res.results.map(movie => ({
             posterPath: movie.poster_path,
-            title: movie.title,
+            title: movie.original_title,
           }))
-          if (this.isBrowser) {
-            this.calculateVisibleItems();
-            this.initializeDisplayedMovies();
-            this.startAutoScroll();
-          }
+          this.searchMovieService.searchPopularSeries()
+            .subscribe({
+              next: (res: Results) => {
+                this.popularSeries = res.results.map(serie => ({
+                  posterPath: serie.poster_path,
+                  title: serie.original_name
+
+                }))
+                if (this.isBrowser) {
+                  this.calculateVisibleItems();
+                  this.initializeDisplayedMovies();
+                  this.startAutoScroll();
+                }
+              }
+            })
         }
       })
+
   }
 
   calculateVisibleItems() {
@@ -56,25 +70,41 @@ export class HomeComponent implements OnInit {
 
   initializeDisplayedMovies() {
     this.displayedMovies = [...this.popularMovies, ...this.popularMovies].slice(0, this.popularMovies.length + this.visibleItems);
+    this.displayedSeries = [...this.popularSeries, ...this.popularSeries].slice(0, this.popularSeries.length + this.visibleItems);
   }
 
   startAutoScroll() {
     this.autoScrollInterval = setInterval(() => {
-      this.scroll();
+      this.scrollMovies();
     }, 3000);
+    this.autoScrollInterval = setInterval(() => {
+      this.scrollSeries();
+    }, 3600);
   }
 
-  scroll() {
-    this.translateValue -= this.itemWidth;
-    if (Math.abs(this.translateValue) >= this.popularMovies.length * this.itemWidth) {
-      this.translateValue = 0;
+  scrollMovies() {
+    this.translateValueMovies -= this.itemWidth;
+    if (Math.abs(this.translateValueMovies) >= this.popularMovies.length * this.itemWidth) {
+      this.translateValueMovies = 0;
     }
     setTimeout(() => {
-      if (this.translateValue === 0) {
-        this.translateValue = -this.itemWidth;
+      if (this.translateValueMovies === 0) {
+        this.translateValueMovies = -this.itemWidth;
       }
     }, 500);
   }
+  scrollSeries() {
+    this.translateValueSeries -= this.itemWidth;
+    if (Math.abs(this.translateValueSeries) >= this.popularMovies.length * this.itemWidth) {
+      this.translateValueSeries = 0;
+    }
+    setTimeout(() => {
+      if (this.translateValueSeries === 0) {
+        this.translateValueSeries = -this.itemWidth;
+      }
+    }, 500);
+  }
+
 
   formatTitle(title: string): string {
     return title.replace(new RegExp(" ", "g"), '-');
