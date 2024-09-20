@@ -1,32 +1,5 @@
-.add {
-  color: #ffffff;
-  font-weight: 600;
-  border: none;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  padding: 12px 20px;
-  align-items: center;
-  justify-content: center;
-  background-color: #00ADB5;
+.add-button {
   margin-top: 20px;
-  box-shadow: 0 4px 12px rgba(0, 173, 181, 0.3);
-  border-radius: 50px;
-  margin-left: 10px;
-  transition: all 0.3s ease;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.add:hover {
-  background-color: #00878E;
-  box-shadow: 0 6px 15px rgba(0, 173, 181, 0.4);
-  transform: translateY(-2px);
-}
-
-.add:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(0, 173, 181, 0.3);
 }
 
 .header {

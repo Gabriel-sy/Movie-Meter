@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnDestroy, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, ViewEncapsulation, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchMovieService } from '../../../../services/search-movie.service';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -26,10 +26,11 @@ export class AddDialogComponent implements OnDestroy {
   foundMovies: Observable<Results> = new Observable<Results>();
   unsubscribeSignal: Subject<void> = new Subject();
   showToSave: Movie = new Movie()
+  genres: string[] = []
   timer = setTimeout(() => { }, 0)
   foundShows: Movie[] = []
   shows: MovieSearchDTO[] = []
-  inputValue: string = ''
+  inputValue: string = this.data;
   showErrorMsg: boolean = false;
   isExpanded: boolean = false;
   readonly dialog = inject(MatDialog);
@@ -45,7 +46,8 @@ export class AddDialogComponent implements OnDestroy {
     private showService: ShowService,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private dialogRef: MatDialogRef<AddDialogComponent>) { }
+    private dialogRef: MatDialogRef<AddDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: string) { }
 
   ngOnDestroy(): void {
     this.unsubscribeSignal.next()
@@ -73,11 +75,14 @@ export class AddDialogComponent implements OnDestroy {
             }
             this.showToSave.user_rating = this.formData.get('rating')?.value as string
 
+            this.showToSave.user_review = this.formData.get('review')?.value || ''; 
             
 
             if(this.showToSave.title == undefined){
               this.showToSave.title = this.showToSave.name;
             }
+
+            
 
             if(this.showToSave.original_title == undefined){
               this.showToSave.original_title = this.showToSave.original_name;

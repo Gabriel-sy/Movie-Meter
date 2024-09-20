@@ -2,7 +2,7 @@ export class MovieResponseDTO {
   id!: string
   title!: string
   releaseDate!: string
-  genreIds!: number[]
+  genres!: string[]
   voteAverage!: string
   mediaType!: string
   posterPath!: string
@@ -12,4 +12,5 @@ export class MovieResponseDTO {
   directorName!: string
   publicRating!: string
   originalTitle!: string
+  userReview!: string
 }

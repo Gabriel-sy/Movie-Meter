@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import {NavigationEnd, Router, RouterLink } from '@angular/router';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { LocalStorageService } from '../../../services/local-storage.service';
 
 
@@ -13,12 +13,11 @@ import { LocalStorageService } from '../../../services/local-storage.service';
 })
 export class NavbarComponent implements OnInit {
 
+  private readonly platformId = inject(PLATFORM_ID)
   path: string = '';
   userName: string = '';
-  shouldShowSearchBar: boolean = true;
-  shouldShowRegister: boolean = true;
-  shouldShowLogin: boolean = true;
-  shouldShowLogout: boolean = false;
+  shouldShowRegister: boolean = false;
+  shouldShowLogin: boolean = false;
 
   constructor(private localStorageService: LocalStorageService,
     private router: Router) {
@@ -26,41 +25,32 @@ export class NavbarComponent implements OnInit {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.userName = this.localStorageService.get('userName');
-        switch (router.url) {
-          case "/register":
-            this.shouldShowSearchBar = false;
-            this.shouldShowRegister = false;
-            this.shouldShowLogin = true;
-            break;
-          case "/login":
-            this.shouldShowLogout = false;
-            this.shouldShowRegister = true;
-            this.shouldShowSearchBar = false;
-            this.shouldShowLogin = false;
-            break;
-          case "/":
-            this.shouldShowSearchBar = true;
-            this.shouldShowRegister = false;
-            this.shouldShowLogin = false;
-            this.shouldShowLogout = true;
-        }
+        this.isLoggedIn()
       }
     })
   }
 
   ngOnInit(): void {
-    if (this.localStorageService.isLoggedIn()) {
-      this.shouldShowSearchBar = true;
-      this.shouldShowRegister = false;
-      this.shouldShowLogin = false;
-      this.shouldShowLogout = true;
-    }
-
-
   }
 
   logout() {
     this.localStorageService.logout();
+  }
+
+  isLoggedIn(): any {
+    if (isPlatformBrowser(this.platformId)) {
+      if (!this.localStorageService.isLoggedIn()) {
+        this.shouldShowLogin = true;
+        this.shouldShowRegister = true;
+        return false;
+      }
+      this.shouldShowLogin = false;
+      this.shouldShowRegister = false;
+      return true;
+    }
+
+
+
   }
 
 }

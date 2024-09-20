@@ -17,7 +17,9 @@
               <i class="fas fa-star"></i> Nota geral: {{ foundShow.vote_average }}/10
             </span>
             <span class="user-rating">
-              <i class="fas fa-user-star"></i> Sua nota: 10/10
+              <app-add-button class="add-button" [clickedShow]="foundShow.title" *ngIf="isLoggedIn() && foundShow.user_rating == undefined"></app-add-button>
+              <i class="fas fa-user-star"></i><span *ngIf="isLoggedIn() && this.foundShow.user_rating != undefined">Sua
+                nota: {{ foundShow.user_rating }}</span>
             </span>
           </div>
           <div class="sinopsis">

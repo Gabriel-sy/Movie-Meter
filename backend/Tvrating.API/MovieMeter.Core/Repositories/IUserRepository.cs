@@ -7,5 +7,6 @@ public interface IUserRepository
     Task<User?> Register(User user);
     Task<User?> GetUserByEmailAndPassword(string email, string password);
     Task<User?> FindByEmail(string email);
+    Task<User?> FindByEmailWithShows(string email);
     Task<User?> FindById(int id);
 }

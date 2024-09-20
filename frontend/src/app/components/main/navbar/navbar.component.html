@@ -3,11 +3,11 @@
     <a [routerLink]="['/']" routerLinkActive="router-link-active" class="home">
       <span>Home</span>
     </a>
-    <a *ngIf="shouldShowSearchBar" [routerLink]="['user', userName, 'my-list']" routerLinkActive="router-link-active" class="home">
+    <a *ngIf="isLoggedIn()" [routerLink]="['user', userName, 'my-list']" routerLinkActive="router-link-active" class="home">
       <span>Sua lista</span>
     </a>
 
-    <div class="search-bar" *ngIf="shouldShowSearchBar">
+    <div class="search-bar" *ngIf="isLoggedIn()">
       <input placeholder="Pesquise um título" class="search" type="text">
       <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -18,7 +18,7 @@
     <div class="auth-container">
       <a [routerLink]="['/register']" class="registrar" *ngIf="shouldShowRegister">Registrar</a>
       <a [routerLink]="['/login']" class="login" *ngIf="shouldShowLogin">Login</a>
-      <a [routerLink]="['/login']" class="login" (click)="logout()" *ngIf="shouldShowLogout">Logout</a>
+      <a [routerLink]="['/login']" class="login" (click)="logout()" *ngIf="isLoggedIn()">Logout</a>
     </div>
   </div>
 </nav>

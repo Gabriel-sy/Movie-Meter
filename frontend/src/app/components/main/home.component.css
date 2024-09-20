@@ -75,3 +75,7 @@ img {
 .movie-wrapper:hover .movie-title {
   opacity: 1;
 }
+
+.add-button {
+  margin-top: 20px;
+}

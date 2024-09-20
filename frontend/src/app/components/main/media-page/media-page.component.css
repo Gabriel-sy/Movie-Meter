@@ -85,6 +85,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  align-content: center;
   background-color: #393e46;
   padding: 15px 25px;
   border-radius: 15px;
@@ -92,6 +93,8 @@
   font-size: 1.2rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+
 
 .public-rating, .user-rating {
   color: #f4c542;

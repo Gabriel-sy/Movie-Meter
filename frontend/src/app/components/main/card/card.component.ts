@@ -24,7 +24,6 @@ export class CardComponent implements OnInit {
   
 
   ngOnInit(): void {
-    
   }
 
   formatTitle(title: string){
@@ -34,6 +33,11 @@ export class CardComponent implements OnInit {
   showImage(posterPath: string) {
     return 'https://image.tmdb.org/t/p/w400' + posterPath
     
+  }
+
+  convertGenres(genres: number[]): string[]{
+    console.log(genres)
+    return this.showService.convertGenres(genres);
   }
 
   openDeleteDialog(showId: string, event: Event) {

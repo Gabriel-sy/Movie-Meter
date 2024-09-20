@@ -9,5 +9,6 @@ public interface IUserService
     Task<ResultViewModel<LoginViewModel?>> Login(LoginInputModel model);
     Task<ResultViewModel<User?>> FindById(int id);
     Task<ResultViewModel<User?>> FindByEmail(string email);
-    
+    Task<ResultViewModel<UserViewModel?>> FindByEmailWithShows(string email);
+
 }

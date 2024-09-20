@@ -7,11 +7,15 @@ import { Movie } from '../../../domain/Movie';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Person } from '../../../domain/Person';
+import { AddButtonComponent } from "../add-button/add-button.component";
+import { LocalStorageService } from '../../../services/local-storage.service';
+import { UserService } from '../../../services/user.service';
+import { User } from '../../../domain/User';
 
 @Component({
   selector: 'app-media-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AddButtonComponent],
   templateUrl: './media-page.component.html',
   styleUrl: './media-page.component.css'
 })
@@ -24,7 +28,9 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   mainActorsName: string[] = [];
 
   constructor(private route: ActivatedRoute, private showService: ShowService,
-    private searchMovieService: SearchMovieService) { }
+    private searchMovieService: SearchMovieService, 
+    private localStorageService: LocalStorageService,
+    private userService: UserService) { }
 
   ngOnDestroy(): void {
     this.unsubscribeSignal.next()
@@ -37,6 +43,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
     this.searchMovieService.searchTitle(this.showId)
       .subscribe({
         next: (res: Results) => {
+          
           
 
           this.foundShow = res.results.find(m => m.original_title == this.showId || m.original_name == this.showId)
@@ -51,6 +58,17 @@ export class MediaPageComponent implements OnInit, OnDestroy {
             this.foundShow.title = this.foundShow.name;
           }
 
+          this.userService.findByToken().subscribe({
+            next: (res: User) => {
+              res.shows.forEach(movie => {
+                if(movie.title == this.foundShow.title){
+                  this.foundShow.user_rating = movie.userRating;
+                }
+              })
+              
+            }
+          })
+          console.log(this.foundShow.user_rating)
           this.searchMovieService.findDirectorName(this.foundShow)
             .pipe(takeUntil(this.unsubscribeSignal))
             .subscribe({
@@ -81,5 +99,9 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   showImage(posterPath: string) {
     return 'https://image.tmdb.org/t/p/w400' + posterPath
 
+  }
+
+  isLoggedIn() {
+    return this.localStorageService.isLoggedIn()
   }
 }

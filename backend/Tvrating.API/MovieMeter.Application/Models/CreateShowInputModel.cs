@@ -16,13 +16,14 @@ public class CreateShowInputModel
     public string Overview { get; set; }
     public string? DirectorName { get; set; }
     public string OriginalTitle { get; set; }
+    public string? UserReview { get; set; }
 
     public Show FromEntity(User user, int userId)
     {
         ReleaseDate = ReleaseDate?[..4];
         
         return new Show(ShowId, Title, ReleaseDate, ConvertGenre.Convert(Genres), UserRating
-                ,PublicRating, MediaType, PosterPath, Overview, DirectorName, user, userId, OriginalTitle);
+                ,PublicRating, MediaType, PosterPath, Overview, DirectorName, user, userId, OriginalTitle, UserReview);
         
     }
 }

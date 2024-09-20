@@ -1,15 +1,32 @@
 <div [routerLink]="['/media/details', formatTitle(show.originalTitle)]" class="card-container" *ngFor="let show of shows | async">
-  <div class="title-rating">
-    <h4> {{ show.title }} ({{ show.releaseDate }})</h4>
-    
-    <p class="user-rating"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FFD700"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>{{ show.userRating }}/10</p>
-  </div>
-  <span class="director-name"> {{ show.directorName }} </span>
-  <img [src]="showImage(show.posterPath)">
-  <p class="overview"> {{ show.overview }} </p>
-    <div class="buttons">
-      <button class="delete" (click)="openDeleteDialog(show.id, $event)">Remover avaliação</button>
-      <button class="edit" (click)="openEditDialog(show.id, $event)">Editar nota</button>
+  <div class="card-header">
+    <div class="title-rating">
+      <h4>{{ show.title }} ({{ show.releaseDate }})</h4>
+      <p class="user-rating">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FFD700">
+          <path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/>
+        </svg>
+        {{ show.userRating }}/10
+      </p>
     </div>
+    <span class="director-name" >Diretor: {{ show.directorName || 'Não informado' }}</span>
+    <div class="genres">
+      <span class="genre-tag" *ngFor="let genre of show.genres.slice(0,4)">{{ genre }}</span>
+    </div>
+  </div>
   
+  <div class="card-body">
+    
+      <img [src]="showImage(show.posterPath)" alt="{{ show.title }} poster">
+    <div class="review-content">
+      <h5 *ngIf="show.userReview">Sua Avaliação:</h5>
+      <p class="overview user" *ngIf="show.userReview"><em>{{ show.userReview }}</em></p>
+      <p class="overview" *ngIf="!show.userReview">{{ show.overview }}</p>
+    </div>
+  </div>
+  
+  <div class="buttons">
+    <button class="edit" (click)="openEditDialog(show.id, $event)">Editar nota</button>
+    <button class="delete" (click)="openDeleteDialog(show.id, $event)">Remover avaliação</button>
+  </div>
 </div>

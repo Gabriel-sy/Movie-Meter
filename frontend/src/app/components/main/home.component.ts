@@ -1,19 +1,17 @@
-import { Component, HostListener, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ShowService } from '../../services/show.service';
 import { SearchMovieService } from '../../services/search-movie.service';
-import { Observable, map } from 'rxjs';
-import { Movie } from '../../domain/Movie';
 import { Results } from '../../domain/Results';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { PopularMovies } from '../../domain/PopularMovie';
 import { RouterLink } from '@angular/router';
+import { AddButtonComponent } from "./add-button/add-button.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, CarouselModule, ButtonModule, RouterLink],
+  imports: [CommonModule, CarouselModule, ButtonModule, RouterLink, AddButtonComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 
@@ -30,8 +28,10 @@ export class HomeComponent implements OnInit {
   itemWidth = 150;
   visibleItems = 0;
   private autoScrollInterval: any;
+  
 
-  constructor(private searchMovieService: SearchMovieService, @Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(private searchMovieService: SearchMovieService, 
+    @Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
@@ -113,6 +113,8 @@ export class HomeComponent implements OnInit {
   showImage(posterPath: string) {
     return 'https://image.tmdb.org/t/p/w400' + posterPath
   }
+
+  
 
 }
 

@@ -15,4 +15,5 @@ export class Movie {
   directorName!: string
   original_title!: string
   original_name!: string
+  user_review!: string
 }

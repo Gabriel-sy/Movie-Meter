@@ -24,7 +24,8 @@ export class ShowService {
       PosterPath: show.poster_path,
       Overview: show.overview,
       DirectorName: show.directorName,
-      OriginalTitle: show.original_title
+      OriginalTitle: show.original_title,
+      UserReview: show.user_review
     }
     console.log(show.user_rating)
     return this.http.post(this.API + 'api/show', showToSend);

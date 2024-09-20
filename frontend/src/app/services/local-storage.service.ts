@@ -51,7 +51,7 @@ export class LocalStorageService {
   }
 
   isLoggedIn(): boolean {
-    if(this.storage){
+    if(this.storage && isPlatformBrowser(this.platformId)){
       let expireDate = this.get('expireDate');
 
       if(this.get('jwt') == null){
@@ -65,7 +65,7 @@ export class LocalStorageService {
         dateNow /= 60000;
         expireDateAsNumber /= 60000;
   
-        if(parseInt((dateNow - expireDateAsNumber).toFixed()) > 200){
+        if(parseInt((dateNow - expireDateAsNumber).toFixed()) > 2000){
           return false;
         } else {
           return true;

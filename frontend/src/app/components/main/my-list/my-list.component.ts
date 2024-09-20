@@ -9,11 +9,12 @@ import { AddDialogComponent } from '../dialogs/add-dialog/add-dialog.component';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '../card/card.component';
 import { MatButtonModule } from '@angular/material/button';
+import { AddButtonComponent } from "../add-button/add-button.component";
 
 @Component({
   selector: 'app-my-list',
   standalone: true,
-  imports: [CardComponent, MatButtonModule, MatDialogModule, CommonModule],
+  imports: [CardComponent, MatButtonModule, MatDialogModule, CommonModule, AddButtonComponent],
   templateUrl: './my-list.component.html',
   styleUrl: './my-list.component.css',
   animations: [

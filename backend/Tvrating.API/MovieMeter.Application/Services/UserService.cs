@@ -72,4 +72,16 @@ public class UserService : IUserService
         
         return ResultViewModel<User?>.Success(user);
     }
+
+    public async Task<ResultViewModel<UserViewModel?>> FindByEmailWithShows(string email)
+    {
+        var user = await _repository.FindByEmailWithShows(email);
+
+        if (user is null)
+        {
+            return ResultViewModel<UserViewModel?>.Error("Usuário não encontrado");
+        }
+        
+        return ResultViewModel<UserViewModel?>.Success(UserViewModel.FromEntity(user));
+    }
 }

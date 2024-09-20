@@ -6,7 +6,7 @@ public class ShowViewModel
 {
     public ShowViewModel(int id, int showId, string title, string releaseDate, List<string> genres, string userRating, 
         decimal publicRating, string mediaType, string posterPath, 
-        string overview, string directorName, string originalTitle)
+        string overview, string directorName, string originalTitle, string userReview)
     {
         Id = id;
         ShowId = showId;
@@ -20,6 +20,7 @@ public class ShowViewModel
         Overview = overview;
         DirectorName = directorName;
         OriginalTitle = originalTitle;
+        UserReview = userReview;
     }
 
     public int Id { get; set; }
@@ -34,10 +35,12 @@ public class ShowViewModel
     public string Overview { get; set; }
     public string DirectorName { get; set; }
     public string OriginalTitle { get; set; }
+    public string? UserReview { get; set; }
 
     public static ShowViewModel FromEntity(Show show)
     {
         return new ShowViewModel(show.Id, show.ShowId, show.Title, show.ReleaseDate, show.Genres, show.UserRating,
-        show.PublicRating, show.MediaType, show.PosterPath, show.Overview, show.DirectorName, show.OriginalTitle);
+        show.PublicRating, show.MediaType, show.PosterPath, show.Overview, show.DirectorName, 
+        show.OriginalTitle, show.UserReview);
     }
 }
