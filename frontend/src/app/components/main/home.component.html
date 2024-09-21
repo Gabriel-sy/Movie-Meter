@@ -1,5 +1,7 @@
+<app-popup [popupDisplay]="popupDisplay" [title]="title" [subtitle]="subtitle" [type]="popupType"></app-popup>
+
 <div class="add-button">
-    <app-add-button></app-add-button>
+    <app-add-button (click)="openDialog()"></app-add-button>
 </div>
 
 

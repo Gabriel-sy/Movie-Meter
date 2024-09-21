@@ -7,11 +7,15 @@ import { ButtonModule } from 'primeng/button';
 import { PopularMovies } from '../../domain/PopularMovie';
 import { RouterLink } from '@angular/router';
 import { AddButtonComponent } from "./add-button/add-button.component";
+import { PopupComponent } from "./popup/popup.component";
+import { AddDialogComponent } from './dialogs/add-dialog/add-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, CarouselModule, ButtonModule, RouterLink, AddButtonComponent],
+  imports: [CommonModule, CarouselModule, ButtonModule, RouterLink, AddButtonComponent, PopupComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 
@@ -25,15 +29,42 @@ export class HomeComponent implements OnInit {
   translateValueSeries = 0;
   translateValueMovies = 0;
   isBrowser: boolean;
+  popupDisplay: boolean = false;
+  popupType: boolean = true;
+  title: string = '';
+  subtitle: string = '';
   itemWidth = 150;
   visibleItems = 0;
   private autoScrollInterval: any;
-  
+  readonly dialog = inject(MatDialog);
 
-  constructor(private searchMovieService: SearchMovieService, 
+  constructor(private searchMovieService: SearchMovieService,
     @Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(AddDialogComponent);
+
+    const closeDialog: Subscription = dialogRef.afterClosed().subscribe({
+      next: (res) => {
+        this.popupDisplay = true
+        this.popupType = res ? true : false;
+        this.title = this.popupType ? 'Sucesso!' : 'Erro ao adicionar'
+        this.subtitle = this.popupType ?
+          'O título foi adicionado à sua lista!' :
+          'Ocorreu um erro ao adicionar o título à sua lista, tente novamente.'
+        setTimeout(() => {
+          this.popupDisplay = false;
+        }, 2500);
+      },
+      complete: () => {
+        closeDialog.unsubscribe()
+      }
+    }
+    )
+  }
+
 
   ngOnInit(): void {
     this.searchMovieService.searchPopularMovies()
@@ -114,7 +145,7 @@ export class HomeComponent implements OnInit {
     return 'https://image.tmdb.org/t/p/w400' + posterPath
   }
 
-  
+
 
 }
 

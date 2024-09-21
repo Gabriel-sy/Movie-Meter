@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, OnDestroy, Output, ViewEncapsulation, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -12,12 +12,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MovieSearchDTO } from '../../../../domain/MovieSearchDTO';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { FormErrorComponent } from "../../form-error/form-error.component";
+import { PopupComponent } from "../../popup/popup.component";
 
 
 @Component({
   selector: 'app-add-dialog',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatProgressSpinnerModule, CommonModule, ReactiveFormsModule, FormErrorComponent],
+  imports: [MatDialogModule, MatButtonModule, MatProgressSpinnerModule, CommonModule, ReactiveFormsModule, FormErrorComponent, PopupComponent],
   templateUrl: './add-dialog.component.html',
   styleUrl: './add-dialog.component.css'
 })
@@ -25,6 +26,7 @@ export class AddDialogComponent implements OnDestroy {
 
   foundMovies: Observable<Results> = new Observable<Results>();
   unsubscribeSignal: Subject<void> = new Subject();
+  @Output() popupEvent = new EventEmitter<boolean>();
   showToSave: Movie = new Movie()
   genres: string[] = []
   timer = setTimeout(() => { }, 0)
@@ -33,6 +35,7 @@ export class AddDialogComponent implements OnDestroy {
   inputValue: string = this.data;
   showErrorMsg: boolean = false;
   isExpanded: boolean = false;
+  success: boolean = true;
   readonly dialog = inject(MatDialog);
   
   formData = this.fb.group({
@@ -40,7 +43,6 @@ export class AddDialogComponent implements OnDestroy {
     show: [this.inputValue, [Validators.required]],
     review: ['', Validators.required]
   })
-
 
   constructor(private searchMovieService: SearchMovieService,
     private showService: ShowService,
@@ -52,6 +54,10 @@ export class AddDialogComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribeSignal.next()
     this.unsubscribeSignal.unsubscribe()
+  }
+
+  showPopup(type: boolean){
+      this.popupEvent.emit(type)
   }
 
   saveMovie() {
@@ -100,18 +106,17 @@ export class AddDialogComponent implements OnDestroy {
                   }
                 },
                 error: () => {
-                  this.openErrorDialog("Ocorreu um erro ao se comunicar com a API", "Por favor, tente novamente em alguns instantes")
-                  this.dialogRef.close(true)
+                  this.dialogRef.close(false)
                 },
                 complete: () => {
                   this.showService.saveShow(this.showToSave)
                     .pipe(takeUntil(this.unsubscribeSignal))
                     .subscribe({
-                      next: () => this.dialogRef.close(true),
                       error: () => {
-                        this.openErrorDialog("Ocorreu um erro ao salvar o filme/série", "Por favor, tente novamente em alguns instantes.")
-                        this.dialogRef.close(true)
-                      }
+                        this.dialogRef.close(false)
+                      },
+                      complete: () => {this.dialogRef.close(true)
+                        }
                     })
                 }
               })
@@ -119,8 +124,7 @@ export class AddDialogComponent implements OnDestroy {
 
           },
           error: () => {
-            this.openErrorDialog("Ocorreu um erro ao se comunicar com a API", "Por favor, tente novamente em alguns instantes.")
-            this.dialogRef.close(true)
+            this.dialogRef.close(false)
           },
         })
     } else {

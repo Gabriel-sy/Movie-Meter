@@ -10,11 +10,12 @@ import { CommonModule } from '@angular/common';
 import { CardComponent } from '../card/card.component';
 import { MatButtonModule } from '@angular/material/button';
 import { AddButtonComponent } from "../add-button/add-button.component";
+import { PopupComponent } from "../popup/popup.component";
 
 @Component({
   selector: 'app-my-list',
   standalone: true,
-  imports: [CardComponent, MatButtonModule, MatDialogModule, CommonModule, AddButtonComponent],
+  imports: [CardComponent, MatButtonModule, MatDialogModule, CommonModule, AddButtonComponent, PopupComponent],
   templateUrl: './my-list.component.html',
   styleUrl: './my-list.component.css',
   animations: [
@@ -45,7 +46,10 @@ import { AddButtonComponent } from "../add-button/add-button.component";
 export class MyListComponent implements OnInit {
   readonly dialog = inject(MatDialog);
   shows: Observable<MovieResponseDTO[]> = new Observable<MovieResponseDTO[]>()
-  
+  popupDisplay: boolean = false;
+  popupType: boolean = true;
+  title: string = '';
+  subtitle: string = '';
   dropdownDisplay: boolean = false
 
   constructor(private showService: ShowService, private localStorageService: LocalStorageService) { }
@@ -61,11 +65,22 @@ export class MyListComponent implements OnInit {
 
     const closeDialog: Subscription = dialogRef.afterClosed().subscribe({
       next: (res) => {
-        if (res) {
-          this.shows = this.showService.findAllShows()
-        }
+        this.shows = this.showService.findAllShows()
+
+        this.popupDisplay = true
+        this.popupType = res ? true : false;
+        this.title = this.popupType ? 'Sucesso!' : 'Erro ao adicionar'
+        this.subtitle = this.popupType ?
+          'O título foi adicionado à sua lista!' :
+          'Ocorreu um erro ao adicionar o título à sua lista, tente novamente.'
+          
+        setTimeout(() => {
+          this.popupDisplay = false;
+        }, 2500);
       },
-      complete: () => closeDialog.unsubscribe()
+      complete: () =>
+        closeDialog.unsubscribe()
+
     })
   }
 
