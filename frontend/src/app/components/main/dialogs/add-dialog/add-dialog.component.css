@@ -3,7 +3,7 @@
   padding: 25px;
   width: 100%;
   max-width: 550px;
-  max-height: 600px;
+  max-height: 650px;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   transition: max-height 0.4s ease;
@@ -11,7 +11,7 @@
 }
 
 .dialog-container.expanded {
-  max-height: 700px;
+  max-height: 740px;
 }
 
 .title {
@@ -151,4 +151,23 @@ input[type=number] {
 ::ng-deep .mat-mdc-dialog-surface {
   background-color: #393E46 !important;
   border-radius: 12px !important;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 1s ease-in-out infinite;
+  margin: 0 auto;
+}
+
+button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

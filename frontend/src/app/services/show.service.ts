@@ -39,11 +39,15 @@ export class ShowService {
     return this.http.delete(this.API + 'api/show/' + showId);
   }
 
-  editShowRating(showId: string, userRating: string) {
+  editShowRating(showId: string, userRating: string, userReview: string) {
     let header = new HttpHeaders();
     header = header.set('Content-Type', 'application/json; charset=utf-8')
-    var json = JSON.stringify({ Id: showId, Rating: userRating as unknown as number })
-    return this.http.put(this.API + 'api/show', json, { headers: header })
+    var objectToSend = {
+        Id: showId,
+        Rating: userRating.toString(),
+        Review: userReview
+    }
+    return this.http.put(this.API + 'api/show', objectToSend, { headers: header })
   }
 
   convertGenres(genres: number[]) {

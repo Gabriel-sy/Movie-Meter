@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Inject, OnDestroy, Output, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, OnDestroy, OnInit, Output, ViewEncapsulation, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -36,12 +36,14 @@ export class AddDialogComponent implements OnDestroy {
   showErrorMsg: boolean = false;
   isExpanded: boolean = false;
   success: boolean = true;
+  isLoading: boolean = false;
+  
   readonly dialog = inject(MatDialog);
   
   formData = this.fb.group({
     rating: ['', [Validators.required, Validators.pattern('^(10([.]0)?|[0-9]([.][0-9])?)$')]],
     show: [this.inputValue, [Validators.required]],
-    review: ['', Validators.required]
+    review: ['']
   })
 
   constructor(private searchMovieService: SearchMovieService,
@@ -56,13 +58,9 @@ export class AddDialogComponent implements OnDestroy {
     this.unsubscribeSignal.unsubscribe()
   }
 
-  showPopup(type: boolean){
-      this.popupEvent.emit(type)
-  }
-
   saveMovie() {
     if (this.formData.valid) {
-
+      this.isLoading = true;
       this.searchMovieService.searchTitle(this.inputValue)
         .pipe(takeUntil(this.unsubscribeSignal))
         .subscribe({
@@ -106,6 +104,7 @@ export class AddDialogComponent implements OnDestroy {
                   }
                 },
                 error: () => {
+                  this.isLoading = false
                   this.dialogRef.close(false)
                 },
                 complete: () => {
@@ -114,8 +113,11 @@ export class AddDialogComponent implements OnDestroy {
                     .subscribe({
                       error: () => {
                         this.dialogRef.close(false)
+                        this.isLoading = false
                       },
-                      complete: () => {this.dialogRef.close(true)
+                      complete: () => {
+                        this.dialogRef.close(true)
+                        this.isLoading = false
                         }
                     })
                 }
@@ -124,6 +126,7 @@ export class AddDialogComponent implements OnDestroy {
 
           },
           error: () => {
+            this.isLoading = false;
             this.dialogRef.close(false)
           },
         })
@@ -191,7 +194,7 @@ export class AddDialogComponent implements OnDestroy {
   }
 
   changeInputColor(fieldName: string){
-    if(this.fieldHasRequiredError(fieldName) || this.showErrorMsg){
+    if(this.fieldHasRequiredError(fieldName)){
       return '#FF6B6B';
     }
     return 'transparent'

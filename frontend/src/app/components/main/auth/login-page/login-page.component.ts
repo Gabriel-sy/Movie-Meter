@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { JwtResponse } from '../../../../domain/JwtResponse';
 import { LocalStorageService } from '../../../../services/local-storage.service';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
@@ -15,6 +16,7 @@ import { LocalStorageService } from '../../../../services/local-storage.service'
 })
 export class LoginPageComponent {
 
+  isLoading: boolean = false;
 
   invalidCredentials: boolean = false;
   formData = this.fb.group({
@@ -38,19 +40,24 @@ export class LoginPageComponent {
     if (this.formData.valid) {
       let values = this.formData.value;
       if (values.email && values.password) {
-        this.authService.login(values.email, values.password)
+        this.isLoading = true;
+        this.authService.login(values.email, values.password).pipe(delay(1500))
           .subscribe({
             next: (res: JwtResponse) => {
-              if(this.localStorageService.logout()){
+              if (this.localStorageService.logout()) {
                 this.localStorageService.set("jwt", res.jwt)
                 this.localStorageService.set("expireDate", (Date.now().toString()))
                 this.localStorageService.set("userName", res.name)
-                
+
                 this.router.navigateByUrl('')
               }
-              
+
             },
-            error: () => this.invalidCredentials = true
+            error: () => {
+              this.invalidCredentials = true
+              this.isLoading = false
+            },
+            complete: () => { this.isLoading = false }
           })
       }
     }

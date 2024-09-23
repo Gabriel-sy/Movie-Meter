@@ -11,6 +11,7 @@ import { PopupComponent } from "./popup/popup.component";
 import { AddDialogComponent } from './dialogs/add-dialog/add-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -39,30 +40,42 @@ export class HomeComponent implements OnInit {
   readonly dialog = inject(MatDialog);
 
   constructor(private searchMovieService: SearchMovieService,
-    @Inject(PLATFORM_ID) private platformId: Object) {
+    @Inject(PLATFORM_ID) private platformId: Object, private localStorageService: LocalStorageService) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(AddDialogComponent);
+    if (this.localStorageService.isLoggedIn()) {
+      const dialogRef = this.dialog.open(AddDialogComponent);
 
-    const closeDialog: Subscription = dialogRef.afterClosed().subscribe({
-      next: (res) => {
-        this.popupDisplay = true
-        this.popupType = res ? true : false;
-        this.title = this.popupType ? 'Sucesso!' : 'Erro ao adicionar'
-        this.subtitle = this.popupType ?
-          'O título foi adicionado à sua lista!' :
-          'Ocorreu um erro ao adicionar o título à sua lista, tente novamente.'
-        setTimeout(() => {
-          this.popupDisplay = false;
-        }, 2500);
-      },
-      complete: () => {
-        closeDialog.unsubscribe()
+      const closeDialog: Subscription = dialogRef.afterClosed().subscribe({
+        next: (res) => {
+          if (!(typeof res === 'string')) {
+            this.popupDisplay = true
+            this.popupType = res ? true : false;
+            this.title = this.popupType ? 'Sucesso!' : 'Erro ao adicionar'
+            this.subtitle = this.popupType ?
+              'O título foi adicionado à sua lista!' :
+              'Ocorreu um erro ao adicionar o título à sua lista, tente novamente.'
+            setTimeout(() => {
+              this.popupDisplay = false;
+            }, 2500);
+          }
+        },
+        complete: () => {
+          closeDialog.unsubscribe()
+        }
       }
+      )
+    } else {
+      this.popupDisplay = true;
+      this.popupType = false;
+      this.title = "Você precisa estar logado"
+      this.subtitle = "Para avaliar um título, você precisa fazer login primeiro"
+      setTimeout(() => {
+        this.popupDisplay = false;
+      }, 2500);
     }
-    )
   }
 
 

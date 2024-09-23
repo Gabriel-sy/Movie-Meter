@@ -21,21 +21,21 @@ export class CardComponent implements OnInit {
 
   constructor(private showService: ShowService) { }
 
-  
+
 
   ngOnInit(): void {
   }
 
-  formatTitle(title: string){
+  formatTitle(title: string) {
     return title.replace(new RegExp(" ", "g"), '-')
   }
 
   showImage(posterPath: string) {
     return 'https://image.tmdb.org/t/p/w400' + posterPath
-    
+
   }
 
-  convertGenres(genres: number[]): string[]{
+  convertGenres(genres: number[]): string[] {
     console.log(genres)
     return this.showService.convertGenres(genres);
   }
@@ -55,15 +55,15 @@ export class CardComponent implements OnInit {
     })
   }
 
-  openEditDialog(showId: string, event: Event) {
+  openEditDialog(showId: string, currentRating: string, currentReview: string, event: Event) {
     event.stopPropagation();
     const dialog = this.dialog.open(EditDialogComponent, {
-      data: showId 
+      data: { currentRating: currentRating, currentReview: currentReview, showId: showId }
     })
     const closedDialog: Subscription = dialog.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          
+
           this.shows = this.showService.findAllShows()
         }
       },
@@ -71,5 +71,5 @@ export class CardComponent implements OnInit {
     })
   }
 
-  
+
 }

@@ -1,21 +1,36 @@
 <div class="dialog-container">
-  <h2 mat-dialog-title class="title">Remover avaliação</h2>
+  <h2 mat-dialog-title class="title">Editar avaliação</h2>
   <mat-dialog-content>
     <form [formGroup]="formData">
       <div class="form-group">
         <label for="rating">Nota</label>
-        <input [value]="data" type="text" formControlName="rating" placeholder="Ex: 4.5" name="rating" id="rating" class="rating"
-          required>
-        <span class="error-msg" *ngIf="formData.get('rating')?.hasError('pattern')">Digite uma nota válida</span>
-        <span class="error-msg"
-          *ngIf="(formData.get('rating')?.hasError('required') && this.isSubmitted) || (formData.get('rating')?.hasError('required') && formData.get('rating')?.touched)">Esse
-          campo é
-          obrigatório</span>
+        <input [value]="data.currentRating" type="number" [ngStyle]="{'border-color': changeInputColor('rating')}" formControlName="rating"
+          placeholder="Ex: 4.5" name="rating" id="rating" class="rating" min="0" max="10" step="0.1" required>
+          
+        <app-form-error
+          [condition]="formData.get('rating')?.hasError('min') || formData.get('rating')?.hasError('max') || false"
+          text="A nota deve estar entre 0 e 10"></app-form-error>
+        <app-form-error
+          [condition]="fieldHasRequiredError('rating') || false"
+          text="Esse campo é obrigatório"></app-form-error>
+      </div>
+      <div class="form-group">
+        <label for="review">Mudar review</label>
+        <textarea [value]="data.currentReview" formControlName="review"
+          [ngStyle]="{'border-color': changeInputColor('review')}" placeholder="O que você achou do filme?"
+          name="review" id="review" rows="4"></textarea>
+        <app-form-error [condition]="fieldHasRequiredError('review') || false"
+          text="Esse campo é obrigatório"></app-form-error>
       </div>
 
       <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Cancelar</button>
-        <button mat-button cdkFocusInitial (click)="editShow()">Editar</button>
+        <button mat-button cdkFocusInitial (click)="editShow()" [disabled]="isLoading">
+          <span *ngIf="!isLoading">
+            Editar
+          </span>
+          <div class="spinner" *ngIf="isLoading"></div>
+        </button>
       </mat-dialog-actions>
     </form>
   </mat-dialog-content>

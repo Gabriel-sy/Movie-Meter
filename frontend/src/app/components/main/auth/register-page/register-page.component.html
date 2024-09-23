@@ -1,32 +1,42 @@
 <div class="main-container">
   <div class="content-wrapper">
-    <form class="register-form" [formGroup]="formData" (ngSubmit)="onSubmit()">
-      <h3>Faça seu registro</h3>
-      <div class="form-group">
-        <label for="user">Nome de usuário:</label>
-        <input [ngStyle]="{'border-color': changeInputColor('name')}" formControlName="name" type="user" name="user"
-          id="user" class="user" placeholder="Digite o seu nome de usuário">
-        <app-form-error [condition]="fieldHasRequiredError('name')" text="Esse campo é obrigatório"></app-form-error>
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input [ngStyle]="{'border-color': changeInputColor('email')}" formControlName="email" type="email" name="email"
-          id="email" class="email" placeholder="Digite o seu email">
-        <app-form-error [condition]="fieldHasRequiredError('email')" text="Esse campo é obrigatório"></app-form-error>
-        <app-form-error [condition]="fieldHasPatternError('email')" text="Digite um email válido"></app-form-error>
-        <app-form-error [condition]="emailExists" text="Já existe um usuário com esse email"></app-form-error>
-      </div>
-      <div class="form-group">
-        <label for="password">Senha:</label>
-        <input [ngStyle]="{'border-color': changeInputColor('password')}" formControlName="password" type="password"
-          name="password" id="password" class="password" placeholder="Digite a sua senha">
-        <app-form-error [condition]="fieldHasRequiredError('password')"
-          text="Esse campo é obrigatório."></app-form-error>
-      </div>
 
-      <div class="form-group">
-        <button type="submit">Registrar</button>
-      </div>
-    </form>
+    <div class="form-wrapper">
+
+      <form class="register-form" [formGroup]="formData" (ngSubmit)="onSubmit()">
+
+        <h3>Faça seu registro</h3>
+        <div class="form-group">
+          <label for="user">Nome de usuário:</label>
+          <input [ngStyle]="{'border-color': changeInputColor('name')}" formControlName="name" type="user" name="user"
+            id="user" class="user" placeholder="Digite o seu nome de usuário">
+          <app-form-error [condition]="fieldHasRequiredError('name')" text="Esse campo é obrigatório"></app-form-error>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input [ngStyle]="{'border-color': changeInputColor('email')}" formControlName="email" type="email"
+            name="email" id="email" class="email" placeholder="Digite o seu email">
+          <app-form-error [condition]="fieldHasRequiredError('email')" text="Esse campo é obrigatório"></app-form-error>
+          <app-form-error [condition]="fieldHasPatternError('email')" text="Digite um email válido"></app-form-error>
+          <app-form-error [condition]="emailExists" text="Já existe um usuário com esse email"></app-form-error>
+        </div>
+        <div class="form-group">
+          <label for="password">Senha:</label>
+          <input [ngStyle]="{'border-color': changeInputColor('password')}" formControlName="password" type="password"
+            name="password" id="password" class="password" placeholder="Digite a sua senha">
+          <app-form-error [condition]="fieldHasRequiredError('password')"
+            text="Esse campo é obrigatório."></app-form-error>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" [disabled]="isLoading">
+            <span *ngIf="!isLoading">
+              Registrar
+            </span>
+            <div class="spinner" *ngIf="isLoading"></div>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

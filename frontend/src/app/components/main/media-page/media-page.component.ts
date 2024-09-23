@@ -73,7 +73,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
 
             }
           })
-          console.log(this.foundShow.user_rating)
+
           this.searchMovieService.findDirectorName(this.foundShow)
             .pipe(takeUntil(this.unsubscribeSignal))
             .subscribe({
@@ -84,41 +84,59 @@ export class MediaPageComponent implements OnInit, OnDestroy {
                   }
                 }
                 for (let i = 0; i <= 7; i++) {
-                  this.actors.push(res.cast[i]);
-                  this.mainActorsName.push(res.cast[i].name)
-                  if (i < 7) {
-                    this.mainActorsName[i] += ",";
-                  } else if (i == 7) {
-                    this.mainActorsName[i] += ".";
+                  if(res.cast[i] != undefined){
+                    this.actors.push(res.cast[i]);
+                    this.mainActorsName.push(res.cast[i].name)
+                    if (i < 7) {
+                      this.mainActorsName[i] += ",";
+                    } 
+  
                   }
-
+                  
                 }
+                let lastIndex = this.mainActorsName.length - 1
+                this.mainActorsName[lastIndex] = this.mainActorsName[lastIndex].slice(0, -1)
+                this.mainActorsName[lastIndex] += "."  
               },
             })
         }
       })
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(AddDialogComponent);
+  openDialog(title: string) {
+    if (this.localStorageService.isLoggedIn()) {
+      const dialogRef = this.dialog.open(AddDialogComponent, {
+        data: title
+      });
 
-    const closeDialog: Subscription = dialogRef.afterClosed().subscribe({
-      next: (res) => {
-        this.popupDisplay = true
-        this.popupType = res ? true : false;
-        this.title = this.popupType ? 'Sucesso!' : 'Erro ao adicionar'
-        this.subtitle = this.popupType ?
-          'O título foi adicionado à sua lista!' :
-          'Ocorreu um erro ao adicionar o título à sua lista, tente novamente.'
-        setTimeout(() => {
-          this.popupDisplay = false;
-        }, 2500);
-      },
-      complete: () => {
-        closeDialog.unsubscribe()
+      const closeDialog: Subscription = dialogRef.afterClosed().subscribe({
+        next: (res) => {
+          if (!(typeof res === 'string')) {
+            this.popupDisplay = true
+            this.popupType = res ? true : false;
+            this.title = this.popupType ? 'Sucesso!' : 'Erro ao adicionar'
+            this.subtitle = this.popupType ?
+              'O título foi adicionado à sua lista!' :
+              'Ocorreu um erro ao adicionar o título à sua lista, tente novamente.'
+            setTimeout(() => {
+              this.popupDisplay = false;
+            }, 2500);
+          }
+        },
+        complete: () => {
+          closeDialog.unsubscribe()
+        }
       }
+      )
+    } else {
+      this.popupDisplay = true;
+      this.popupType = false;
+      this.title = "Você precisa estar logado"
+      this.subtitle = "Para avaliar um título, você precisa fazer login primeiro"
+      setTimeout(() => {
+        this.popupDisplay = false;
+      }, 2500);
     }
-    )
   }
 
   showImage(posterPath: string) {
