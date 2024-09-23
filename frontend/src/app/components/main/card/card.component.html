@@ -11,7 +11,7 @@
     </div>
     <span class="director-name" >Diretor: {{ show.directorName || 'Não informado' }}</span>
     <div class="genres">
-      <span class="genre-tag" *ngFor="let genre of show.genres.slice(0,4)">{{ genre }}</span>
+      <span class="genre-tag" *ngFor="let genre of show.genres.slice(0,3)">{{ genre }}</span>
     </div>
   </div>
   
@@ -26,7 +26,7 @@
   </div>
   
   <div class="buttons">
-    <button class="edit" (click)="openEditDialog(show.id, $event)">Editar nota</button>
+    <button class="edit" (click)="openEditDialog(show.id, show.userRating, show.userReview, $event)">Editar nota</button>
     <button class="delete" (click)="openDeleteDialog(show.id, $event)">Remover avaliação</button>
   </div>
 </div>

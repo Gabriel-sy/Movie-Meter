@@ -65,18 +65,18 @@ export class MyListComponent implements OnInit {
 
     const closeDialog: Subscription = dialogRef.afterClosed().subscribe({
       next: (res) => {
-        this.shows = this.showService.findAllShows()
-
-        this.popupDisplay = true
-        this.popupType = res ? true : false;
-        this.title = this.popupType ? 'Sucesso!' : 'Erro ao adicionar'
-        this.subtitle = this.popupType ?
-          'O título foi adicionado à sua lista!' :
-          'Ocorreu um erro ao adicionar o título à sua lista, tente novamente.'
-          
-        setTimeout(() => {
-          this.popupDisplay = false;
-        }, 2500);
+        if (!(typeof res === 'string')) {
+          this.shows = this.showService.findAllShows()
+          this.popupDisplay = true
+          this.popupType = res ? true : false;
+          this.title = this.popupType ? 'Sucesso!' : 'Erro ao adicionar'
+          this.subtitle = this.popupType ?
+            'O título foi adicionado à sua lista!' :
+            'Ocorreu um erro ao adicionar o título à sua lista, tente novamente.'
+          setTimeout(() => {
+            this.popupDisplay = false;
+          }, 2500);
+        }
       },
       complete: () =>
         closeDialog.unsubscribe()

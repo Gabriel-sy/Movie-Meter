@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { FormErrorComponent } from "../../form-error/form-error.component";
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-register-page',
@@ -18,6 +19,8 @@ export class RegisterPageComponent {
 
   emailExists: boolean = false;
   isSubmitted: boolean = false;
+  spinnerDisplay: boolean = false;
+  isLoading: boolean = false;
   formData = this.fb.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.pattern(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]],
@@ -31,12 +34,23 @@ export class RegisterPageComponent {
     if(this.formData.valid){
       let values = this.formData.value;
       if(values.email && values.name && values.password){
+        this.spinnerDisplay = true;
+        this.isLoading = true;
         this.authService.registerUser(values.name, values.email, values.password)
+        .pipe(delay(2000))
           .subscribe({
+            next: () => {
+            },
             error: () => {
+              this.spinnerDisplay = false;
+              this.isLoading = false;
               this.emailExists = true;
             },
-            complete: () => this.router.navigateByUrl('login') 
+            complete: () => {
+              this.router.navigateByUrl('login') 
+              this.spinnerDisplay = false;
+              this.isLoading = false;
+            }
           })
       }
     }

@@ -38,11 +38,15 @@
         <label for="review">Sua Opinião</label>
         <textarea formControlName="review" [ngStyle]="{'border-color': changeInputColor('review')}"
           placeholder="O que você achou do filme?" name="review" id="review" rows="4"></textarea>
-          <app-form-error [condition]="fieldHasRequiredError('review') || false" text="Esse campo é obrigatório "></app-form-error>
+          
       </div>
       <mat-dialog-actions align="end">
-        <button mat-button [mat-dialog-close]="false">Cancelar</button>
-        <button mat-button cdkFocusInitial type="submit">Salvar</button>
+        <button mat-button mat-dialog-close="b">Cancelar</button>
+        <button mat-button cdkFocusInitial type="submit" [disabled]="isLoading">
+          <span *ngIf="!isLoading">
+            Adicionar
+          </span>
+          <div class="spinner" *ngIf="isLoading"></div></button>
       </mat-dialog-actions>
     </form>
   </mat-dialog-content>

@@ -1,8 +1,5 @@
-import { Component, Input, inject } from '@angular/core';
-import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
-import { AddDialogComponent } from '../dialogs/add-dialog/add-dialog.component';
-import { LocalStorageService } from '../../../services/local-storage.service';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Input } from '@angular/core';
+
 
 @Component({
   selector: 'app-add-button',
@@ -12,20 +9,10 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './add-button.component.css'
 })
 export class AddButtonComponent {
-  readonly dialog = inject(MatDialog);
   @Input() clickedShow: string = '';
 
-  constructor(private localStorageService: LocalStorageService){}
+  constructor(){}
 
-  openDialog() {
-    if(this.localStorageService.isLoggedIn()){
-      this.dialog.open(AddDialogComponent, {
-        data: this.clickedShow
-      });
-    } else {
-      this.dialog.open(ErrorDialogComponent, {
-        data: { title: "Você precisa estar logado!", subtitle: "Para fazer uma avaliação, você precisa estar logado!" }
-      })
-    }
-  }
+ 
+ 
 }
