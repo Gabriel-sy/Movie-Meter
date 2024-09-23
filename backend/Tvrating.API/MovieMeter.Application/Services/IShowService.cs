@@ -8,6 +8,6 @@ public interface IShowService
     Task<ResultViewModel<List<ShowViewModel>>> GetAllByEmail(string email);
     Task<ResultViewModel> SaveShow(CreateShowInputModel model, string userEmail);
     Task<ResultViewModel> DeleteShow(int id);
-    Task<ResultViewModel> EditUserRating(int id, string rating);
+    Task<ResultViewModel> EditShow(EditShowInputModel model);
     
 }

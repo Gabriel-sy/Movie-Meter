@@ -72,16 +72,16 @@ public class ShowService : IShowService
         return ResultViewModel.Success();
     }
 
-    public async Task<ResultViewModel> EditUserRating(int id, string rating)
+    public async Task<ResultViewModel> EditShow(EditShowInputModel model)
     {
-        var show = _repository.GetById(id);
+        var show = _repository.GetById(model.Id);
 
         if (show.Result is null)
         {
             return ResultViewModel.Error("Show não encontrado");
         }
 
-        await _repository.EditShowRating(show.Result, rating);
+        await _repository.EditShow(show.Result, model.Rating, model.Review);
         
         return ResultViewModel.Success();
     }

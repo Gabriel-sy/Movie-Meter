@@ -52,7 +52,7 @@ public class ShowController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> EditRating(EditShowInputModel model)
     {
-        var result = await _service.EditUserRating(model.Id, model.Rating);
+        var result = await _service.EditShow(model);
 
         if (!result.IsSuccess)
         {

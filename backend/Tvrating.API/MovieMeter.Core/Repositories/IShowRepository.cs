@@ -7,6 +7,6 @@ public interface IShowRepository
     Task<List<Show>> GetAll();
     Task<Show> SaveShow(Show show);
     Task<Show> DeleteShow(Show show);
-    Task<Show> EditShowRating(Show show, string rating);
+    Task<Show> EditShow(Show show, string rating, string review);
     Task<Show?> GetById(int id);
 }

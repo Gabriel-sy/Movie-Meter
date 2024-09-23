@@ -38,9 +38,10 @@ public class ShowRepository : IShowRepository
         return show;
     }
 
-    public async Task<Show> EditShowRating(Show show, string rating)
+    public async Task<Show> EditShow(Show show, string rating, string review)
     {
         show.UpdateRating(rating);
+        show.UpdateReview(review);
 
         _context.Shows.Update(show);
         await _context.SaveChangesAsync();

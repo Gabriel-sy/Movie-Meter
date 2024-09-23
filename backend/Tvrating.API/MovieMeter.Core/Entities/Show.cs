@@ -45,4 +45,9 @@ public class Show : BaseEntity
     {
         UserRating = rating;
     }
+
+    public void UpdateReview(string review)
+    {
+        UserReview = review;
+    }
 }
