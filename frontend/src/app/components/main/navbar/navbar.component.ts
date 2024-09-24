@@ -25,16 +25,17 @@ export class NavbarComponent implements OnInit {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.userName = this.localStorageService.get('userName');
-        this.isLoggedIn()
+        
       }
     })
   }
 
   ngOnInit(): void {
+    this.isLoggedIn()
   }
 
   logout() {
-    this.localStorageService.logout();
+    this.localStorageService.clear();
   }
 
   isLoggedIn(): any {

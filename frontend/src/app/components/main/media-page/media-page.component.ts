@@ -49,6 +49,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
     this.showId = this.route.snapshot.url[2].path.replace(new RegExp("-", "g"), ' ');
 
     this.searchMovieService.searchTitle(this.showId)
+      .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
         next: (res: Results) => {
           this.foundShow = res.results.find(m => m.original_title == this.showId || m.original_name == this.showId)
@@ -63,7 +64,9 @@ export class MediaPageComponent implements OnInit, OnDestroy {
             this.foundShow.title = this.foundShow.name;
           }
 
-          this.userService.findByToken().subscribe({
+          this.userService.findByToken()
+          .pipe(takeUntil(this.unsubscribeSignal))
+          .subscribe({
             next: (res: User) => {
               res.shows.forEach(movie => {
                 if (movie.title == this.foundShow.title) {
@@ -84,19 +87,19 @@ export class MediaPageComponent implements OnInit, OnDestroy {
                   }
                 }
                 for (let i = 0; i <= 7; i++) {
-                  if(res.cast[i] != undefined){
+                  if (res.cast[i] != undefined) {
                     this.actors.push(res.cast[i]);
                     this.mainActorsName.push(res.cast[i].name)
                     if (i < 7) {
                       this.mainActorsName[i] += ",";
-                    } 
-  
+                    }
+
                   }
-                  
+
                 }
                 let lastIndex = this.mainActorsName.length - 1
                 this.mainActorsName[lastIndex] = this.mainActorsName[lastIndex].slice(0, -1)
-                this.mainActorsName[lastIndex] += "."  
+                this.mainActorsName[lastIndex] += "."
               },
             })
         }

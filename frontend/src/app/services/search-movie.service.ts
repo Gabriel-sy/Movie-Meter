@@ -21,6 +21,7 @@ export class SearchMovieService {
   searchTitle(value: string) {
 
     return this.http.get<Results>('https://api.themoviedb.org/3/search/multi?query=' + value + '&language=pt-BR&page=1', this.headers)
+    
   }
 
   findDirectorName(show: Movie) {

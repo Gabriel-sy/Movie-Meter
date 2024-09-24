@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { Component, HostListener, Inject, OnDestroy, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SearchMovieService } from '../../services/search-movie.service';
 import { Results } from '../../domain/Results';
@@ -10,7 +10,7 @@ import { AddButtonComponent } from "./add-button/add-button.component";
 import { PopupComponent } from "./popup/popup.component";
 import { AddDialogComponent } from './dialogs/add-dialog/add-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
@@ -21,8 +21,9 @@ import { LocalStorageService } from '../../services/local-storage.service';
   styleUrl: './home.component.css',
 
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
+  unsubscribeSignal: Subject<void> = new Subject();
   popularMovies: PopularMovies[] = [];
   popularSeries: PopularMovies[] = []
   displayedSeries: PopularMovies[] = [];
@@ -40,8 +41,44 @@ export class HomeComponent implements OnInit {
   readonly dialog = inject(MatDialog);
 
   constructor(private searchMovieService: SearchMovieService,
-    @Inject(PLATFORM_ID) private platformId: Object, private localStorageService: LocalStorageService) {
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private localStorageService: LocalStorageService) {
     this.isBrowser = isPlatformBrowser(this.platformId);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeSignal.next()
+    this.unsubscribeSignal.unsubscribe()
+  }
+
+  ngOnInit(): void {
+    this.searchMovieService.searchPopularMovies()
+      .pipe(takeUntil(this.unsubscribeSignal))
+      .subscribe({
+        next: (res: Results) => {
+          this.popularMovies = res.results.map(movie => ({
+            posterPath: movie.poster_path,
+            title: movie.original_title,
+          }))
+          this.searchMovieService.searchPopularSeries()
+            .pipe(takeUntil(this.unsubscribeSignal))
+            .subscribe({
+              next: (res: Results) => {
+                this.popularSeries = res.results.map(serie => ({
+                  posterPath: serie.poster_path,
+                  title: serie.original_name
+
+                }))
+                if (this.isBrowser) {
+                  this.calculateVisibleItems();
+                  this.initializeDisplayedMovies();
+                  this.startAutoScroll();
+                }
+              }
+            })
+        }
+      })
+
   }
 
   openDialog() {
@@ -76,35 +113,6 @@ export class HomeComponent implements OnInit {
         this.popupDisplay = false;
       }, 2500);
     }
-  }
-
-
-  ngOnInit(): void {
-    this.searchMovieService.searchPopularMovies()
-      .subscribe({
-        next: (res: Results) => {
-          this.popularMovies = res.results.map(movie => ({
-            posterPath: movie.poster_path,
-            title: movie.original_title,
-          }))
-          this.searchMovieService.searchPopularSeries()
-            .subscribe({
-              next: (res: Results) => {
-                this.popularSeries = res.results.map(serie => ({
-                  posterPath: serie.poster_path,
-                  title: serie.original_name
-
-                }))
-                if (this.isBrowser) {
-                  this.calculateVisibleItems();
-                  this.initializeDisplayedMovies();
-                  this.startAutoScroll();
-                }
-              }
-            })
-        }
-      })
-
   }
 
   calculateVisibleItems() {

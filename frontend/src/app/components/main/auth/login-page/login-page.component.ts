@@ -44,7 +44,7 @@ export class LoginPageComponent {
         this.authService.login(values.email, values.password).pipe(delay(1500))
           .subscribe({
             next: (res: JwtResponse) => {
-              if (this.localStorageService.logout()) {
+              if (this.localStorageService.clear()) {
                 this.localStorageService.set("jwt", res.jwt)
                 this.localStorageService.set("expireDate", (Date.now().toString()))
                 this.localStorageService.set("userName", res.name)

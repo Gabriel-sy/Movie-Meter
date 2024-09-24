@@ -1,5 +1,8 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from '../components/main/dialogs/error-dialog/error-dialog.component';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +11,10 @@ export class LocalStorageService {
 
   private storage: any;
   private readonly platformId = inject(PLATFORM_ID)
+  readonly dialog = inject(MatDialog);
 
 
-  constructor() {
+  constructor(private router: Router) {
     if(isPlatformBrowser(this.platformId)){
       this.storage = localStorage;
     } else {
@@ -52,6 +56,7 @@ export class LocalStorageService {
 
   isLoggedIn(): boolean {
     if(this.storage && isPlatformBrowser(this.platformId)){
+
       let expireDate = this.get('expireDate');
 
       if(this.get('jwt') == null){
@@ -83,6 +88,10 @@ export class LocalStorageService {
       this.storage.removeItem('jwt');
       this.storage.removeItem('expireDate');
       this.storage.removeItem('userName');
+      this.router.navigateByUrl('login')
+      this.dialog.open(ErrorDialogComponent, {
+        data: {title: "Sessão expirada", subtitle: "Sua sessão expirou, por favor faça login novamente"}
+      })
       return true;
     }
     return false;
