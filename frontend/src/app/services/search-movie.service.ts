@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Movie } from '../domain/Movie';
 import { Observable, map } from 'rxjs';
 import { Results } from '../domain/Results';
+import { Response } from '../domain/Response';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,9 @@ export class SearchMovieService {
   constructor(private http: HttpClient) { }
 
   searchTitle(value: string) {
-
+    // this.http.get<Response>('https://api.themoviedb.org/3/search/multi?query=' + value + '&language=pt-BR&page=1', this.headers).subscribe({
+    //   next: (res: Response) => console.log(res.results)
+    // })
     return this.http.get<Results>('https://api.themoviedb.org/3/search/multi?query=' + value + '&language=pt-BR&page=1', this.headers)
     
   }

@@ -25,10 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   unsubscribeSignal: Subject<void> = new Subject();
   popularMovies: PopularMovies[] = [];
-  popularSeries: PopularMovies[] = []
-  displayedSeries: PopularMovies[] = [];
   displayedMovies: PopularMovies[] = [];
-  translateValueSeries = 0;
   translateValueMovies = 0;
   isBrowser: boolean;
   popupDisplay: boolean = false;
@@ -60,25 +57,14 @@ export class HomeComponent implements OnInit, OnDestroy {
             posterPath: movie.poster_path,
             title: movie.original_title,
           }))
-          this.searchMovieService.searchPopularSeries()
-            .pipe(takeUntil(this.unsubscribeSignal))
-            .subscribe({
-              next: (res: Results) => {
-                this.popularSeries = res.results.map(serie => ({
-                  posterPath: serie.poster_path,
-                  title: serie.original_name
 
-                }))
-                if (this.isBrowser) {
-                  this.calculateVisibleItems();
-                  this.initializeDisplayedMovies();
-                  this.startAutoScroll();
-                }
-              }
-            })
+          if (this.isBrowser) {
+            this.calculateVisibleItems();
+            this.initializeDisplayedMovies();
+            this.startAutoScroll();
+          }
         }
       })
-
   }
 
   openDialog() {
@@ -122,16 +108,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   initializeDisplayedMovies() {
     this.displayedMovies = [...this.popularMovies, ...this.popularMovies].slice(0, this.popularMovies.length + this.visibleItems);
-    this.displayedSeries = [...this.popularSeries, ...this.popularSeries].slice(0, this.popularSeries.length + this.visibleItems);
   }
 
   startAutoScroll() {
     this.autoScrollInterval = setInterval(() => {
       this.scrollMovies();
     }, 3000);
-    this.autoScrollInterval = setInterval(() => {
-      this.scrollSeries();
-    }, 3600);
   }
 
   scrollMovies() {
@@ -145,18 +127,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }, 500);
   }
-  scrollSeries() {
-    this.translateValueSeries -= this.itemWidth;
-    if (Math.abs(this.translateValueSeries) >= this.popularMovies.length * this.itemWidth) {
-      this.translateValueSeries = 0;
-    }
-    setTimeout(() => {
-      if (this.translateValueSeries === 0) {
-        this.translateValueSeries = -this.itemWidth;
-      }
-    }, 500);
-  }
-
 
   formatTitle(title: string): string {
     return title.replace(new RegExp(" ", "g"), '-');

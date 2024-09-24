@@ -4,7 +4,7 @@ import { ShowService } from '../../../services/show.service';
 import { SearchMovieService } from '../../../services/search-movie.service';
 import { Results } from '../../../domain/Results';
 import { Movie } from '../../../domain/Movie';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Observable, Subject, Subscription, map, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Person } from '../../../domain/Person';
 import { AddButtonComponent } from "../add-button/add-button.component";
@@ -32,7 +32,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   popupType: boolean = true;
   title: string = '';
   subtitle: string = '';
-  showId: string = "";
+  showName: string = "";
   foundShow: any;
 
   constructor(private route: ActivatedRoute, private showService: ShowService,
@@ -46,62 +46,19 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.showId = this.route.snapshot.url[2].path.replace(new RegExp("-", "g"), ' ');
+    this.showName = this.route.snapshot.url[2].path.replace(new RegExp("-", "g"), ' ');
 
-    this.searchMovieService.searchTitle(this.showId)
+    this.searchMovieService.searchTitle(this.showName)
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
         next: (res: Results) => {
-          this.foundShow = res.results.find(m => m.original_title == this.showId || m.original_name == this.showId)
+          this.foundShow = res.results.find(m => m.original_title == this.showName || m.original_name == this.showName)
 
-          this.foundShow.genre_names = this.showService.convertGenres(this.foundShow.genre_ids);
+          this.foundShow = this.mapShowFields(this.foundShow)
 
-          if (this.foundShow.release_date == undefined) {
-            this.foundShow.release_date = this.foundShow.first_air_date;
-          }
+          this.getUserRating()
 
-          if (this.foundShow.title == undefined) {
-            this.foundShow.title = this.foundShow.name;
-          }
-
-          this.userService.findByToken()
-          .pipe(takeUntil(this.unsubscribeSignal))
-          .subscribe({
-            next: (res: User) => {
-              res.shows.forEach(movie => {
-                if (movie.title == this.foundShow.title) {
-                  this.foundShow.user_rating = movie.userRating;
-                }
-              })
-
-            }
-          })
-
-          this.searchMovieService.findDirectorName(this.foundShow)
-            .pipe(takeUntil(this.unsubscribeSignal))
-            .subscribe({
-              next: (res: Results) => {
-                for (let i = 0; i < res.crew.length; i++) {
-                  if (res.crew[i].known_for_department == "Directing" && res.crew[i].job == "Director") {
-                    this.foundShow.directorName = res.crew[i].name;
-                  }
-                }
-                for (let i = 0; i <= 7; i++) {
-                  if (res.cast[i] != undefined) {
-                    this.actors.push(res.cast[i]);
-                    this.mainActorsName.push(res.cast[i].name)
-                    if (i < 7) {
-                      this.mainActorsName[i] += ",";
-                    }
-
-                  }
-
-                }
-                let lastIndex = this.mainActorsName.length - 1
-                this.mainActorsName[lastIndex] = this.mainActorsName[lastIndex].slice(0, -1)
-                this.mainActorsName[lastIndex] += "."
-              },
-            })
+          this.getDirectorAndActors()
         }
       })
   }
@@ -140,6 +97,59 @@ export class MediaPageComponent implements OnInit, OnDestroy {
         this.popupDisplay = false;
       }, 2500);
     }
+  }
+
+  getDirectorAndActors() {
+    this.searchMovieService.findDirectorName(this.foundShow)
+      .pipe(takeUntil(this.unsubscribeSignal))
+      .subscribe({
+        next: (res: Results) => {
+          for (let i = 0; i < res.crew.length; i++) {
+            if (res.crew[i].known_for_department == "Directing" && res.crew[i].job == "Director") {
+              this.foundShow.directorName = res.crew[i].name;
+            }
+          }
+          for (let i = 0; i <= 7; i++) {
+            if (res.cast[i] != undefined) {
+              this.actors.push(res.cast[i]);
+              this.mainActorsName.push(res.cast[i].name)
+              if (i < 7) {
+                this.mainActorsName[i] += ",";
+              }
+            }
+          }
+          let lastIndex = this.mainActorsName.length - 1
+          this.mainActorsName[lastIndex] = this.mainActorsName[lastIndex].slice(0, -1)
+          this.mainActorsName[lastIndex] += "."
+        },
+      })
+  }
+
+  mapShowFields(show: any) {
+    show.genre_names = this.showService.convertGenres(show.genre_ids);
+
+    if (show.release_date == undefined) {
+      show.release_date = show.first_air_date;
+    }
+
+    if (show.title == undefined) {
+      show.title = show.name;
+    }
+    return show
+  }
+
+  getUserRating() {
+    this.userService.findByToken()
+      .pipe(takeUntil(this.unsubscribeSignal))
+      .subscribe({
+        next: (res: User) => {
+          res.shows.forEach(movie => {
+            if (movie.title == this.foundShow.title) {
+              this.foundShow.user_rating = movie.userRating;
+            }
+          })
+        }
+      })
   }
 
   showImage(posterPath: string) {
