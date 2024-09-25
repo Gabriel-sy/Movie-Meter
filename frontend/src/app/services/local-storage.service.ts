@@ -3,6 +3,8 @@ import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../components/main/dialogs/error-dialog/error-dialog.component';
 import { Router } from '@angular/router';
+import { UserService } from './user.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +59,7 @@ export class LocalStorageService {
   isLoggedIn(): boolean {
     if(this.storage && isPlatformBrowser(this.platformId)){
 
+      
       let expireDate = this.get('expireDate');
 
       if(this.get('jwt') == null){

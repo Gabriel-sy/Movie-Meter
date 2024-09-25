@@ -71,11 +71,11 @@ export class MediaPageComponent implements OnInit, OnDestroy {
 
       const closeDialog: Subscription = dialogRef.afterClosed().subscribe({
         next: (res) => {
-          if (!(typeof res === 'string')) {
+          if (res == "openError" || res == "openSuccess") {
             this.popupDisplay = true
-            this.popupType = res ? true : false;
-            this.title = this.popupType ? 'Sucesso!' : 'Erro ao adicionar'
-            this.subtitle = this.popupType ?
+            this.popupType = res == "openSuccess" ? true : false;
+            this.title = res == "openSuccess" ? 'Sucesso!' : 'Erro ao adicionar'
+            this.subtitle = res == "openSuccess" ?
               'O título foi adicionado à sua lista!' :
               'Ocorreu um erro ao adicionar o título à sua lista, tente novamente.'
             setTimeout(() => {

@@ -12,6 +12,7 @@ import { AddDialogComponent } from './dialogs/add-dialog/add-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -39,7 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(private searchMovieService: SearchMovieService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private localStorageService: LocalStorageService) {
+    private localStorageService: LocalStorageService, private userService: UserService) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
@@ -49,6 +50,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
     this.searchMovieService.searchPopularMovies()
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
@@ -73,11 +75,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       const closeDialog: Subscription = dialogRef.afterClosed().subscribe({
         next: (res) => {
-          if (!(typeof res === 'string')) {
+          if (res == "openError" || res == "openSuccess") {
             this.popupDisplay = true
-            this.popupType = res ? true : false;
-            this.title = this.popupType ? 'Sucesso!' : 'Erro ao adicionar'
-            this.subtitle = this.popupType ?
+            this.popupType = res == "openSuccess" ? true : false;
+            this.title = res == "openSuccess" ? 'Sucesso!' : 'Erro ao adicionar'
+            this.subtitle = res == "openSuccess" ?
               'O título foi adicionado à sua lista!' :
               'Ocorreu um erro ao adicionar o título à sua lista, tente novamente.'
             setTimeout(() => {

@@ -6,18 +6,22 @@ import { CommonModule } from '@angular/common';
 import { JwtResponse } from '../../../../domain/JwtResponse';
 import { LocalStorageService } from '../../../../services/local-storage.service';
 import { delay } from 'rxjs';
+import { PopupComponent } from "../../popup/popup.component";
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, PopupComponent],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
 export class LoginPageComponent {
 
   isLoading: boolean = false;
-
+  popupDisplay: boolean = false;
+  popupType: boolean = true;
+  title: string = '';
+  subtitle: string = '';
   invalidCredentials: boolean = false;
   formData = this.fb.group({
     email: ['', [Validators.required, Validators.pattern(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]],
@@ -53,8 +57,20 @@ export class LoginPageComponent {
               }
 
             },
-            error: () => {
-              this.invalidCredentials = true
+            error: (err) => {
+              if (err.status == 400) {
+                this.invalidCredentials = true
+              } else {
+                this.invalidCredentials = false
+                this.popupDisplay = true
+                this.popupType = false
+                this.title = "Erro ao fazer login"
+                this.subtitle = "Ocorreu um erro ao se comunicar com o servidor, tente novamente"
+
+                setTimeout(() => {
+                  this.popupDisplay = false;
+                }, 2500);
+              }
               this.isLoading = false
             },
             complete: () => { this.isLoading = false }
