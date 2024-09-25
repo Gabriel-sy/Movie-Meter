@@ -1,9 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { ShowService } from '../../../../services/show.service';
 import { CommonModule } from '@angular/common';
+import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 
 @Component({
   selector: 'app-delete-dialog',
@@ -14,13 +15,17 @@ import { CommonModule } from '@angular/common';
 })
 export class DeleteDialogComponent {
   isLoading: boolean = false;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: string, private showService: ShowService) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string, private showService: ShowService, private dialogRef: MatDialogRef<EditDialogComponent>) {}
 
   deleteShowById(showId: string){
     this.isLoading = true;
     const deleteShow: Subscription = this.showService.deleteShowById(showId).subscribe({
-      error: () => this.isLoading = false,
+      error: () => {
+        this.dialogRef.close("openError")
+        this.isLoading = false
+      },
       complete: () => {
+        this.dialogRef.close("openSuccess")
         deleteShow.unsubscribe()
         this.isLoading = false;
       }

@@ -18,9 +18,6 @@ export class AuthInterceptorService implements HttpInterceptor {
       const setJwt = req.clone({
         headers: req.headers.append("Authorization", "Bearer " + this.localStorageService.get('jwt')),
       });
-
-      
-
       return next.handle(setJwt);
     }
     return next.handle(req);

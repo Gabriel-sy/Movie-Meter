@@ -9,7 +9,12 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { ErrorInterceptorService } from './services/error-interceptor.service';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(),
-    provideHttpClient(withInterceptorsFromDi(), withFetch()), provideAnimationsAsync(), { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }, { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true }
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }),
+  provideRouter(routes),
+  provideClientHydration(),
+  provideHttpClient(withInterceptorsFromDi(), withFetch()),
+  provideAnimationsAsync(),
+  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true }
   ]
 };

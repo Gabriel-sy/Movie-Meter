@@ -37,7 +37,6 @@ export class EditDialogComponent implements OnInit {
     if (this.formData.valid) {
       this.isLoading = true;
       if (this.formData.get('rating')?.value != null) {
-        console.log(this.data.currentRating)
         this.editUserRating(this.data.showId, this.formData.get('rating')?.value as string, this.formData.get('review')?.value as string)
       }
 
@@ -48,10 +47,13 @@ export class EditDialogComponent implements OnInit {
 
   editUserRating(showId: string, userRating: string, userReview: string) {
     const editShow: Subscription = this.showService.editShowRating(showId, userRating, userReview).subscribe({
+      error: () => {
+        this.dialogRef.close("openError")
+      },
       complete: () => {
         this.isLoading = false;
         editShow.unsubscribe()
-        this.dialogRef.close(true)
+        this.dialogRef.close("openSuccess")
       }
     });
   }

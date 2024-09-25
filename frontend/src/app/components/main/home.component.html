@@ -1,9 +1,8 @@
-<app-popup [popupDisplay]="popupDisplay" [title]="title" [subtitle]="subtitle" [type]="popupType"></app-popup>
-
 <div class="add-button">
     <app-add-button (click)="openDialog()"></app-add-button>
 </div>
 
+<app-popup [popupDisplay]="popupDisplay" [title]="title" [subtitle]="subtitle" [type]="popupType"></app-popup>
 
 <div class="carousel-container">
     <h2>Filmes Populares</h2>
@@ -11,24 +10,20 @@
         <div class="carousel-inner" [style.transform]="'translateX(' + translateValueMovies + 'px)'">
             <div class="carousel-item" *ngFor="let movie of displayedMovies">
                 <div class="movie-wrapper">
-                    <img [routerLink]="['media/details', formatTitle(movie.title)]" [src]="showImage(movie.posterPath)"
-                        [alt]="movie.title">
+                    <img [src]="showImage(movie.posterPath)" [alt]="movie.title" [routerLink]="['media/details', formatTitle(movie.title)]">
+                    <div class="movie-title">{{ movie.title }}</div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="carousel-container">
+<div class="series-container">
     <h2>Séries Populares</h2>
-    <div class="carousel" #carousel>
-        <div class="carousel-inner" [style.transform]="'translateX(' + translateValueSeries + 'px)'">
-            <div class="carousel-item" *ngFor="let movie of displayedSeries">
-                <div class="movie-wrapper">
-                    <img [routerLink]="['media/details', formatTitle(movie.title)]" [src]="showImage(movie.posterPath)"
-                        [alt]="movie.title">
-                </div>
-            </div>
+    <div class="series-grid">
+        <div class="series-item" *ngFor="let series of displayedMovies.slice(0, 12)">
+            <img [src]="showImage(series.posterPath)" [alt]="series.title" [routerLink]="['media/details', formatTitle(series.title)]">
+            <div class="series-title">{{ series.title }}</div>
         </div>
     </div>
 </div>

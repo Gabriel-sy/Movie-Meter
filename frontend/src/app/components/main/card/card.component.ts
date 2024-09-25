@@ -7,21 +7,24 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.component';
 import { EditDialogComponent } from '../dialogs/edit-dialog/edit-dialog.component';
 import { RouterLink } from '@angular/router';
+import { PopupComponent } from "../popup/popup.component";
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, PopupComponent],
   templateUrl: './card.component.html',
   styleUrl: './card.component.css'
 })
 export class CardComponent implements OnInit {
   readonly dialog = inject(MatDialog);
   @Input() shows: Observable<MovieResponseDTO[]> = new Observable<MovieResponseDTO[]>()
+  popupDisplay: boolean = false;
+  popupType: boolean = true;
+  title: string = '';
+  subtitle: string = '';
 
   constructor(private showService: ShowService) { }
-
-
 
   ngOnInit(): void {
   }
@@ -47,8 +50,17 @@ export class CardComponent implements OnInit {
     })
     const closedDialog: Subscription = dialog.afterClosed().subscribe({
       next: (res) => {
-        if (res) {
+        if (res == "openError" || res == "openSuccess") {
           this.shows = this.showService.findAllShows()
+          this.popupDisplay = true
+          this.popupType = res == "openSuccess" ? true : false;
+          this.title = res == "openSuccess" ? 'Sucesso!' : 'Erro ao remover'
+          this.subtitle = res == "openSuccess" ?
+            'O título foi removido da sua lista!' :
+            'Ocorreu um erro ao remover o título da sua lista, tente novamente.'
+          setTimeout(() => {
+            this.popupDisplay = false;
+          }, 2500);
         }
       },
       complete: () => closedDialog.unsubscribe()
@@ -62,9 +74,17 @@ export class CardComponent implements OnInit {
     })
     const closedDialog: Subscription = dialog.afterClosed().subscribe({
       next: (res) => {
-        if (res) {
-
+        if (res == "openError" || res == "openSuccess") {
           this.shows = this.showService.findAllShows()
+          this.popupDisplay = true
+          this.popupType = res == "openSuccess" ? true : false;
+          this.title = res == "openSuccess" ? 'Sucesso!' : 'Erro ao editar'
+          this.subtitle = res == "openSuccess" ?
+            'O título foi editado com sucesso!' :
+            'Ocorreu um erro ao editar o título da sua lista, tente novamente.'
+          setTimeout(() => {
+            this.popupDisplay = false;
+          }, 2500);
         }
       },
       complete: () => closedDialog.unsubscribe()

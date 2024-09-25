@@ -13,8 +13,6 @@ import { MovieSearchDTO } from '../../../../domain/MovieSearchDTO';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { FormErrorComponent } from "../../form-error/form-error.component";
 import { PopupComponent } from "../../popup/popup.component";
-import { Response } from '../../../../domain/Response';
-
 
 @Component({
   selector: 'app-add-dialog',
@@ -63,7 +61,7 @@ export class AddDialogComponent implements OnDestroy {
         this.searchMovieService.searchTitle(this.inputValue)
           .pipe(takeUntil(this.unsubscribeSignal))
           .subscribe({
-            next: (res: Response) => {
+            next: (res: Results) => {
               this.foundShows = res.results;
               this.foundShows = this.foundShows.filter(show => show.title == this.inputValue || show.name == this.inputValue)
               this.showToSave = this.foundShows[0] as Movie;
@@ -96,18 +94,18 @@ export class AddDialogComponent implements OnDestroy {
                   },
                   error: () => {
                     this.isLoading = false
-                    this.dialogRef.close(false)
+                    this.dialogRef.close("openError")
                   },
                   complete: () => {
                     this.showService.saveShow(this.showToSave)
                       .pipe(takeUntil(this.unsubscribeSignal))
                       .subscribe({
                         error: () => {
-                          this.dialogRef.close(false)
+                          this.dialogRef.close("openError")
                           this.isLoading = false
                         },
                         complete: () => {
-                          this.dialogRef.close(true)
+                          this.dialogRef.close("openSuccess")
                           this.isLoading = false
                           }
                       })
@@ -116,7 +114,7 @@ export class AddDialogComponent implements OnDestroy {
             },
             error: () => {
               this.isLoading = false;
-              this.dialogRef.close(false)
+              this.dialogRef.close("openError")
             },
           })
       } else {
@@ -155,7 +153,6 @@ export class AddDialogComponent implements OnDestroy {
           }),
             catchError(err => {
               this.openErrorDialog("Ocorreu um erro ao se comunicar com a API", "Por favor, tente novamente em alguns instantes.")
-              this.dialogRef.close(false)
               return throwError(() => err)
             }))
       } else if (length == 0) {
