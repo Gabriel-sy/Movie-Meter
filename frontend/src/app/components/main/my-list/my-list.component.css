@@ -1,5 +1,8 @@
 .add-button {
-  margin-top: 20px;
+  margin: 20px;
+  margin-bottom: 10px;
+  width: 256.5px;
+  display: block;
 }
 
 .header {

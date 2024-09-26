@@ -29,6 +29,14 @@
               {{ foundShow.overview }}
             </p>
           </div>
+          <div class="sinopsis" *ngIf="foundShow.user_review != undefined">
+            <h4 class="sinopsis-title">Sua avaliação</h4>
+            <p class="sinopsis-text">
+              <em>
+                {{ foundShow.user_review }}
+              </em>
+            </p>
+          </div>
         </div>
       </main>
     </div>

@@ -45,7 +45,7 @@ import { PopupComponent } from "../popup/popup.component";
 })
 export class MyListComponent implements OnInit {
   readonly dialog = inject(MatDialog);
-  shows: Observable<MovieResponseDTO[]> = new Observable<MovieResponseDTO[]>()
+  shows$: Observable<MovieResponseDTO[]> = new Observable<MovieResponseDTO[]>()
   popupDisplay: boolean = false;
   popupType: boolean = true;
   title: string = '';
@@ -56,7 +56,7 @@ export class MyListComponent implements OnInit {
 
   ngOnInit(): void {
     this.localStorageService.isLoggedIn()
-    this.shows = this.showService.findAllShows()
+    this.shows$ = this.showService.findAllShows()
 
   }
 
@@ -66,7 +66,7 @@ export class MyListComponent implements OnInit {
     const closeDialog: Subscription = dialogRef.afterClosed().subscribe({
       next: (res) => {
         if (res == "openError" || res == "openSuccess") {
-          this.shows = this.showService.findAllShows()
+          this.shows$ = this.showService.findAllShows()
           this.popupDisplay = true
           this.popupType = res == "openSuccess" ? true : false;
           this.title = res == "openSuccess" ? 'Sucesso!' : 'Erro ao adicionar'
@@ -85,7 +85,7 @@ export class MyListComponent implements OnInit {
   }
 
   filterShowsByNameAsc() {
-    this.shows = this.shows.pipe(map((show) => {
+    this.shows$ = this.shows$.pipe(map((show) => {
       show.sort((a, b) => { return a.title.localeCompare(b.title) })
       this.dropdownDisplay = false
       return show
@@ -94,7 +94,7 @@ export class MyListComponent implements OnInit {
   }
 
   filterShowsByNameDesc() {
-    this.shows = this.shows.pipe(map((show) => {
+    this.shows$ = this.shows$.pipe(map((show) => {
       show.sort((a, b) => { return b.title.localeCompare(a.title) })
       this.dropdownDisplay = false
       return show
@@ -103,7 +103,7 @@ export class MyListComponent implements OnInit {
   }
 
   filterShowsByRatingAsc() {
-    this.shows = this.shows.pipe(map((show) => {
+    this.shows$ = this.shows$.pipe(map((show) => {
       show.sort((a, b) => { return a.userRating.localeCompare(b.userRating) })
       this.dropdownDisplay = false
       return show
@@ -112,7 +112,7 @@ export class MyListComponent implements OnInit {
   }
 
   filterShowsByRatingDesc() {
-    this.shows = this.shows.pipe(map((show) => {
+    this.shows$ = this.shows$.pipe(map((show) => {
       show.sort((a, b) => { return b.userRating.localeCompare(a.userRating) })
       this.dropdownDisplay = false
       return show

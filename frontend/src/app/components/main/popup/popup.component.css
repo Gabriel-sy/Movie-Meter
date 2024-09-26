@@ -1,6 +1,6 @@
 
 .success {
-  position: absolute;
+  position: fixed;
   top: 8px;
   left: 4px;
   color: aliceblue;
@@ -16,7 +16,7 @@
 }
 
 .error {
-  position: absolute;
+  position: fixed;
   top: 8px;
   left: 4px;
   color: aliceblue;

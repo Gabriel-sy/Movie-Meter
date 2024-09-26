@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { ShowService } from '../../../services/show.service';
 import { SearchMovieService } from '../../../services/search-movie.service';
 import { Results } from '../../../domain/Results';
@@ -33,12 +33,27 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   title: string = '';
   subtitle: string = '';
   showName: string = "";
+  userRating: string = ''
+  director: string = '';
   foundShow: any;
 
   constructor(private route: ActivatedRoute, private showService: ShowService,
     private searchMovieService: SearchMovieService,
     private localStorageService: LocalStorageService,
-    private userService: UserService) { }
+    private userService: UserService,
+    private router: Router) {
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        let currentUrl = this.foundShow.title
+        if (currentUrl != this.formatTitle(this.route.snapshot.url[2].path)) {
+          this.actors = [];
+          this.mainActorsName = [];
+          this.showName = this.route.snapshot.url[2].path.replace(new RegExp("-", "g"), ' ')
+          this.loadShow()
+        }
+      }
+    })
+  }
 
   ngOnDestroy(): void {
     this.unsubscribeSignal.next()
@@ -48,6 +63,10 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.showName = this.route.snapshot.url[2].path.replace(new RegExp("-", "g"), ' ');
 
+    this.loadShow()
+  }
+
+  loadShow() {
     this.searchMovieService.searchTitle(this.showName)
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
@@ -159,5 +178,9 @@ export class MediaPageComponent implements OnInit, OnDestroy {
 
   isLoggedIn() {
     return this.localStorageService.isLoggedIn()
+  }
+
+  formatTitle(title: string): string {
+    return title.replace(new RegExp(" ", "g"), '-');
   }
 }

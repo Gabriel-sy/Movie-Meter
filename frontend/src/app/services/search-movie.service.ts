@@ -18,9 +18,6 @@ export class SearchMovieService {
   constructor(private http: HttpClient) { }
 
   searchTitle(value: string) {
-    // this.http.get<Response>('https://api.themoviedb.org/3/search/multi?query=' + value + '&language=pt-BR&page=1', this.headers).subscribe({
-    //   next: (res: Response) => console.log(res.results)
-    // })
     return this.http.get<Results>('https://api.themoviedb.org/3/search/multi?query=' + value + '&language=pt-BR&page=1', this.headers)
     
   }

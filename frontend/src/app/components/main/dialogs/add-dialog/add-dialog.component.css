@@ -1,21 +1,22 @@
 .dialog-container {
-  background-color: #393E46;
+  background-color: #1A1A1A;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
   padding: 25px;
   width: 100%;
   max-width: 550px;
   max-height: 650px;
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  transition: max-height 0.4s ease;
+  transition: max-height 0.3s ease, max-width 0.3s ease;
   overflow: hidden;
 }
 
 .dialog-container.expanded {
   max-height: 740px;
+  max-width: 600px;
 }
 
 .title {
-  color: #00ADB5;
+  color: #E50914;
   font-size: 26px;
   margin-bottom: 20px;
   font-weight: bold;
@@ -38,9 +39,9 @@ label {
 input,
 .rating,
 textarea {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: #EEEEEE;
+  background-color: #2C2C2C;
+  color: #FFFFFF;
+  border: 1px solid #444444;
   width: 100%;
   padding: 12px;
   border: 2px solid transparent;
@@ -97,7 +98,7 @@ textarea {
 
 button[mat-button] {
   color: #EEEEEE;
-  background-color: #00ADB5;
+  background-color: #E50914;
   border-radius: 8px;
   padding: 10px 20px;
   margin-left: 15px;
@@ -108,7 +109,7 @@ button[mat-button] {
 }
 
 button[mat-button]:hover {
-  background-color: #008C94;
+  background-color: #B2070F;
   transform: translateY(-2px);
 }
 
@@ -164,7 +165,7 @@ input[type=number] {
 }
 
 button:disabled {
-  background-color: #95a5a6;
+  background-color: #4A4A4A;
   cursor: not-allowed;
 }
 

@@ -1,5 +1,8 @@
 .add-button {
   margin: 20px;
+  width: 256.5px;
+  display: block;
+  margin-bottom: 10px;
 }
 
 h2 {
@@ -64,6 +67,7 @@ h2 {
 }
 
 .movie-wrapper:hover, .series-item:hover {
+  cursor: pointer;
   transform: scale(1.05);
 }
 

@@ -18,7 +18,7 @@ import { PopupComponent } from "../popup/popup.component";
 })
 export class CardComponent implements OnInit {
   readonly dialog = inject(MatDialog);
-  @Input() shows: Observable<MovieResponseDTO[]> = new Observable<MovieResponseDTO[]>()
+  @Input() shows$: Observable<MovieResponseDTO[]> = new Observable<MovieResponseDTO[]>()
   popupDisplay: boolean = false;
   popupType: boolean = true;
   title: string = '';
@@ -51,7 +51,7 @@ export class CardComponent implements OnInit {
     const closedDialog: Subscription = dialog.afterClosed().subscribe({
       next: (res) => {
         if (res == "openError" || res == "openSuccess") {
-          this.shows = this.showService.findAllShows()
+          this.shows$ = this.showService.findAllShows()
           this.popupDisplay = true
           this.popupType = res == "openSuccess" ? true : false;
           this.title = res == "openSuccess" ? 'Sucesso!' : 'Erro ao remover'
@@ -75,7 +75,7 @@ export class CardComponent implements OnInit {
     const closedDialog: Subscription = dialog.afterClosed().subscribe({
       next: (res) => {
         if (res == "openError" || res == "openSuccess") {
-          this.shows = this.showService.findAllShows()
+          this.shows$ = this.showService.findAllShows()
           this.popupDisplay = true
           this.popupType = res == "openSuccess" ? true : false;
           this.title = res == "openSuccess" ? 'Sucesso!' : 'Erro ao editar'
