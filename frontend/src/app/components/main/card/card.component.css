@@ -3,17 +3,17 @@
   flex-direction: column;
   color: white;
   max-width: 400px;
-  background-color: #2E3440;
+  background-color: #1A1A1A;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
   border-radius: 15px;
   padding: 20px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   margin: 20px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card-container:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
 
@@ -37,7 +37,7 @@
   margin: 0;
   font-size: 1.5em;
   height: 58px;
-  color: #88C0D0;
+  color: #E50914;
   display: flex;
   align-items: center;
   text-align: center;
@@ -51,7 +51,7 @@ h4 {
   display: flex;
   align-items: center;
   font-size: 1.2em;
-  color: #EBCB8B;
+  color: #FFD700;
   margin-top: 0px;
   margin-bottom: 0px;
   padding: 6px;
@@ -63,7 +63,7 @@ h4 {
 
 .director-name {
   display: block;
-  color: #D8DEE9;
+  color: #CCCCCC;
   font-style: italic;
   margin-bottom: 10px;
 }
@@ -76,8 +76,8 @@ h4 {
 }
 
 .genre-tag {
-  background-color: #4C566A;
-  color: #E5E9F0;
+  background-color: #2C2C2C;
+  color: #FFFFFF;
   padding: 5px 10px;
   border-radius: 15px;
   font-size: 0.8em;
@@ -106,7 +106,7 @@ h4 {
 .review-content h5,
 .overview ng-star-inserted {
   font-size: 0.95em;
-  color: #81A1C1;
+  color: #BBBBBB;
   margin-top: 0;
   margin-top: 0px ;
   margin-bottom: 0px ;
@@ -114,7 +114,7 @@ h4 {
 
 .overview {
   font-size: 1em;
-  color: #E5E9F0;
+  color: #DDDDDD;
   line-height: 1.6;
   display: -webkit-box;
   -webkit-line-clamp: 8;
@@ -148,19 +148,19 @@ p {
 }
 
 .edit {
-  background-color: #88C0D0;
-  color: #2E3440;
+  background-color: #0077B5;
+  color: white;
 }
 
 .delete {
-  background-color: #BF616A;
+  background-color: #E50914;
   color: white;
 }
 
 .edit:hover {
-  background-color: #5E81AC;
+  background-color: #005885;
 }
 
 .delete:hover {
-  background-color: #D08770;
+  background-color: #B2070F;
 }

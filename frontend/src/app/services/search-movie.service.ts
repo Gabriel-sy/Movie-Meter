@@ -41,5 +41,18 @@ export class SearchMovieService {
     return this.http.get<Results>("https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&vote_average.gte=7&vote_average.lte=10&vote_count.gte=1000&with_original_language=en&without_genres=10767%2C%2035%2C%2010764%2C%2010763%2C%2099", this.headers);
   }
 
+  searchPopularRomanceMovies(){
+    return this.http.get<Results>("https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2023-01-01&sort_by=popularity.desc&vote_count.gte=300&with_genres=10749&with_original_language=en", this.headers)
+  }
+
+  searchPopularHorrorMovies(){
+    return this.http.get<Results>("https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2023-01-01&sort_by=popularity.desc&vote_average.gte=6.5&vote_count.gte=300&with_genres=27&with_original_language=en", this.headers)
+  }
+
+  searchPopularScienceFictionMovies(){
+    return this.http.get<Results>("https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2023-01-01&sort_by=popularity.desc&vote_average.gte=6.5&vote_count.gte=300&with_genres=878&with_original_language=en",
+    this.headers)
+  }
+
 }
 

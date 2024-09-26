@@ -7,11 +7,12 @@ import { JwtResponse } from '../../../../domain/JwtResponse';
 import { LocalStorageService } from '../../../../services/local-storage.service';
 import { delay } from 'rxjs';
 import { PopupComponent } from "../../popup/popup.component";
+import { FormErrorComponent } from "../../form-error/form-error.component";
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, PopupComponent],
+  imports: [ReactiveFormsModule, CommonModule, PopupComponent, FormErrorComponent],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })

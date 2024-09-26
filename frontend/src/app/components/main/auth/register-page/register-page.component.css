@@ -1,18 +1,18 @@
 .register-form {
-  background-color: #34495e;
-  color: #ecf0f1;
+  background-color: #1A1A1A;
+  color: #FFFFFF;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
   width: 80%;
   max-width: 600px;
   padding: 40px;
   border-radius: 12px;
   margin: 0 auto;
   margin-top: 100px;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
 
 h3 {
   text-align: center;
-  color: #e67e22;
+  color: #E50914;
   margin-bottom: 30px;
   font-size: 28px;
 }
@@ -25,23 +25,24 @@ label {
   font-size: 16px;
 }
 input {
+  background-color: #2C2C2C;
+  color: #FFFFFF;
+  border: 1px solid #444444;
   width: 100%;
   padding: 12px;
-  border: 2px solid transparent;
-  background-color: #ecf0f1;
   border-radius: 6px;
   font-size: 16px;
   transition: all 0.3s ease;
 }
 input:focus {
   outline: none;
-  border-color: #e67e22;
-  box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.3);
+  border-color: #E50914;
+  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.3);
 }
 button {
   width: 100%;
   padding: 15px;
-  background-color: #e67e22;
+  background-color: #E50914;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -51,7 +52,7 @@ button {
   transition: background-color 0.3s ease;
 }
 button:hover {
-  background-color: #d35400;
+  background-color: #B2070F;
 }
 
 .spinner {
@@ -65,7 +66,7 @@ button:hover {
 }
 
 button:disabled {
-  background-color: #95a5a6;
+  background-color: #4A4A4A;
   cursor: not-allowed;
 }
 

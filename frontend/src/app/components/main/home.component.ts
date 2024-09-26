@@ -10,9 +10,10 @@ import { AddButtonComponent } from "./add-button/add-button.component";
 import { PopupComponent } from "./popup/popup.component";
 import { AddDialogComponent } from './dialogs/add-dialog/add-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Observable, Subject, Subscription, map, takeUntil } from 'rxjs';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { UserService } from '../../services/user.service';
+import { Movie } from '../../domain/Movie';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,10 @@ import { UserService } from '../../services/user.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
+  popularSeries$: Observable<Movie[]> = new Observable<Movie[]>();
+  popularRomanceMovies$: Observable<Movie[]> = new Observable<Movie[]>();
+  popularHorrorMovies$: Observable<Movie[]> = new Observable<Movie[]>();
+  popularScienceFicMovies$: Observable<Movie[]> = new Observable<Movie[]>();
   unsubscribeSignal: Subject<void> = new Subject();
   popularMovies: PopularMovies[] = [];
   displayedMovies: PopularMovies[] = [];
@@ -50,7 +55,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.searchPopularMovies()
+    this.searchPopularSeries()
+    this.searchPopularRomanceMovies()
+    this.searchPopularHorrorMovies()
+    this.searchPopularScienceFicMovies()
+  }
 
+  searchPopularMovies() {
     this.searchMovieService.searchPopularMovies()
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
@@ -67,6 +79,34 @@ export class HomeComponent implements OnInit, OnDestroy {
           }
         }
       })
+  }
+
+  searchPopularSeries(){
+    this.popularSeries$ = this.searchMovieService.searchPopularSeries()
+    .pipe(map((res: Results) => {
+      return res.results
+    }))
+  }
+
+  searchPopularRomanceMovies(){
+    this.popularRomanceMovies$ = this.searchMovieService.searchPopularRomanceMovies()
+    .pipe(map((res: Results) => {
+      return res.results
+    }))
+  }
+
+  searchPopularHorrorMovies(){
+    this.popularHorrorMovies$ = this.searchMovieService.searchPopularHorrorMovies()
+      .pipe(map((res: Results) => {
+        return res.results
+      }))
+  }
+
+  searchPopularScienceFicMovies(){
+    this.popularScienceFicMovies$ = this.searchMovieService.searchPopularScienceFictionMovies()
+    .pipe(map((res: Results) => {
+      return res.results
+    }))
   }
 
   openDialog() {
@@ -137,8 +177,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   showImage(posterPath: string) {
     return 'https://image.tmdb.org/t/p/w400' + posterPath
   }
-
-
 
 }
 
