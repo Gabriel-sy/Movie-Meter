@@ -33,6 +33,8 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   title: string = '';
   subtitle: string = '';
   showName: string = "";
+  userRating: string = ''
+  director: string = '';
   foundShow: any;
 
   constructor(private route: ActivatedRoute, private showService: ShowService,

@@ -1,8 +1,8 @@
 <app-popup [popupDisplay]="popupDisplay" [title]="title" [subtitle]="subtitle" [type]="popupType"></app-popup>
 
-<div class="add-button">
-  <app-add-button (click)="openDialog()"></app-add-button>
-</div>
+
+  <app-add-button class="add-button" (click)="openDialog()"></app-add-button>
+
 
 
 <div class="header">
@@ -52,7 +52,7 @@
   </div>
 </div>
 
-<app-card class="cards" [shows]="shows"></app-card>
+<app-card class="cards" [shows$]="shows$"></app-card>
 
 <div class="dialog">
 

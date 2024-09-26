@@ -5,4 +5,7 @@ export class MovieSearchDTO {
   first_air_date!: string
   release_date!: string
   media_type!: string
+  poster_path!: string
+  original_name!: string
+  original_title!: string
 }

@@ -3,17 +3,39 @@
     <a [routerLink]="['/']" routerLinkActive="router-link-active" class="home">
       <span>Home</span>
     </a>
-    <a *ngIf="isLoggedIn()" [routerLink]="['user', userName, 'my-list']" routerLinkActive="router-link-active" class="home">
+    <a *ngIf="isLoggedIn()" [routerLink]="['user', userName, 'my-list']" routerLinkActive="router-link-active"
+      class="home">
       <span>Sua lista</span>
     </a>
 
     <div class="search-bar" *ngIf="isLoggedIn()">
-      <input placeholder="Pesquise um título" class="search" type="text">
+      <input (keyup)="searchMovie($event)" placeholder="Pesquise um título" class="search" type="text" [value]="inputValue">
       <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="10" cy="10" r="7"></circle>
         <line x1="21" y1="21" x2="15" y2="15"></line>
       </svg>
+      <div #results class="results-box" [ngStyle]="{'opacity': searchDisplay ? 1 : 0}">
+        <div class="result-wrapper" *ngIf="foundSearch$ | async; else loading;">
+          <div class="result" *ngFor="let show of foundSearch$ | async" (click)="searchDisplay = false" [routerLink]="['media/details', formatTitle(show.original_title)]">
+            <div class="img-box">
+              <img [src]="showImage(show.poster_path)" alt="">
+            </div>
+            <div class="texts">
+              <span class="title">{{ show.title }}</span>
+              <span class="year">{{ show.release_date }}</span>
+            </div>
+          </div>
+        </div>
+        <ng-template #loading>
+          <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </ng-template>
+      </div>
     </div>
     <div class="auth-container">
       <a [routerLink]="['/register']" class="registrar" *ngIf="shouldShowRegister">Registrar</a>

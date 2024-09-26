@@ -8,8 +8,8 @@
   padding: 12px 20px;
   align-items: center;
   justify-content: center;
-  background-color: #E50914; /* Nova cor de fundo */
-  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3); /* Sombra ajustada */
+  background-color: #E50914;
+  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
   border-radius: 50px;
   margin-left: 10px;
   transition: all 0.3s ease;
@@ -18,7 +18,7 @@
 }
 
 .add:hover {
-  background-color: #B2070F; /* Versão mais escura para hover */
+  background-color: #B2070F;
   box-shadow: 0 6px 15px rgba(229, 9, 20, 0.4);
   transform: translateY(-2px);
 }

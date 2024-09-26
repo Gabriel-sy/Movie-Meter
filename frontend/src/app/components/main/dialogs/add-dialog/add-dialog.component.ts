@@ -24,7 +24,7 @@ import { PopupComponent } from "../../popup/popup.component";
 export class AddDialogComponent implements OnDestroy {
 
   unsubscribeSignal: Subject<void> = new Subject();
-  foundSearch: Observable<MovieSearchDTO[]> = new Observable<MovieSearchDTO[]>()
+  foundSearch$: Observable<MovieSearchDTO[]> = new Observable<MovieSearchDTO[]>()
   @Output() popupEvent = new EventEmitter<boolean>();
   showToSave: Movie = new Movie()
   genres: string[] = []
@@ -130,7 +130,7 @@ export class AddDialogComponent implements OnDestroy {
 
     this.timer = setTimeout(() => {
       if (length > 3) {
-        this.foundSearch = this.searchMovieService.searchTitle(event.target.value)
+        this.foundSearch$ = this.searchMovieService.searchTitle(event.target.value)
           .pipe(map((res) => {
             this.shows = res.results.map(movie => movie as MovieSearchDTO).filter(movie => movie.media_type == 'tv' || movie.media_type == 'movie');
 
@@ -156,7 +156,7 @@ export class AddDialogComponent implements OnDestroy {
               return throwError(() => err)
             }))
       } else if (length == 0) {
-        this.foundSearch = new Observable<MovieSearchDTO[]>()
+        this.foundSearch$ = new Observable<MovieSearchDTO[]>()
         this.isExpanded = false;
         this.inputValue = '';
       }
@@ -166,7 +166,7 @@ export class AddDialogComponent implements OnDestroy {
   setInputValue(movie: string) {
     this.inputValue = movie;
     this.formData.patchValue({ show: movie });
-    this.foundSearch = new Observable<MovieSearchDTO[]>()
+    this.foundSearch$ = new Observable<MovieSearchDTO[]>()
     this.isExpanded = false;
     this.cdr.detectChanges();
   }
