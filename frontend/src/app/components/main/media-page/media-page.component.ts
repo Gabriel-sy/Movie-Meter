@@ -14,11 +14,12 @@ import { User } from '../../../domain/User';
 import { AddDialogComponent } from '../dialogs/add-dialog/add-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from "../popup/popup.component";
+import { CommentComponent } from "../comment/comment.component";
 
 @Component({
   selector: 'app-media-page',
   standalone: true,
-  imports: [CommonModule, AddButtonComponent, PopupComponent],
+  imports: [CommonModule, AddButtonComponent, PopupComponent, CommentComponent],
   templateUrl: './media-page.component.html',
   styleUrl: './media-page.component.css'
 })
@@ -35,7 +36,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   showName: string = "";
   userRating: string = ''
   director: string = '';
-  foundShow: any;
+  foundShow: Movie = new Movie()
 
   constructor(private route: ActivatedRoute, private showService: ShowService,
     private searchMovieService: SearchMovieService,
@@ -43,14 +44,16 @@ export class MediaPageComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private router: Router) {
     router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        let currentUrl = this.foundShow.title
+      if (event instanceof NavigationEnd && this.foundShow.title != undefined) {
+          let currentUrl = this.foundShow.title
         if (currentUrl != this.formatTitle(this.route.snapshot.url[2].path)) {
           this.actors = [];
           this.mainActorsName = [];
+          this.foundShow = new Movie()
           this.showName = this.route.snapshot.url[2].path.replace(new RegExp("-", "g"), ' ')
           this.loadShow()
         }
+        
       }
     })
   }
@@ -72,6 +75,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: Results) => {
           this.foundShow = res.results.find(m => m.original_title == this.showName || m.original_name == this.showName)
+          || new Movie()
 
           this.foundShow = this.mapShowFields(this.foundShow)
 
@@ -158,7 +162,8 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   }
 
   getUserRating() {
-    this.userService.findByToken()
+    if(this.isLoggedIn()){
+      this.userService.findByToken()
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
         next: (res: User) => {
@@ -169,6 +174,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
           })
         }
       })
+    }
   }
 
   showImage(posterPath: string) {

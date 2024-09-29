@@ -117,7 +117,7 @@ h4 {
   color: #DDDDDD;
   line-height: 1.6;
   display: -webkit-box;
-  -webkit-line-clamp: 8;
+  -webkit-line-clamp: 7;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -136,7 +136,6 @@ p {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  bottom: 0;
 }
 
 .buttons button {

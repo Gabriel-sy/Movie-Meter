@@ -18,7 +18,8 @@
               <i class="fas fa-star"></i> Nota geral: {{ foundShow.vote_average }}/10
             </span>
             <span class="user-rating">
-              <app-add-button class="add-button" (click)="openDialog(foundShow.title)" *ngIf="foundShow.user_rating == undefined"></app-add-button>
+              <app-add-button class="add-button" (click)="openDialog(foundShow.title)"
+                *ngIf="foundShow.user_rating == undefined"></app-add-button>
               <i class="fas fa-user-star"></i><span *ngIf="isLoggedIn() && this.foundShow.user_rating != undefined">Sua
                 nota: {{ foundShow.user_rating }}</span>
             </span>
@@ -45,7 +46,7 @@
         <h4 class="info-card-title">Diretor</h4>
         <p class="info-card-content">{{ foundShow.directorName }}</p>
       </div>
-      <div class="info-card">
+      <div class="info-card" *ngIf="foundShow.release_date">
         <h4 class="info-card-title">Ano de Lançamento</h4>
         <p class="info-card-content">{{ foundShow.release_date.substring(0, 4) }}</p>
       </div>
@@ -66,3 +67,17 @@
   </div>
 </div>
 
+<hr>
+<section class="user-reviews-section">
+  <h2 class="user-reviews-title">Avaliações dos Usuários</h2>
+  <app-comment></app-comment>
+  <app-comment></app-comment>
+  <app-comment></app-comment>
+  <app-comment></app-comment>
+  <app-comment></app-comment>
+  <app-comment></app-comment>
+  <app-comment></app-comment>
+  <app-comment></app-comment>
+  
+  <button class="load-more-button">Carregar mais avaliações</button>
+</section>
