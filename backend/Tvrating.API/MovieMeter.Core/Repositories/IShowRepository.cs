@@ -9,4 +9,5 @@ public interface IShowRepository
     Task<Show> DeleteShow(Show show);
     Task<Show> EditShow(Show show, string rating, string review);
     Task<Show?> GetById(int id);
+    Task<Show?> GetByTitle(string title, int userId);
 }

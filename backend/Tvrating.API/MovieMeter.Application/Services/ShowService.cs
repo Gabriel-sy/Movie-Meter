@@ -46,9 +46,18 @@ public class ShowService : IShowService
     public async Task<ResultViewModel> SaveShow(CreateShowInputModel model, string userEmail)
     {
         var user = await _userService.FindByEmail(userEmail);
+        
+        
 
         if (user.Data != null)
         {
+            var userHasShow = await _repository.GetByTitle(model.OriginalTitle, user.Data.Id);
+
+            if (userHasShow is not null)
+            {
+                return ResultViewModel.Error("Usuário já possui esse titulo");
+            }
+            
             var showToSave = model.FromEntity(user.Data, user.Data.Id);
             
             await _repository.SaveShow(showToSave);

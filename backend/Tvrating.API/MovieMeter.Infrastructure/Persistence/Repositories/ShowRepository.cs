@@ -53,4 +53,12 @@ public class ShowRepository : IShowRepository
         var show = await _context.Shows.SingleOrDefaultAsync(s => s.Id == id && !s.IsDeleted);
         return show;
     }
+
+    public async Task<Show?> GetByTitle(string title, int userId)
+    {
+        var show = await _context.Shows.SingleOrDefaultAsync(s => s.OriginalTitle == title
+                                                                  && s.UserId == userId                                                          
+                                                                  && !s.IsDeleted);
+        return show;
+    }
 }
