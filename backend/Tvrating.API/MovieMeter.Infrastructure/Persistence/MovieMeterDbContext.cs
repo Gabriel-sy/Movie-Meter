@@ -33,5 +33,16 @@ public class MovieMeterDbContext : DbContext
                     .HasForeignKey(s => s.UserId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
+
+        builder
+            .Entity<Comment>(e =>
+            {
+                e.HasKey(c => c.Id);
+
+                e.HasOne(c => c.Show)
+                    .WithMany(s => s.Comments)
+                    .HasForeignKey(c => c.ShowId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
     }
 }
