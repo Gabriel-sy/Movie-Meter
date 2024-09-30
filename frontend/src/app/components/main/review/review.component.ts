@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-comment',
+  selector: 'app-review',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './comment.component.html',
-  styleUrl: './comment.component.css'
+  templateUrl: './review.component.html',
+  styleUrl: './review.component.css'
 })
-export class CommentComponent {
+export class ReviewComponent {
 
   isLiked: boolean = false;
 
@@ -16,7 +16,7 @@ export class CommentComponent {
     if(this.isLiked){
       this.isLiked = false;
     } else {
-      this.isLiked = true
+      this.isLiked = true;
     }
   }
 }

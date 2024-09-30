@@ -14,12 +14,12 @@ import { User } from '../../../domain/User';
 import { AddDialogComponent } from '../dialogs/add-dialog/add-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from "../popup/popup.component";
-import { CommentComponent } from "../comment/comment.component";
+import { ReviewComponent } from "../review/review.component";
 
 @Component({
   selector: 'app-media-page',
   standalone: true,
-  imports: [CommonModule, AddButtonComponent, PopupComponent, CommentComponent],
+  imports: [CommonModule, AddButtonComponent, PopupComponent, ReviewComponent],
   templateUrl: './media-page.component.html',
   styleUrl: './media-page.component.css'
 })
