@@ -11,6 +11,7 @@ public class MovieMeterDbContext : DbContext
 
     public DbSet<Show> Shows { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Review> Reviews { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -35,13 +36,13 @@ public class MovieMeterDbContext : DbContext
             });
 
         builder
-            .Entity<Comment>(e =>
+            .Entity<Review>(e =>
             {
-                e.HasKey(c => c.Id);
+                e.HasKey(r => r.Id);
 
-                e.HasOne(c => c.Show)
-                    .WithMany(s => s.Comments)
-                    .HasForeignKey(c => c.ShowId)
+                e.HasOne(r => r.Show)
+                    .WithMany(s => s.ShowReviews)
+                    .HasForeignKey(r => r.ShowId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
     }

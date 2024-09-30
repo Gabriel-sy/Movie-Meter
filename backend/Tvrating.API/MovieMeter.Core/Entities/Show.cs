@@ -24,7 +24,7 @@ public class Show : BaseEntity
         UserId = userId;
         OriginalTitle = originalTitle;
         UserReview = userReview;
-        Comments = [];
+        ShowReviews = [];
     }
 
     public int ShowId { get; private set; }
@@ -41,7 +41,7 @@ public class Show : BaseEntity
     public int UserId { get; private set; }
     public string OriginalTitle { get; private set; }
     public string? UserReview { get; private set; }
-    public List<Comment> Comments { get; private set; }
+    public List<Review> ShowReviews { get; private set; }
 
     public void UpdateRating(string rating)
     {
@@ -53,8 +53,8 @@ public class Show : BaseEntity
         UserReview = review;
     }
 
-    public void AddComment(Comment comment)
+    public void AddReview(Review review)
     {
-        Comments.Add(comment);
+        ShowReviews.Add(review);
     }
 }

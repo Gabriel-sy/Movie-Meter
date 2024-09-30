@@ -6,8 +6,8 @@ public interface IShowService
 {
     Task<ResultViewModel<List<ShowViewModel>>> GetAllShows();
     Task<ResultViewModel<List<ShowViewModel>>> GetAllByEmail(string email);
+    Task<ResultViewModel<List<ReviewViewModel>>> GetReviewsByOrigTitle(string originalTitle);
     Task<ResultViewModel> SaveShow(CreateShowInputModel model, string userEmail);
     Task<ResultViewModel> DeleteShow(int id);
     Task<ResultViewModel> EditShow(EditShowInputModel model);
-    
 }

@@ -43,11 +43,18 @@ public class ShowService : IShowService
         
     }
 
+    public async Task<ResultViewModel<List<ReviewViewModel>>> GetReviewsByOrigTitle(string originalTitle)
+    {
+        var comments = await _repository.GetReviewsByShowOrigTitle(originalTitle);
+
+        var model = comments.Select(c => ReviewViewModel.FromEntity(c)).ToList();
+
+        return ResultViewModel<List<ReviewViewModel>>.Success(model);
+    }
+
     public async Task<ResultViewModel> SaveShow(CreateShowInputModel model, string userEmail)
     {
         var user = await _userService.FindByEmail(userEmail);
-        
-        
 
         if (user.Data != null)
         {
@@ -59,6 +66,13 @@ public class ShowService : IShowService
             }
             
             var showToSave = model.FromEntity(user.Data, user.Data.Id);
+
+            var userReview = showToSave.UserReview != null ? showToSave.UserReview : "";
+
+            var comment = new Review(showToSave, showToSave.Id, user.Data, user.Data.Id, 
+                userReview, 0, showToSave.UserRating);
+            
+            showToSave.AddReview(comment);
             
             await _repository.SaveShow(showToSave);
             

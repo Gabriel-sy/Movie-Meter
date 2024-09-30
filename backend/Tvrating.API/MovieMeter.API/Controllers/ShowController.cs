@@ -90,4 +90,12 @@ public class ShowController : ControllerBase
         return BadRequest();
 
     }
+
+    [HttpGet("reviews/{originalTitle}")]
+    public async Task<IActionResult> GetReviewByOrigTitle(string originalTitle)
+    {
+        var result = await _service.GetReviewsByOrigTitle(originalTitle);
+
+        return Ok(result.Data);
+    }
 }

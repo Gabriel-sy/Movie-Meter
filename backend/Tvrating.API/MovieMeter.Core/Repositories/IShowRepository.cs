@@ -10,4 +10,5 @@ public interface IShowRepository
     Task<Show> EditShow(Show show, string rating, string review);
     Task<Show?> GetById(int id);
     Task<Show?> GetByTitle(string title, int userId);
+    Task<List<Review>> GetReviewsByShowOrigTitle(string originalTitle);
 }

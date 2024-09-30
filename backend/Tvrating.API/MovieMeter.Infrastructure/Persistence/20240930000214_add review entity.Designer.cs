@@ -12,8 +12,8 @@ using MovieMeter.Infrastructure.Persistence;
 namespace MovieMeter.Infrastructure.Persistence
 {
     [DbContext(typeof(MovieMeterDbContext))]
-    [Migration("20240929192828_add comment entity")]
-    partial class addcommententity
+    [Migration("20240930000214_add review entity")]
+    partial class addreviewentity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace MovieMeter.Infrastructure.Persistence
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MovieMeter.Core.Entities.Comment", b =>
+            modelBuilder.Entity("MovieMeter.Core.Entities.Review", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -42,18 +42,27 @@ namespace MovieMeter.Infrastructure.Persistence
                     b.Property<int>("Likes")
                         .HasColumnType("int");
 
-                    b.Property<string>("Review")
+                    b.Property<string>("Rating")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReviewText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ShowId")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ShowId");
 
-                    b.ToTable("Comment");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("MovieMeter.Core.Entities.Show", b =>
@@ -160,15 +169,23 @@ namespace MovieMeter.Infrastructure.Persistence
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("MovieMeter.Core.Entities.Comment", b =>
+            modelBuilder.Entity("MovieMeter.Core.Entities.Review", b =>
                 {
                     b.HasOne("MovieMeter.Core.Entities.Show", "Show")
-                        .WithMany("Comments")
+                        .WithMany("ShowReviews")
                         .HasForeignKey("ShowId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("MovieMeter.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Show");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MovieMeter.Core.Entities.Show", b =>
@@ -184,7 +201,7 @@ namespace MovieMeter.Infrastructure.Persistence
 
             modelBuilder.Entity("MovieMeter.Core.Entities.Show", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("ShowReviews");
                 });
 
             modelBuilder.Entity("MovieMeter.Core.Entities.User", b =>

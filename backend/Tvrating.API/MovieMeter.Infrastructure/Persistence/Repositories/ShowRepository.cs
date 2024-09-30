@@ -24,7 +24,7 @@ public class ShowRepository : IShowRepository
 
     public async Task<Show> SaveShow(Show show)
     {
-
+        await _context.Reviews.AddAsync(show.ShowReviews.Last());
         await _context.Shows.AddAsync(show);
         await _context.SaveChangesAsync();
         return show;
@@ -60,5 +60,15 @@ public class ShowRepository : IShowRepository
                                                                   && s.UserId == userId                                                          
                                                                   && !s.IsDeleted);
         return show;
+    }
+
+    public async Task<List<Review>> GetReviewsByShowOrigTitle(string originalTitle)
+    {
+        var comments = await _context.Reviews
+            .Where(c => c.Show.OriginalTitle == originalTitle && !c.IsDeleted)
+            .Include(c => c.User)
+            .ToListAsync();
+
+        return comments;
     }
 }
