@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ShowService } from '../../../services/show.service';
+import { Observable, map, tap } from 'rxjs';
+import { ReviewResponse } from '../../../domain/ReviewResponse';
 
 @Component({
   selector: 'app-review',
@@ -10,7 +13,11 @@ import { Component } from '@angular/core';
 })
 export class ReviewComponent {
 
+  @Input() title: string = ''
+  reviews$: Observable<ReviewResponse[]> = new Observable<ReviewResponse[]>()
   isLiked: boolean = false;
+
+  constructor(private showService: ShowService){}
 
   changeLike(){
     if(this.isLiked){
@@ -18,5 +25,9 @@ export class ReviewComponent {
     } else {
       this.isLiked = true;
     }
+  }
+
+  ngOnInit(): void {
+    this.reviews$ = this.showService.getCommentsByTitle(this.title)
   }
 }

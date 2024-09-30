@@ -91,6 +91,7 @@ public class ShowController : ControllerBase
 
     }
 
+    [AllowAnonymous]
     [HttpGet("reviews/{originalTitle}")]
     public async Task<IActionResult> GetReviewByOrigTitle(string originalTitle)
     {

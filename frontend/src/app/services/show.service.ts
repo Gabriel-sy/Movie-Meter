@@ -4,6 +4,7 @@ import { Movie } from '../domain/Movie';
 import { MovieResponseDTO } from '../domain/MovieResponseDTO';
 import { MovieEditRequestDTO } from '../domain/MovieEditRequestDTO';
 import { catchError } from 'rxjs';
+import { ReviewResponse } from '../domain/ReviewResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -140,6 +141,10 @@ export class ShowService {
             }     
     }
     return newArr;
+  }
+
+  getCommentsByTitle(title: string){
+    return this.http.get<ReviewResponse[]>(this.API + "api/show/reviews/" + title)
   }
   
 }

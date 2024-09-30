@@ -4,16 +4,16 @@ namespace MovieMeter.Application.Models;
 
 public class ReviewViewModel
 {
-    public ReviewViewModel(string userName, string review, string rating, int likes)
+    public ReviewViewModel(string userName, string reviewText, string rating, int likes)
     {
         UserName = userName;
-        Review = review;
+        ReviewText = reviewText;
         Rating = rating;
         Likes = likes;
     }
 
     public string UserName { get; set; }
-    public string Review { get; set; }
+    public string ReviewText { get; set; }
     public string Rating { get; set; }
     public int Likes { get; set; }
 

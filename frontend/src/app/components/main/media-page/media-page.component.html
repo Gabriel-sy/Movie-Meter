@@ -70,12 +70,9 @@
 <hr>
 <section class="user-reviews-section">
   <h2 class="user-reviews-title">Avaliações dos Usuários</h2>
-  <app-review></app-review>
-  <app-review></app-review>
-  <app-review></app-review>
-  <app-review></app-review>
+  <div class="wrapper">
+    <app-review [title]="showName"></app-review>
+  </div>
 
-  
   <button class="load-more-button">Carregar mais avaliações</button>
 </section>
-
