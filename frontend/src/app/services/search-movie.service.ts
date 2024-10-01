@@ -1,6 +1,6 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Movie } from '../domain/Movie';
+import { ShowInputModel } from '../domain/ShowInputModel';
 import { Results } from '../domain/Results';
 
 @Injectable({
@@ -19,10 +19,10 @@ export class SearchMovieService {
 
   searchTitle(value: string) {
     return this.http.get<Results>('https://api.themoviedb.org/3/search/multi?query=' + value + '&language=pt-BR&page=1', this.headers)
-    
+
   }
 
-  findDirectorName(show: Movie) {
+  findDirectorName(show: ShowInputModel) {
     if (show.media_type === 'movie') {
       return this.http.get<Results>(`https://api.themoviedb.org/3/movie/${show.id}/credits?language=en-US`, this.headers);
     } else {
@@ -34,21 +34,21 @@ export class SearchMovieService {
     return this.http.get<Results>("https://api.themoviedb.org/3/movie/popular", this.headers);
   }
 
-  searchPopularSeries(){
+  searchPopularSeries() {
     return this.http.get<Results>("https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&vote_average.gte=7&vote_average.lte=10&vote_count.gte=1000&with_original_language=en&without_genres=10767%2C%2035%2C%2010764%2C%2010763%2C%2099", this.headers);
   }
 
-  searchPopularRomanceMovies(){
+  searchPopularRomanceMovies() {
     return this.http.get<Results>("https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2023-01-01&sort_by=popularity.desc&vote_count.gte=300&with_genres=10749&with_original_language=en", this.headers)
   }
 
-  searchPopularHorrorMovies(){
+  searchPopularHorrorMovies() {
     return this.http.get<Results>("https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2023-01-01&sort_by=popularity.desc&vote_average.gte=6.5&vote_count.gte=300&with_genres=27&with_original_language=en", this.headers)
   }
 
-  searchPopularScienceFictionMovies(){
+  searchPopularScienceFictionMovies() {
     return this.http.get<Results>("https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2023-01-01&sort_by=popularity.desc&vote_average.gte=6.5&vote_count.gte=300&with_genres=878&with_original_language=en",
-    this.headers)
+      this.headers)
   }
 
 }

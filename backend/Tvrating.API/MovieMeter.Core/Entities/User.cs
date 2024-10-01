@@ -18,7 +18,8 @@ public class User : BaseEntity
     public string Name { get; private set; }
     public string Email { get; private set; }
     public string Password { get; private set; }
-    public List<Show> Shows { get; private set; }
+    public List<Review> Shows { get; private set; }
     public string Role { get; private set; }
+    
     
 }

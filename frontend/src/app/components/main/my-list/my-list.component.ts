@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MovieResponseDTO } from '../../../domain/MovieResponseDTO';
+import { ShowViewModel } from '../../../domain/ShowViewModel';
 import { Observable, Subscription, map } from 'rxjs';
 import { ShowService } from '../../../services/show.service';
 import { LocalStorageService } from '../../../services/local-storage.service';
@@ -45,7 +45,7 @@ import { PopupComponent } from "../popup/popup.component";
 })
 export class MyListComponent implements OnInit {
   readonly dialog = inject(MatDialog);
-  shows$: Observable<MovieResponseDTO[]> = new Observable<MovieResponseDTO[]>()
+  shows$: Observable<ShowViewModel[]> = new Observable<ShowViewModel[]>()
   popupDisplay: boolean = false;
   popupType: boolean = true;
   title: string = '';
@@ -86,7 +86,7 @@ export class MyListComponent implements OnInit {
 
   filterShowsByNameAsc() {
     this.shows$ = this.shows$.pipe(map((show) => {
-      show.sort((a, b) => { return a.title.localeCompare(b.title) })
+      show.sort((a, b) => { return a.originalTitle.localeCompare(b.originalTitle) })
       this.dropdownDisplay = false
       return show
     }
@@ -95,7 +95,7 @@ export class MyListComponent implements OnInit {
 
   filterShowsByNameDesc() {
     this.shows$ = this.shows$.pipe(map((show) => {
-      show.sort((a, b) => { return b.title.localeCompare(a.title) })
+      show.sort((a, b) => { return b.originalTitle.localeCompare(a.originalTitle) })
       this.dropdownDisplay = false
       return show
     }

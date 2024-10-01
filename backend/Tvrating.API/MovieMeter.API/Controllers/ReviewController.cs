@@ -10,13 +10,13 @@ using MovieMeter.Core.Entities;
 namespace MovieMeter.API.Controllers;
 
 [ApiController]
-[Route("api/show")]
+[Route("api/review")]
 [Authorize]
-public class ShowController : ControllerBase
+public class ReviewController : ControllerBase
 {
-    private readonly IShowService _service;
+    private readonly IReviewService _service;
 
-    public ShowController(IShowService service)
+    public ReviewController(IReviewService service)
     {
         _service = service;
     }
@@ -90,13 +90,29 @@ public class ShowController : ControllerBase
         return BadRequest();
 
     }
-
+    
     [AllowAnonymous]
-    [HttpGet("reviews/{originalTitle}")]
+    [HttpGet("{originalTitle}")]
     public async Task<IActionResult> GetReviewByOrigTitle(string originalTitle)
     {
         var result = await _service.GetReviewsByOrigTitle(originalTitle);
-
+        Console.WriteLine(result.Data);
         return Ok(result.Data);
     }
+
+    [Authorize]
+    [HttpPost("changeLike")]
+    public async Task<IActionResult> ChangeLikes([FromBody]LikeInputModel model)
+    {
+        var result = await _service.ChangeLikes(model);
+
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
+        
+        return Ok(result.Data);
+    }
+
+    
 }

@@ -2,7 +2,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, ElementRef, OnInit, PLATFORM_ID, Renderer2, ViewChild, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { LocalStorageService } from '../../../services/local-storage.service';
-import { MovieSearchDTO } from '../../../domain/MovieSearchDTO';
+import { ShowSearchViewModel } from '../../../domain/ShowSearchViewModel';
 import { Observable, catchError, delay, map, throwError } from 'rxjs';
 import { SearchMovieService } from '../../../services/search-movie.service';
 import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
@@ -45,8 +45,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 export class NavbarComponent implements OnInit {
 
   private readonly platformId = inject(PLATFORM_ID)
-  foundSearch$: Observable<MovieSearchDTO[]> = new Observable<MovieSearchDTO[]>()
-  shows: MovieSearchDTO[] = []
+  foundSearch$: Observable<ShowSearchViewModel[]> = new Observable<ShowSearchViewModel[]>()
+  shows: ShowSearchViewModel[] = []
   path: string = '';
   userName: string = '';
   shouldShowRegister: boolean = false;
@@ -71,7 +71,7 @@ export class NavbarComponent implements OnInit {
       }
     })
 
-    
+
     this.renderer.listen('window', 'click', (e: Event) => {
       if (this.results) {
         if (!this.results.nativeElement.contains(e.target)) {
@@ -121,7 +121,7 @@ export class NavbarComponent implements OnInit {
         this.foundSearch$ = this.searchMovieService.searchTitle(event.target.value)
           .pipe(
             map((res) => {
-              this.shows = res.results.map(movie => movie as MovieSearchDTO).filter(movie => movie.media_type == 'tv' || movie.media_type == 'movie');
+              this.shows = res.results.map(movie => movie as ShowSearchViewModel).filter(movie => movie.media_type == 'tv' || movie.media_type == 'movie');
 
               //A api retorna filmes com 'title' e series com 'name', mesma coisa com release_date e first_air_date
               for (let i = 0; i < this.shows.length; i++) {
@@ -162,7 +162,7 @@ export class NavbarComponent implements OnInit {
 
   closeSearchResults() {
     this.searchDisplay = false;
-    this.foundSearch$ = new Observable<MovieSearchDTO[]>();
+    this.foundSearch$ = new Observable<ShowSearchViewModel[]>();
     this.inputValue = '';
     this.isLoading = false
   }

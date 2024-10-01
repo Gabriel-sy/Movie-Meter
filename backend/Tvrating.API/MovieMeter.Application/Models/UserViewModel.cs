@@ -4,7 +4,7 @@ namespace MovieMeter.Application.Models;
 
 public class UserViewModel
 {
-    public UserViewModel(string name, string email, List<ShowViewModel> shows)
+    public UserViewModel(string name, string email, List<ReviewViewModel> shows)
     {
         Name = name;
         Email = email;
@@ -13,11 +13,11 @@ public class UserViewModel
 
     public string Name { get; set; }
     public string Email { get; set; }
-    public List<ShowViewModel> Shows { get; set; }
+    public List<ReviewViewModel> Shows { get; set; }
 
     public static UserViewModel FromEntity(User user)
     {
         return new UserViewModel(user.Name, user.Email, user.Shows
-            .Select(u => ShowViewModel.FromEntity(u)).ToList());
+            .Select(u => ReviewViewModel.FromEntity(u)).ToList());
     }
 }

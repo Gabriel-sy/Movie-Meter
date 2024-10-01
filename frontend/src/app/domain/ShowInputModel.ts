@@ -1,4 +1,4 @@
-export class Movie {
+export class ShowInputModel {
   id!: string
   showId!: string
   title!: string

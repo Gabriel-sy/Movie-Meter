@@ -2,25 +2,66 @@
 
 public class Review : BaseEntity
 {
-    protected Review(){}
-    
-    public Review(Show show, int showId, User user, int userId, string reviewText, int likes
-    , string rating) : base()
+    protected Review()
     {
-        Show = show;
+        
+    }
+    public Review(int showId, string releaseDate, List<string> genres, 
+        string userRating, string posterPath, string overview, 
+        string directorName, User user, int userId, string originalTitle, 
+        string userReview) : base()
+    {
         ShowId = showId;
+        ReleaseDate = releaseDate;
+        Genres = genres;
+        UserRating = userRating;
+        PosterPath = posterPath;
+        Overview = overview;
+        DirectorName = directorName;
         User = user;
         UserId = userId;
-        ReviewText = reviewText;
-        Likes = likes;
-        Rating = rating;
+        OriginalTitle = originalTitle;
+        UserReview = userReview;
+        LikeAmount = 0;
+        LikeNames = [];
+        IsLiked = false;
+
     }
 
-    public Show Show { get; private set; }
     public int ShowId { get; private set; }
+    public string ReleaseDate { get; private set; }
+    public List<string> Genres { get; private set; }
+    public string UserRating { get; private set; }
+    public string PosterPath { get; private set; }
+    public string Overview { get; private set; }
+    public string? DirectorName { get; private set; }
     public User User { get; private set; }
     public int UserId { get; private set; }
-    public string ReviewText { get; private set; }
-    public string Rating { get; private set; }
-    public int Likes { get; private set; }
+    public string OriginalTitle { get; private set; }
+    public string? UserReview { get; private set; }
+    public int LikeAmount { get; private set; }
+    public List<string> LikeNames { get; private set; }
+    public bool IsLiked { get; private set; }
+
+    public void UpdateRating(string rating)
+    {
+        UserRating = rating;
+    }
+
+    public void UpdateReviewText(string reviewText)
+    {
+        UserReview = reviewText;
+    }
+
+    public void UpdateLikeAmount(bool isLiked, string userName)
+    {
+        LikeAmount = isLiked ? LikeAmount + 1 : LikeAmount - 1;
+        LikeNames.Add(userName);
+        IsLiked = isLiked;
+    }
+
+    public void RemoveLikeName(string name)
+    {
+        LikeNames.RemoveAll(n => n == name);
+    }
 }

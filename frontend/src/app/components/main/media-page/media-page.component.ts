@@ -3,7 +3,7 @@ import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular
 import { ShowService } from '../../../services/show.service';
 import { SearchMovieService } from '../../../services/search-movie.service';
 import { Results } from '../../../domain/Results';
-import { Movie } from '../../../domain/Movie';
+import { ShowInputModel } from '../../../domain/ShowInputModel';
 import { Observable, Subject, Subscription, map, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Person } from '../../../domain/Person';
@@ -36,7 +36,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   showName: string = "";
   userRating: string = ''
   director: string = '';
-  foundShow: Movie = new Movie()
+  foundShow: ShowInputModel = new ShowInputModel()
 
   constructor(private route: ActivatedRoute, private showService: ShowService,
     private searchMovieService: SearchMovieService,
@@ -45,15 +45,15 @@ export class MediaPageComponent implements OnInit, OnDestroy {
     private router: Router) {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd && this.foundShow.title != undefined) {
-          let currentUrl = this.foundShow.title
+        let currentUrl = this.foundShow.title
         if (currentUrl != this.formatTitle(this.route.snapshot.url[2].path)) {
           this.actors = [];
           this.mainActorsName = [];
-          this.foundShow = new Movie()
+          this.foundShow = new ShowInputModel()
           this.showName = this.route.snapshot.url[2].path.replace(new RegExp("-", "g"), ' ')
           this.loadShow()
         }
-        
+
       }
     })
   }
@@ -75,7 +75,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: Results) => {
           this.foundShow = res.results.find(m => m.original_title == this.showName || m.original_name == this.showName)
-          || new Movie()
+            || new ShowInputModel()
 
           this.foundShow = this.mapShowFields(this.foundShow)
 
@@ -162,18 +162,19 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   }
 
   getUserRating() {
-    if(this.isLoggedIn()){
+    if (this.isLoggedIn()) {
       this.userService.findByToken()
-      .pipe(takeUntil(this.unsubscribeSignal))
-      .subscribe({
-        next: (res: User) => {
-          res.shows.forEach(movie => {
-            if (movie.title == this.foundShow.title) {
-              this.foundShow.user_rating = movie.userRating;
-            }
-          })
-        }
-      })
+        .pipe(takeUntil(this.unsubscribeSignal))
+        .subscribe({
+          next: (res: User) => {
+            res.shows.forEach(movie => {
+              if (movie.originalTitle == this.foundShow.original_title) {
+                this.foundShow.user_rating = movie.userRating;
+                this.foundShow.user_review = movie.userReview;
+              }
+            })
+          }
+        })
     }
   }
 

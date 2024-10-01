@@ -48,8 +48,8 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> FindByEmailWithShows(string email)
     {
-        var user = await _context.Users.
-            Include(u => u.Shows)
+        var user = await _context.Users
+            .Include(u => u.Shows)
             .SingleOrDefaultAsync(u => u.Email == email && !u.IsDeleted);
         
         

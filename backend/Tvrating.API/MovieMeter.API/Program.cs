@@ -18,8 +18,8 @@ builder.Services.AddSwaggerGen();
 
 
 
-builder.Services.AddScoped<IShowRepository, ShowRepository>();
-builder.Services.AddScoped<IShowService, ShowService>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();

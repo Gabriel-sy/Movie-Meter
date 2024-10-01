@@ -13,7 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject, Subscription, map, takeUntil } from 'rxjs';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { UserService } from '../../services/user.service';
-import { Movie } from '../../domain/Movie';
+import { ShowInputModel } from '../../domain/ShowInputModel';
 
 @Component({
   selector: 'app-home',
@@ -25,10 +25,10 @@ import { Movie } from '../../domain/Movie';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  popularSeries$: Observable<Movie[]> = new Observable<Movie[]>();
-  popularRomanceMovies$: Observable<Movie[]> = new Observable<Movie[]>();
-  popularHorrorMovies$: Observable<Movie[]> = new Observable<Movie[]>();
-  popularScienceFicMovies$: Observable<Movie[]> = new Observable<Movie[]>();
+  popularSeries$: Observable<ShowInputModel[]> = new Observable<ShowInputModel[]>();
+  popularRomanceMovies$: Observable<ShowInputModel[]> = new Observable<ShowInputModel[]>();
+  popularHorrorMovies$: Observable<ShowInputModel[]> = new Observable<ShowInputModel[]>();
+  popularScienceFicMovies$: Observable<ShowInputModel[]> = new Observable<ShowInputModel[]>();
   unsubscribeSignal: Subject<void> = new Subject();
   popularMovies: PopularMovies[] = [];
   displayedMovies: PopularMovies[] = [];
@@ -81,32 +81,32 @@ export class HomeComponent implements OnInit, OnDestroy {
       })
   }
 
-  searchPopularSeries(){
+  searchPopularSeries() {
     this.popularSeries$ = this.searchMovieService.searchPopularSeries()
-    .pipe(map((res: Results) => {
-      return res.results
-    }))
+      .pipe(map((res: Results) => {
+        return res.results
+      }))
   }
 
-  searchPopularRomanceMovies(){
+  searchPopularRomanceMovies() {
     this.popularRomanceMovies$ = this.searchMovieService.searchPopularRomanceMovies()
-    .pipe(map((res: Results) => {
-      return res.results
-    }))
+      .pipe(map((res: Results) => {
+        return res.results
+      }))
   }
 
-  searchPopularHorrorMovies(){
+  searchPopularHorrorMovies() {
     this.popularHorrorMovies$ = this.searchMovieService.searchPopularHorrorMovies()
       .pipe(map((res: Results) => {
         return res.results
       }))
   }
 
-  searchPopularScienceFicMovies(){
+  searchPopularScienceFicMovies() {
     this.popularScienceFicMovies$ = this.searchMovieService.searchPopularScienceFictionMovies()
-    .pipe(map((res: Results) => {
-      return res.results
-    }))
+      .pipe(map((res: Results) => {
+        return res.results
+      }))
   }
 
   openDialog() {

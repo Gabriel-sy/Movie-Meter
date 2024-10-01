@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieMeter.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using MovieMeter.Infrastructure.Persistence;
 namespace MovieMeter.Infrastructure.Persistence
 {
     [DbContext(typeof(MovieMeterDbContext))]
-    partial class MovieMeterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240930131039_update review entity")]
+    partial class updatereviewentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,6 +26,49 @@ namespace MovieMeter.Infrastructure.Persistence
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("MovieMeter.Core.Entities.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsLiked")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Likes")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Rating")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReviewText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ShowId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShowId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("MovieMeter.Core.Entities.Show", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,13 +89,7 @@ namespace MovieMeter.Infrastructure.Persistence
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsLiked")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("LikeAmount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LikeNames")
+                    b.Property<string>("MediaType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -65,12 +105,20 @@ namespace MovieMeter.Infrastructure.Persistence
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("PublicRating")
+                        .HasPrecision(3, 2)
+                        .HasColumnType("decimal(3,2)");
+
                     b.Property<string>("ReleaseDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ShowId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -86,7 +134,7 @@ namespace MovieMeter.Infrastructure.Persistence
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Shows");
                 });
 
             modelBuilder.Entity("MovieMeter.Core.Entities.User", b =>
@@ -126,6 +174,25 @@ namespace MovieMeter.Infrastructure.Persistence
 
             modelBuilder.Entity("MovieMeter.Core.Entities.Review", b =>
                 {
+                    b.HasOne("MovieMeter.Core.Entities.Show", "Show")
+                        .WithMany("ShowReviews")
+                        .HasForeignKey("ShowId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MovieMeter.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Show");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MovieMeter.Core.Entities.Show", b =>
+                {
                     b.HasOne("MovieMeter.Core.Entities.User", "User")
                         .WithMany("Shows")
                         .HasForeignKey("UserId")
@@ -133,6 +200,11 @@ namespace MovieMeter.Infrastructure.Persistence
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MovieMeter.Core.Entities.Show", b =>
+                {
+                    b.Navigation("ShowReviews");
                 });
 
             modelBuilder.Entity("MovieMeter.Core.Entities.User", b =>

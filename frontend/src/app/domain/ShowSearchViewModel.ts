@@ -1,4 +1,4 @@
-export class MovieSearchDTO {
+export class ShowSearchViewModel {
   id!: string
   title!: string
   name!: string

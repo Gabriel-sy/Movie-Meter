@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieMeter.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using MovieMeter.Infrastructure.Persistence;
 namespace MovieMeter.Infrastructure.Persistence
 {
     [DbContext(typeof(MovieMeterDbContext))]
-    partial class MovieMeterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241001213906_remoção da classe antiga review para centralizar em uma só")]
+    partial class remoçãodaclasseantigareviewparacentralizaremumasó
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,7 +89,7 @@ namespace MovieMeter.Infrastructure.Persistence
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Shows");
                 });
 
             modelBuilder.Entity("MovieMeter.Core.Entities.User", b =>

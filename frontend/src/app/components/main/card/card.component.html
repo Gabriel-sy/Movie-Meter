@@ -3,7 +3,7 @@
 <div [routerLink]="['/media/details', formatTitle(show.originalTitle)]" class="card-container" *ngFor="let show of shows$ | async">
   <div class="card-header">
     <div class="title-rating">
-      <h4>{{ show.title }} ({{ show.releaseDate }})</h4>
+      <h4>{{ show.originalTitle }} ({{ show.releaseDate }})</h4>
       <p class="user-rating">
         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FFD700">
           <path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/>
@@ -19,7 +19,7 @@
   
   <div class="card-body">
     
-      <img [src]="showImage(show.posterPath)" alt="{{ show.title }} poster">
+      <img [src]="showImage(show.posterPath)" alt="{{ show.originalTitle }} poster">
     <div class="review-content">
       <h5 *ngIf="show.userReview">Sua Avaliação:</h5>
       <p class="overview user" *ngIf="show.userReview"><em>{{ show.userReview }}</em></p>

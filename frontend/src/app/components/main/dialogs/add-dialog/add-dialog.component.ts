@@ -4,12 +4,12 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angu
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchMovieService } from '../../../../services/search-movie.service';
 import { Observable, Subject, catchError, map, takeUntil, throwError } from 'rxjs';
-import { Movie } from '../../../../domain/Movie';
+import { ShowInputModel } from '../../../../domain/ShowInputModel';
 import { CommonModule } from '@angular/common';
 import { Results } from '../../../../domain/Results';
 import { ShowService } from '../../../../services/show.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MovieSearchDTO } from '../../../../domain/MovieSearchDTO';
+import { ShowSearchViewModel } from '../../../../domain/ShowSearchViewModel';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { FormErrorComponent } from "../../form-error/form-error.component";
 import { PopupComponent } from "../../popup/popup.component";
@@ -24,13 +24,13 @@ import { PopupComponent } from "../../popup/popup.component";
 export class AddDialogComponent implements OnDestroy {
 
   unsubscribeSignal: Subject<void> = new Subject();
-  foundSearch$: Observable<MovieSearchDTO[]> = new Observable<MovieSearchDTO[]>()
+  foundSearch$: Observable<ShowSearchViewModel[]> = new Observable<ShowSearchViewModel[]>()
   @Output() popupEvent = new EventEmitter<boolean>();
-  showToSave: Movie = new Movie()
+  showToSave: ShowInputModel = new ShowInputModel()
   genres: string[] = []
   timer = setTimeout(() => { }, 0)
-  foundShows: Movie[] = []
-  shows: MovieSearchDTO[] = []
+  foundShows: ShowInputModel[] = []
+  shows: ShowSearchViewModel[] = []
   inputValue: string = this.data;
   isExpanded: boolean = false;
   isLoading: boolean = false;
@@ -58,70 +58,70 @@ export class AddDialogComponent implements OnDestroy {
   saveMovie() {
     if (this.formData.valid) {
       this.isLoading = true;
-        this.searchMovieService.searchTitle(this.inputValue)
-          .pipe(takeUntil(this.unsubscribeSignal))
-          .subscribe({
-            next: (res: Results) => {
-              this.foundShows = res.results;
-              this.foundShows = this.foundShows.filter(show => show.title == this.inputValue || show.name == this.inputValue)
-              this.showToSave = this.foundShows[0] as Movie;
+      this.searchMovieService.searchTitle(this.inputValue)
+        .pipe(takeUntil(this.unsubscribeSignal))
+        .subscribe({
+          next: (res: Results) => {
+            this.foundShows = res.results;
+            this.foundShows = this.foundShows.filter(show => show.title == this.inputValue || show.name == this.inputValue)
+            this.showToSave = this.foundShows[0] as ShowInputModel;
 
-              if(this.showToSave.release_date == undefined){
-                this.showToSave.release_date = this.showToSave.first_air_date;
-              }
+            if (this.showToSave.release_date == undefined) {
+              this.showToSave.release_date = this.showToSave.first_air_date;
+            }
 
-              this.showToSave.user_rating = this.formData.get('rating')?.value as string
+            this.showToSave.user_rating = this.formData.get('rating')?.value as string
 
-              this.showToSave.user_review = this.formData.get('review')?.value || ''; 
+            this.showToSave.user_review = this.formData.get('review')?.value || '';
 
-              if(this.showToSave.title == undefined){
-                this.showToSave.title = this.showToSave.name;
-              }
+            if (this.showToSave.title == undefined) {
+              this.showToSave.title = this.showToSave.name;
+            }
 
-              if(this.showToSave.original_title == undefined){
-                this.showToSave.original_title = this.showToSave.original_name;
-              }
+            if (this.showToSave.original_title == undefined) {
+              this.showToSave.original_title = this.showToSave.original_name;
+            }
 
-              this.searchMovieService.findDirectorName(this.showToSave)
-                .pipe(takeUntil(this.unsubscribeSignal))
-                .subscribe({
-                  next: (res: Results) => {
-                    for (let i = 0; i < res.crew.length; i++) {
-                      if (res.crew[i].known_for_department == "Directing" && res.crew[i].job == "Director") {
-                        this.showToSave.directorName = res.crew[i].name;
-                      }
+            this.searchMovieService.findDirectorName(this.showToSave)
+              .pipe(takeUntil(this.unsubscribeSignal))
+              .subscribe({
+                next: (res: Results) => {
+                  for (let i = 0; i < res.crew.length; i++) {
+                    if (res.crew[i].known_for_department == "Directing" && res.crew[i].job == "Director") {
+                      this.showToSave.directorName = res.crew[i].name;
                     }
-                  },
-                  error: () => {
-                    this.isLoading = false
-                    this.dialogRef.close("openError")
-                  },
-                  complete: () => {
-                    this.showService.saveShow(this.showToSave)
-                      .pipe(takeUntil(this.unsubscribeSignal))
-                      .subscribe({
-                        error: () => {
-                          this.dialogRef.close("openError")
-                          this.isLoading = false
-                        },
-                        complete: () => {
-                          this.dialogRef.close("openSuccess")
-                          this.isLoading = false
-                          }
-                      })
                   }
-                })
-            },
-            error: () => {
-              this.isLoading = false;
-              this.dialogRef.close("openError")
-            },
-          })
-      } else {
-        this.formData.markAllAsTouched()
-      }
+                },
+                error: () => {
+                  this.isLoading = false
+                  this.dialogRef.close("openError")
+                },
+                complete: () => {
+                  this.showService.saveShow(this.showToSave)
+                    .pipe(takeUntil(this.unsubscribeSignal))
+                    .subscribe({
+                      error: () => {
+                        this.dialogRef.close("openError")
+                        this.isLoading = false
+                      },
+                      complete: () => {
+                        this.dialogRef.close("openSuccess")
+                        this.isLoading = false
+                      }
+                    })
+                }
+              })
+          },
+          error: () => {
+            this.isLoading = false;
+            this.dialogRef.close("openError")
+          },
+        })
+    } else {
+      this.formData.markAllAsTouched()
     }
-  
+  }
+
 
   searchMovie(event: any) {
     clearTimeout(this.timer)
@@ -132,7 +132,7 @@ export class AddDialogComponent implements OnDestroy {
       if (length > 3) {
         this.foundSearch$ = this.searchMovieService.searchTitle(event.target.value)
           .pipe(map((res) => {
-            this.shows = res.results.map(movie => movie as MovieSearchDTO).filter(movie => movie.media_type == 'tv' || movie.media_type == 'movie');
+            this.shows = res.results.map(movie => movie as ShowSearchViewModel).filter(movie => movie.media_type == 'tv' || movie.media_type == 'movie');
 
             //A api retorna filmes com 'title' e series com 'name', mesma coisa com release_date e first_air_date
             for (let i = 0; i < this.shows.length; i++) {
@@ -156,7 +156,7 @@ export class AddDialogComponent implements OnDestroy {
               return throwError(() => err)
             }))
       } else if (length == 0) {
-        this.foundSearch$ = new Observable<MovieSearchDTO[]>()
+        this.foundSearch$ = new Observable<ShowSearchViewModel[]>()
         this.isExpanded = false;
         this.inputValue = '';
       }
@@ -166,7 +166,7 @@ export class AddDialogComponent implements OnDestroy {
   setInputValue(movie: string) {
     this.inputValue = movie;
     this.formData.patchValue({ show: movie });
-    this.foundSearch$ = new Observable<MovieSearchDTO[]>()
+    this.foundSearch$ = new Observable<ShowSearchViewModel[]>()
     this.isExpanded = false;
     this.cdr.detectChanges();
   }

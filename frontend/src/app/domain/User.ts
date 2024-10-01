@@ -1,8 +1,10 @@
-import { Movie } from "./Movie"
-import { MovieResponseDTO } from "./MovieResponseDTO"
+
+import { ReviewResponse } from "./ReviewResponse"
+import { ShowViewModel } from "./ShowViewModel"
 
 export class User {
   name!: string
   email!: string
-  shows!: MovieResponseDTO[]
+  shows!: ShowViewModel[]
+  reviewLikes!: ReviewResponse[]
 }

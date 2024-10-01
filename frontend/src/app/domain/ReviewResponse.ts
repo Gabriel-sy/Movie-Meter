@@ -2,5 +2,7 @@ export class ReviewResponse {
   userName!: string
   reviewText!: string
   rating!: string
-  likes!: number
+  likeAmount!: number
+  likeNames!: string[]
+  isLiked!: boolean
 }

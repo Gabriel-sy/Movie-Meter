@@ -2,7 +2,7 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { ShowService } from '../../../services/show.service';
 import { Observable, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { MovieResponseDTO } from '../../../domain/MovieResponseDTO';
+import { ShowViewModel } from '../../../domain/ShowViewModel';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.component';
 import { EditDialogComponent } from '../dialogs/edit-dialog/edit-dialog.component';
@@ -18,7 +18,7 @@ import { PopupComponent } from "../popup/popup.component";
 })
 export class CardComponent implements OnInit {
   readonly dialog = inject(MatDialog);
-  @Input() shows$: Observable<MovieResponseDTO[]> = new Observable<MovieResponseDTO[]>()
+  @Input() shows$: Observable<ShowViewModel[]> = new Observable<ShowViewModel[]>()
   popupDisplay: boolean = false;
   popupType: boolean = true;
   title: string = '';

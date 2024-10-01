@@ -1,9 +1,9 @@
-import { Movie } from "./Movie";
+import { ShowInputModel } from "./ShowInputModel";
 import { Person } from "./Person";
 
 export class Results {
   page!: number
-  results!: Movie[]
+  results!: ShowInputModel[]
   total_pages!: number
   total_results!: number
   crew!: Person[]
