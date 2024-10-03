@@ -2,6 +2,7 @@
 using MovieMeter.Application.Models;
 using MovieMeter.Core.Entities;
 using MovieMeter.Core.Repositories;
+using MovieMeter.Core.Services;
 
 namespace MovieMeter.Application.Services;
 
@@ -99,13 +100,17 @@ public class ReviewService : IReviewService
         return ResultViewModel.Success();
     }
 
-    public async Task<ResultViewModel<List<ReviewViewModel>>> GetReviewsByOrigTitle(string originalTitle)
+    public async Task<ResultViewModel<PagedList<SimpleReviewViewModel>>> GetReviewsByOrigTitle(string originalTitle, 
+        int pageNumber)
     {
-        var reviews = await _repository.GetReviewsByShowOrigTitle(originalTitle);
+        var reviews = await _repository.GetReviewsByShowOrigTitle(originalTitle, pageNumber);
 
-        var model = reviews.Select(c => ReviewViewModel.FromEntity(c)).ToList();
+        var model = reviews.Select(c => SimpleReviewViewModel.FromEntity(c)).ToList();
 
-        return ResultViewModel<List<ReviewViewModel>>.Success(model);
+        var returnModel = new PagedList<SimpleReviewViewModel>(model, pageNumber, reviews.TotalPages,
+            reviews.PageSize, reviews.TotalItems);
+
+        return ResultViewModel<PagedList<SimpleReviewViewModel>>.Success(returnModel);
     }
 
     public async Task<ResultViewModel<LikeInputModel?>> ChangeLikes(LikeInputModel model)

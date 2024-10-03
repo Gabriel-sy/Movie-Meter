@@ -33,7 +33,7 @@ public class ReviewViewModel
     public string UserRating { get; set; }
     public string PosterPath { get; set; }
     public string Overview { get; set; }
-    public string DirectorName { get; set; }
+    public string? DirectorName { get; set; }
     public string OriginalTitle { get; set; }
     public string? UserReview { get; set; }
     public string? UserName { get; set; }
@@ -45,6 +45,6 @@ public class ReviewViewModel
     {
         return new ReviewViewModel(review.Id, review.ShowId, review.ReleaseDate, review.Genres,
             review.UserRating, review.PosterPath, review.Overview, review.DirectorName, review.OriginalTitle
-            , review.UserReview, review.LikeAmount, review.LikeNames, review.IsLiked, review.User.Name);
+            , review.UserReview ?? "", review.LikeAmount, review.LikeNames, review.IsLiked, review.User.Name);
     }
 }

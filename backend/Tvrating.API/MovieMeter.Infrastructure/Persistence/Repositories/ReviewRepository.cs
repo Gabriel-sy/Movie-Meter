@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieMeter.Core.Entities;
 using MovieMeter.Core.Repositories;
+using MovieMeter.Core.Services;
 
 namespace MovieMeter.Infrastructure.Persistence.Repositories;
 
@@ -62,14 +63,14 @@ public class ReviewRepository : IReviewRepository
         return review;
     }
 
-    public async Task<List<Review>> GetReviewsByShowOrigTitle(string originalTitle)
+    public async Task<PagedList<Review>> GetReviewsByShowOrigTitle(string originalTitle, int pageNumber)
     {
-        var reviews = await _context.Reviews
+        var query = _context.Reviews
             .Where(c => c.OriginalTitle == originalTitle && !c.IsDeleted)
             .Include(c => c.User)
-            .ToListAsync();
+            .AsQueryable();
 
-        return reviews;
+        return await PaginationHelper.CreateAsync(query, pageNumber, 10);
     }
 
     public async Task<Review> ChangeLikes(Review review)

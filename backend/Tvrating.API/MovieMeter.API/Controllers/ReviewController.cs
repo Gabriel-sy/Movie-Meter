@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Extensions;
+using MovieMeter.API.Extensions;
 using MovieMeter.Application.Models;
 using MovieMeter.Application.Services;
 using MovieMeter.Core.Entities;
@@ -92,12 +93,20 @@ public class ReviewController : ControllerBase
     }
     
     [AllowAnonymous]
-    [HttpGet("{originalTitle}")]
-    public async Task<IActionResult> GetReviewByOrigTitle(string originalTitle)
+    [HttpGet("{originalTitle}/{pageNumber:int}")]
+    public async Task<IActionResult> GetReviewByOrigTitle(string originalTitle, int pageNumber)
     {
-        var result = await _service.GetReviewsByOrigTitle(originalTitle);
-        Console.WriteLine(result.Data);
-        return Ok(result.Data);
+        var result = await _service.GetReviewsByOrigTitle(originalTitle, pageNumber);
+
+        if (result.Data != null)
+        {
+            Response.AddPaginationHeader(new PaginationHeader(result.Data.CurrentPage,
+                result.Data.PageSize, result.Data.TotalItems, result.Data.TotalPages));
+
+            return Ok(result.Data);
+        }
+
+        return BadRequest("Erro ao processar a requisição");
     }
 
     [Authorize]

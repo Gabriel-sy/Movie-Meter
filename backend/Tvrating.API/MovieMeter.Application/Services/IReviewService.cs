@@ -1,4 +1,5 @@
 ﻿using MovieMeter.Application.Models;
+using MovieMeter.Core.Services;
 
 namespace MovieMeter.Application.Services;
 
@@ -9,6 +10,6 @@ public interface IReviewService
     Task<ResultViewModel> SaveShow(CreateShowInputModel model, string userEmail);
     Task<ResultViewModel> DeleteShow(int id);
     Task<ResultViewModel> EditShow(EditShowInputModel model);
-    Task<ResultViewModel<List<ReviewViewModel>>> GetReviewsByOrigTitle(string originalTitle);
+    Task<ResultViewModel<PagedList<SimpleReviewViewModel>>> GetReviewsByOrigTitle(string originalTitle, int pageNumber);
     Task<ResultViewModel<LikeInputModel?>> ChangeLikes(LikeInputModel model);
 }
