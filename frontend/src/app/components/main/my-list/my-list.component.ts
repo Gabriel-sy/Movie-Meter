@@ -104,7 +104,7 @@ export class MyListComponent implements OnInit {
 
   filterShowsByRatingAsc() {
     this.shows$ = this.shows$.pipe(map((show) => {
-      show.sort((a, b) => { return a.userRating.localeCompare(b.userRating) })
+      show.sort()
       this.dropdownDisplay = false
       return show
     }
@@ -113,7 +113,7 @@ export class MyListComponent implements OnInit {
 
   filterShowsByRatingDesc() {
     this.shows$ = this.shows$.pipe(map((show) => {
-      show.sort((a, b) => { return b.userRating.localeCompare(a.userRating) })
+      show.sort().reverse()
       this.dropdownDisplay = false
       return show
     }
@@ -121,11 +121,7 @@ export class MyListComponent implements OnInit {
   }
 
   showDropdown() {
-    if (this.dropdownDisplay == true) {
-      this.dropdownDisplay = false
-    } else {
-      this.dropdownDisplay = true
-    }
+    this.dropdownDisplay = !this.dropdownDisplay
 
   }
 }

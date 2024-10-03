@@ -8,7 +8,7 @@ public class CreateShowInputModel
     public int ShowId { get; set; }
     public string? ReleaseDate { get; set; }
     public int[] Genres { get; set; }
-    public string UserRating { get; set; }
+    public decimal UserRating { get; set; }
     public string PosterPath { get; set; }
     public string Overview { get; set; }
     public string? DirectorName { get; set; }

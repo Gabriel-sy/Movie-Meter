@@ -5,7 +5,7 @@ namespace MovieMeter.Application.Models;
 public class ReviewViewModel
 {
     public ReviewViewModel(int id, int showId, string releaseDate, 
-        List<string> genres, string userRating, string posterPath, 
+        List<string> genres, decimal userRating, string posterPath, 
         string overview, string directorName, string originalTitle, 
         string userReview, int likeAmount, List<string> likeNames,
         bool isLiked, string userName)
@@ -30,7 +30,7 @@ public class ReviewViewModel
     public int ShowId { get; set; }
     public string ReleaseDate { get; set; }
     public List<string> Genres { get; set; }
-    public string UserRating { get; set; }
+    public decimal UserRating { get; set; }
     public string PosterPath { get; set; }
     public string Overview { get; set; }
     public string? DirectorName { get; set; }

@@ -18,7 +18,7 @@ export class ShowService {
             Title: show.title,
             ReleaseDate: show.release_date,
             Genres: show.genre_ids,
-            UserRating: show.user_rating.toString(),
+            UserRating: show.user_rating,
             PublicRating: show.vote_average,
             MediaType: show.media_type,
             PosterPath: show.poster_path,
@@ -140,15 +140,25 @@ export class ShowService {
         return newArr;
     }
 
-    getCommentsByTitle(title: string) {
-        return this.http.get<ShowViewModel[]>(this.API + "api/review/" + title)
+    getCommentsByTitle(title: string, page: number) {
+        return this.http.get<ShowViewModel[]>(this.API + `api/review/${title}/${page}`)
+    }
+
+    getCommentsByTitleOrdered(title: string, page: number, sortCategory?: string, order?: string) {
+        return sortCategory && order ?
+            this.http.get<ShowViewModel[]>(this.API + `api/review/${title}/${sortCategory}/${order}/${page}`) :
+            this.http.get<ShowViewModel[]>(this.API + `api/review/${title}/${page}`)
+    }
+
+    getCommentsHeaderByTitle(title: string) {
+        return this.http.get<ShowViewModel[]>(this.API + `api/review/${title}/1`, { observe: 'response' })
     }
 
     changeLikes(request: ShowViewModel, showId: string) {
         var objectToSend = {
             ShowId: showId,
             ReviewUserName: request.reviewUserName,
-            LikeUserName:  request.likeUserName,
+            LikeUserName: request.likeUserName,
             ReviewText: request.userReview,
             Rating: request.userRating,
             Likes: request.likeAmount,

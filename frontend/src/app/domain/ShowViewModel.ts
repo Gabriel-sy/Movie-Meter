@@ -3,7 +3,7 @@ export class ShowViewModel {
   releaseDate!: string
   genres!: string[]
   posterPath!: string
-  userRating!: string
+  userRating!: number
   overview!: string
   showId!: string
   directorName!: string

@@ -67,7 +67,7 @@ export class CardComponent implements OnInit {
     })
   }
 
-  openEditDialog(showId: string, currentRating: string, currentReview: string, event: Event) {
+  openEditDialog(showId: string, currentRating: number, currentReview: string, event: Event) {
     event.stopPropagation();
     const dialog = this.dialog.open(EditDialogComponent, {
       data: { currentRating: currentRating, currentReview: currentReview, showId: showId }

@@ -113,6 +113,35 @@ public class ReviewService : IReviewService
         return ResultViewModel<PagedList<SimpleReviewViewModel>>.Success(returnModel);
     }
 
+    public async Task<ResultViewModel<PagedList<SimpleReviewViewModel>>> GetReviewsByOrigTitleOrdered
+        (string originalTitle, int pageNumber, string sortCategory, string order)
+    {
+        var reviews = new PagedList<Review>();
+
+        reviews = (sortCategory, order) switch
+        {
+            ("rating", "desc") => await _repository.GetReviewsByOrigTitleDescRating
+                (originalTitle, pageNumber),
+            ("rating", "asc") => await _repository.GetReviewsByOrigTitleAscRating
+                (originalTitle, pageNumber),
+            ("likes", "desc") => await _repository.GetReviewsByShowOrigTitle
+                (originalTitle, pageNumber),
+            ("likes", "asc") => await _repository.GetReviewsByOrigTitleAscLike
+                (originalTitle, pageNumber),
+
+            _ => throw new InvalidDataException("Categoria inválida")
+        };
+        
+        var model = reviews.Select(c => SimpleReviewViewModel.FromEntity(c)).ToList();
+        
+
+        var returnModel = new PagedList<SimpleReviewViewModel>(model, pageNumber, reviews.TotalPages,
+            reviews.PageSize, reviews.TotalItems);
+
+        return ResultViewModel<PagedList<SimpleReviewViewModel>>.Success(returnModel);
+    }
+
+
     public async Task<ResultViewModel<LikeInputModel?>> ChangeLikes(LikeInputModel model)
     {
         var review = await _repository.FindReviewByShowIdAndUserName(model.ShowId, model.ReviewUserName);
@@ -123,9 +152,7 @@ public class ReviewService : IReviewService
         
         if (!model.IsLiked)
         {
-            Console.WriteLine("NOME DO USUARIO QUE VAI DELETAR A CURTIDA!:" + model.LikeUserName);
             review.RemoveLikeName(model.LikeUserName);
-            review.LikeNames.ForEach(n => Console.WriteLine(n));
             await _repository.DeleteUserLike(review.User, review);   
         }
         

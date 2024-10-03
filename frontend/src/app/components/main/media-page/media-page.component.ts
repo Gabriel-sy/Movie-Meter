@@ -169,7 +169,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
           next: (res: User) => {
             res.shows.forEach(movie => {
               if (movie.originalTitle == this.foundShow.original_title) {
-                this.foundShow.user_rating = movie.userRating;
+                this.foundShow.user_rating = movie.userRating as unknown as string;
                 this.foundShow.user_review = movie.userReview;
               }
             })

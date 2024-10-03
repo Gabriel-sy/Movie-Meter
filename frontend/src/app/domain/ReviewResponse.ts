@@ -1,7 +1,7 @@
 export class ReviewResponse {
   userName!: string
   reviewText!: string
-  rating!: string
+  rating!: number
   likeAmount!: number
   likeNames!: string[]
   isLiked!: boolean

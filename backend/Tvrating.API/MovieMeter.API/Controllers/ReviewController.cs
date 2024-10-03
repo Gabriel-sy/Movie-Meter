@@ -108,6 +108,25 @@ public class ReviewController : ControllerBase
 
         return BadRequest("Erro ao processar a requisição");
     }
+    
+    [AllowAnonymous]
+    [HttpGet("{originalTitle}/{sortCategory?}/{order?}/{pageNumber:int}")]
+    public async Task<IActionResult> GetReviewByOrigTitleOrdered(string originalTitle, string? order, 
+        int pageNumber, string? sortCategory)
+    {
+        var result = await _service.GetReviewsByOrigTitleOrdered(originalTitle, pageNumber,
+            sortCategory, order);
+
+        if (result.Data != null)
+        {
+            Response.AddPaginationHeader(new PaginationHeader(result.Data.CurrentPage,
+                result.Data.PageSize, result.Data.TotalItems, result.Data.TotalPages));
+
+            return Ok(result.Data);
+        }
+
+        return BadRequest("Erro ao processar a requisição");
+    }
 
     [Authorize]
     [HttpPost("changeLike")]

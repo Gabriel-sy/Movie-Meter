@@ -7,6 +7,10 @@ public class PagedList<T> : List<T>
     public int PageSize { get; set; }
     public int TotalItems { get; set; }
 
+    public PagedList()
+    {
+    }
+
     public PagedList(IEnumerable<T> items, int pageNumber, int pageSize, int totalItems)
     {
         CurrentPage = pageNumber;

@@ -7,7 +7,7 @@ public class Review : BaseEntity
         
     }
     public Review(int showId, string releaseDate, List<string> genres, 
-        string userRating, string posterPath, string overview, 
+        decimal userRating, string posterPath, string overview, 
         string directorName, User user, int userId, string originalTitle, 
         string userReview) : base()
     {
@@ -31,7 +31,7 @@ public class Review : BaseEntity
     public int ShowId { get; private set; }
     public string ReleaseDate { get; private set; }
     public List<string> Genres { get; private set; }
-    public string UserRating { get; private set; }
+    public decimal UserRating { get; private set; }
     public string PosterPath { get; private set; }
     public string Overview { get; private set; }
     public string? DirectorName { get; private set; }
@@ -43,7 +43,7 @@ public class Review : BaseEntity
     public List<string> LikeNames { get; private set; }
     public bool IsLiked { get; private set; }
 
-    public void UpdateRating(string rating)
+    public void UpdateRating(decimal rating)
     {
         UserRating = rating;
     }

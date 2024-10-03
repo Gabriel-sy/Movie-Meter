@@ -17,8 +17,10 @@ public class MovieMeterDbContext : DbContext
         builder
             .Entity<Review>(e =>
             {
-                e.HasKey(s => s.Id);
-                
+                e.HasKey(r=> r.Id);
+
+                e.Property(r => r.UserRating).HasPrecision(10, 2);
+
             });
 
         builder

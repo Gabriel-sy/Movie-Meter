@@ -4,7 +4,7 @@ namespace MovieMeter.Application.Models;
 
 public class SimpleReviewViewModel
 {
-    public SimpleReviewViewModel(string userRating, string userReview, string userName, 
+    public SimpleReviewViewModel(decimal userRating, string userReview, string userName, 
         int likeAmount, List<string> likeNames, bool isLiked)
     {
         UserRating = userRating;
@@ -15,7 +15,7 @@ public class SimpleReviewViewModel
         IsLiked = isLiked;
     }
 
-    public string UserRating { get; set; }
+    public decimal UserRating { get; set; }
     public string UserReview { get; set; }
     public string UserName { get; set; }
     public int LikeAmount { get; private set; }

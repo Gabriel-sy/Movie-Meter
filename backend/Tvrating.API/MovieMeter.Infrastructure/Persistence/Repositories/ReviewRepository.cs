@@ -38,7 +38,7 @@ public class ReviewRepository : IReviewRepository
         return review;
     }
 
-    public async Task<Review> EditReview(Review review, string rating, string reviewText)
+    public async Task<Review> EditReview(Review review, decimal rating, string reviewText)
     {
         review.UpdateRating(rating);
         review.UpdateReviewText(reviewText);
@@ -66,11 +66,45 @@ public class ReviewRepository : IReviewRepository
     public async Task<PagedList<Review>> GetReviewsByShowOrigTitle(string originalTitle, int pageNumber)
     {
         var query = _context.Reviews
-            .Where(c => c.OriginalTitle == originalTitle && !c.IsDeleted)
-            .Include(c => c.User)
+            .Where(r => r.OriginalTitle == originalTitle && !r.IsDeleted)
+            .OrderByDescending(r => r.LikeAmount)
+            .Include(r => r.User)
             .AsQueryable();
 
-        return await PaginationHelper.CreateAsync(query, pageNumber, 10);
+        return await PaginationHelper.CreateAsync(query, pageNumber, 5);
+    }
+    
+    public async Task<PagedList<Review>> GetReviewsByOrigTitleAscLike(string originalTitle, int pageNumber)
+    {
+        var query = _context.Reviews
+            .Where(r => r.OriginalTitle == originalTitle && !r.IsDeleted)
+            .OrderBy(r => r.LikeAmount)
+            .Include(r => r.User)
+            .AsQueryable();
+
+        return await PaginationHelper.CreateAsync(query, pageNumber, 5);
+    }
+    
+    public async Task<PagedList<Review>> GetReviewsByOrigTitleDescRating(string originalTitle, int pageNumber)
+    {
+        var query = _context.Reviews
+            .Where(r => r.OriginalTitle == originalTitle && !r.IsDeleted)
+            .OrderByDescending(r => r.UserRating)
+            .Include(r => r.User)
+            .AsQueryable();
+
+        return await PaginationHelper.CreateAsync(query, pageNumber, 5);
+    }
+    
+    public async Task<PagedList<Review>> GetReviewsByOrigTitleAscRating(string originalTitle, int pageNumber)
+    {
+        var query = _context.Reviews
+            .Where(r => r.OriginalTitle == originalTitle && !r.IsDeleted)
+            .OrderBy(r => r.UserRating)
+            .Include(r => r.User)
+            .AsQueryable();
+
+        return await PaginationHelper.CreateAsync(query, pageNumber, 5);
     }
 
     public async Task<Review> ChangeLikes(Review review)

@@ -2,7 +2,7 @@
 
 public class LikeInputModel
 {
-    public LikeInputModel(string reviewUserName, string reviewText, string rating, int likeAmount, 
+    public LikeInputModel(string reviewUserName, string reviewText, decimal rating, int likeAmount, 
         bool isLiked, int showId)
     {
         ReviewUserName = reviewUserName;
@@ -17,7 +17,7 @@ public class LikeInputModel
     public string ReviewUserName { get; set; }
     public string LikeUserName { get; set; }
     public string ReviewText { get; set; }
-    public string Rating { get; set; }
+    public decimal Rating { get; set; }
     public int LikeAmount { get; set; }
     public bool IsLiked { get; set; }
     
