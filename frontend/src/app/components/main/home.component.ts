@@ -34,6 +34,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   displayedMovies: PopularMovies[] = [];
   translateValueMovies = 0;
   isBrowser: boolean;
+  readonly romanceId: string = '10749'
+  readonly horrorId: string = '27'
+  readonly ScienceFicId: string = '878'
   popupDisplay: boolean = false;
   popupType: boolean = true;
   title: string = '';
@@ -57,9 +60,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.searchPopularMovies()
     this.searchPopularSeries()
-    this.searchPopularRomanceMovies()
-    this.searchPopularHorrorMovies()
-    this.searchPopularScienceFicMovies()
+    this.popularRomanceMovies$ = this.searchPopularMovieByGenre(this.romanceId)
+    this.popularHorrorMovies$ = this.searchPopularMovieByGenre(this.horrorId)
+    this.popularScienceFicMovies$ = this.searchPopularMovieByGenre(this.ScienceFicId)
   }
 
   searchPopularMovies() {
@@ -88,25 +91,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       }))
   }
 
-  searchPopularRomanceMovies() {
-    this.popularRomanceMovies$ = this.searchMovieService.searchPopularRomanceMovies()
-      .pipe(map((res: Results) => {
-        return res.results
-      }))
-  }
-
-  searchPopularHorrorMovies() {
-    this.popularHorrorMovies$ = this.searchMovieService.searchPopularHorrorMovies()
-      .pipe(map((res: Results) => {
-        return res.results
-      }))
-  }
-
-  searchPopularScienceFicMovies() {
-    this.popularScienceFicMovies$ = this.searchMovieService.searchPopularScienceFictionMovies()
-      .pipe(map((res: Results) => {
-        return res.results
-      }))
+  searchPopularMovieByGenre(genre: string){
+    return this.searchMovieService.searchMoviesByGenre(genre)
+    .pipe(map((res: Results) => {
+      return res.results
+    }))
   }
 
   openDialog() {
