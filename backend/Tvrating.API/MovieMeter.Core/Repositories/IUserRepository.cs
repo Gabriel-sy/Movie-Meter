@@ -9,5 +9,6 @@ public interface IUserRepository
     Task<User?> FindByEmail(string email);
     Task<User?> FindByEmailWithShows(string email);
     Task<User?> FindById(int id);
+    Task<User?> FindByUserName(string userName);
     Task<User?> UploadProfilePicture(User user);
 }

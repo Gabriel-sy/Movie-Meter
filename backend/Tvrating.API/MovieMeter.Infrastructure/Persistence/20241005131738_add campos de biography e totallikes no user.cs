@@ -5,11 +5,23 @@
 namespace MovieMeter.Infrastructure.Persistence
 {
     /// <inheritdoc />
-    public partial class mudançadecampouserRatingdaReviewdestringparadecimal : Migration
+    public partial class addcamposdebiographyetotallikesnouser : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "Biography",
+                table: "Users",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                name: "TotalLikes",
+                table: "Users",
+                type: "int",
+                nullable: true);
+
             migrationBuilder.AlterColumn<decimal>(
                 name: "UserRating",
                 table: "Reviews",
@@ -24,6 +36,14 @@ namespace MovieMeter.Infrastructure.Persistence
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "Biography",
+                table: "Users");
+
+            migrationBuilder.DropColumn(
+                name: "TotalLikes",
+                table: "Users");
+
             migrationBuilder.AlterColumn<string>(
                 name: "UserRating",
                 table: "Reviews",

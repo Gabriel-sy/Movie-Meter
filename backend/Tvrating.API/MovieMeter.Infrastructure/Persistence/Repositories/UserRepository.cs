@@ -62,6 +62,14 @@ public class UserRepository : IUserRepository
         return await _context.Users.SingleOrDefaultAsync(u => u.Id == id && !u.IsDeleted);
     }
 
+    public async Task<User?> FindByUserName(string userName)
+    {
+        var user = await _context.Users.SingleOrDefaultAsync
+            (u => u.Name == userName && !u.IsDeleted);
+
+        return user;
+    }
+
     public async Task<User?> UploadProfilePicture(User user)
     {
         _context.Update(user);

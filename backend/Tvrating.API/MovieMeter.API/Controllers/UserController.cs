@@ -81,9 +81,9 @@ public class UserController : ControllerBase
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> FindById(int id)
+    public async Task<IActionResult> FindByUserName(string userName)
     {
-        var result = await _service.FindById(id);
+        var result = await _service.FindByUserName(userName);
 
         if (!result.IsSuccess)
         {

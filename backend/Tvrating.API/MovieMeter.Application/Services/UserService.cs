@@ -49,16 +49,28 @@ public class UserService : IUserService
         return ResultViewModel<LoginViewModel?>.Success(new LoginViewModel(user.Name, token));
     }
 
-    public async Task<ResultViewModel<User?>> FindById(int id)
+    public async Task<ResultViewModel<UserViewModel?>> FindById(int id)
     {
         var user = await _repository.FindById(id);
 
         if (user is null)
         {
-            return ResultViewModel<User?>.Error("Usuário não encontrado");
+            return ResultViewModel<UserViewModel?>.Error("Usuário não encontrado");
         }
         
-        return ResultViewModel<User?>.Success(user);
+        return ResultViewModel<UserViewModel?>.Success(UserViewModel.FromEntity(user));
+    }
+
+    public async Task<ResultViewModel<UserViewModel?>> FindByUserName(string userName)
+    {
+        var result = await _repository.FindByUserName(userName);
+
+        if (result is null)
+        {
+            return ResultViewModel<UserViewModel?>.Error("Usuário não encontrado");
+        }
+
+        return ResultViewModel<UserViewModel?>.Success(UserViewModel.FromEntity(result));
     }
 
     public async Task<ResultViewModel<User?>> FindByEmail(string email)
@@ -93,4 +105,5 @@ public class UserService : IUserService
 
         return ResultViewModel<User>.Success(result);
     }
+    
 }
