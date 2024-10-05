@@ -93,6 +93,7 @@ button {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  min-width: 162px;
 }
 
 button:hover {
@@ -111,4 +112,23 @@ button:hover {
 
 .submit-button {
   text-align: center;
+}
+
+button:disabled {
+  background-color: #4A4A4A;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 1s ease-in-out infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

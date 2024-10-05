@@ -104,7 +104,7 @@ public class UserController : ControllerBase
             return BadRequest(result.Message);
         }
         
-        return Ok(result.Data);
+        return Ok();
     }
     
 }

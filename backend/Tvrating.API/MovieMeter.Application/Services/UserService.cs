@@ -111,7 +111,7 @@ public class UserService : IUserService
         var actualUser = await _repository.FindByUserName(model.CurrentUserName);
         var userExists = await _repository.FindByUserName(model.NewUserName);
 
-        if (userExists is not null)
+        if (userExists is not null && actualUser != userExists)
         {
             return ResultViewModel<User>.Error("Já existe um usuário com esse nome");
         }

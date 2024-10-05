@@ -1,30 +1,47 @@
 <div class="main-container">
   <h2>Edite o seu perfil</h2>
-  <form>
+  <form [formGroup]="formData" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <div class="profile-picture-wrapper">
         <div class="img-box" *ngIf="profilePicture">
-          <img src="data:image/jpeg;base64,{{ profilePicture }}" alt="User image">
+          <img *ngIf="profilePicture" src="data:image/jpeg;base64,{{ profilePicture }}" alt="User image">
         </div>
         <div class="img-input-button">
-          <button type="button" (click)="picture.click()">Adicionar nova foto</button>
+          <app-spinner *ngIf="isLoading"></app-spinner>
+          <button *ngIf="!isLoading" type="button" (click)="picture.click()">Adicionar nova foto (8Mb)</button>
+          <app-form-error [condition]="fileIsBiggerError"
+            text="Tamanho da imagem precisa ser menor que 8 MB"></app-form-error>
         </div>
       </div>
       <div class="img-input">
-        <input (change)="pictureUpload($event)" #picture type="file" name="profilePicture" id="profilePicture" class="profilePicture"
-          accept="image/png, image/jpeg">
+        <input (change)="pictureUpload($event)" #picture type="file" name="profilePicture" id="profilePicture"
+          class="profilePicture" accept="image/png, image/jpeg">
       </div>
     </div>
     <div class="form-group">
       <label for="userName">Nome de usuário</label>
-      <input type="text" class="userName" placeholder="Nome de usuário">
+      <input [value]="currentUserName" formControlName="userName" type="text" class="userName"
+        placeholder="Nome de usuário">
+      <app-form-error
+        [condition]="formData.get('userName')?.hasError('required') && formData.get('userName')?.touched || false"
+        text="Esse campo é obrigatóro"></app-form-error>
+        <app-form-error
+        [condition]="formData.get('userName')?.hasError('minlength') && formData.get('userName')?.touched || false"
+        text="Nome precisa ter mais de 3 letras"></app-form-error>
     </div>
     <div class="form-group">
       <label for="userName">Biografia</label>
-      <textarea name="biography" id="biography" rows="4" placeholder="Fale um pouco sobre você..."></textarea>
+      <textarea [value]="currentBiography" formControlName="biography" name="biography" id="biography" rows="4"
+        placeholder="Fale um pouco sobre você..."></textarea>
+      <app-form-error [condition]="serverError" text="Erro ao se comunicar com o servidor, tente novamente em alguns instantes."></app-form-error>
     </div>
     <div class="submit-button">
-      <button>Salvar mudanças</button>
+      <button mat-button cdkFocusInitial type="submit" [disabled]="isSubmitLoading">
+        <span *ngIf="!isSubmitLoading">
+          Salvar Mudanças
+        </span>
+        <div class="spinner" *ngIf="isSubmitLoading"></div>
+      </button>
     </div>
   </form>
 </div>

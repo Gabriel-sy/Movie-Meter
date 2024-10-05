@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../domain/User';
+import { EditUserInputModel } from '../domain/EditUserInputModel';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,9 @@ export class UserService {
         name: userName
       }
     })
+  }
+
+  editUserDetails(data: EditUserInputModel){
+    return this.http.put(this.API, data);
   }
 }
