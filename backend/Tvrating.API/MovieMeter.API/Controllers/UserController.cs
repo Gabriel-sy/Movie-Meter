@@ -78,4 +78,19 @@ public class UserController : ControllerBase
         await _service.UploadProfilePicture(imageBytes, user.Data);
         return Ok();
     }
+
+    [AllowAnonymous]
+    [HttpGet]
+    public async Task<IActionResult> GetUserWithProfilePicture(int id)
+    {
+        var result = await _service.FindById(id);
+
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
+        
+        return Ok(result.Data);
+    }
+    
 }
