@@ -79,4 +79,12 @@ public class UserRepository : IUserRepository
 
         return user;
     }
+
+    public async Task<User> EditUserDetails(User user)
+    {      
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+
+        return user;
+    }
 }

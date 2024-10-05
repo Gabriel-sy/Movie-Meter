@@ -105,5 +105,28 @@ public class UserService : IUserService
 
         return ResultViewModel<User>.Success(result);
     }
-    
+
+    public async Task<ResultViewModel<User>> EditUserDetails(EditUserInputModel model)
+    {
+        var actualUser = await _repository.FindByUserName(model.CurrentUserName);
+        var userExists = await _repository.FindByUserName(model.NewUserName);
+
+        if (userExists is not null)
+        {
+            return ResultViewModel<User>.Error("Já existe um usuário com esse nome");
+        }
+
+        if (actualUser is null)
+        {
+            return ResultViewModel<User>.Error("Usuário não encontrado");
+        }
+        
+        actualUser.SetName(model.NewUserName);
+        
+        actualUser.SetBiography(model.Biography ?? "");
+
+        var result = await _repository.EditUserDetails(actualUser);
+
+        return ResultViewModel<User>.Success(result);
+    }
 }

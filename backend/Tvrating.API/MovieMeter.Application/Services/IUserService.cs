@@ -12,4 +12,5 @@ public interface IUserService
     Task<ResultViewModel<User?>> FindByEmail(string email);
     Task<ResultViewModel<UserViewModel?>> FindByEmailWithShows(string email);
     Task<ResultViewModel<User>> UploadProfilePicture(byte[] picture, User user);
+    Task<ResultViewModel<User>> EditUserDetails(EditUserInputModel model);
 }

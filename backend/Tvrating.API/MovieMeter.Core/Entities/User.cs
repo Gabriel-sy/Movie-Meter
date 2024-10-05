@@ -6,7 +6,8 @@ public class User : BaseEntity
 {
     protected User(){}
     
-    public User(string name, string email, string password, string role, byte[]? profilePicture)
+    public User(string name, string email, string password, string role, byte[]? profilePicture,
+        string? biography)
     {
         Name = name;
         Email = email;
@@ -15,6 +16,7 @@ public class User : BaseEntity
         TotalLikes = 0;
         Role = role;
         ProfilePicture = profilePicture ?? null;
+        Biography = biography ?? null;
     }
 
     public string Name { get; private set; }
@@ -29,6 +31,11 @@ public class User : BaseEntity
     public void SetBiography(string biography)
     {
         Biography = biography;
+    }
+
+    public void SetName(string name)
+    {
+        Name = name;
     }
 
     public void UpdateTotalLikes(bool isLiked)

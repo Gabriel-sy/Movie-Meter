@@ -92,5 +92,19 @@ public class UserController : ControllerBase
         
         return Ok(result.Data);
     }
+
+    [Authorize]
+    [HttpPut]
+    public async Task<IActionResult> EditUserDetails(EditUserInputModel model)
+    {
+        var result = await _service.EditUserDetails(model);
+
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
+        
+        return Ok(result.Data);
+    }
     
 }

@@ -11,4 +11,5 @@ public interface IUserRepository
     Task<User?> FindById(int id);
     Task<User?> FindByUserName(string userName);
     Task<User?> UploadProfilePicture(User user);
+    Task<User> EditUserDetails(User user);
 }
