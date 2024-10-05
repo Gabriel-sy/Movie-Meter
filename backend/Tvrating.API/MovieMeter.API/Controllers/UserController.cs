@@ -81,7 +81,7 @@ public class UserController : ControllerBase
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> GetUserWithProfilePicture(int id)
+    public async Task<IActionResult> FindById(int id)
     {
         var result = await _service.FindById(id);
 
