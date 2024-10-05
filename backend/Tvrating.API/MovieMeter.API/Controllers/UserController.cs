@@ -60,4 +60,22 @@ public class UserController : ControllerBase
         return BadRequest();
 
     }
+
+    [Authorize]
+    [HttpPost("upload/picture")]
+    public async Task<IActionResult> UploadProfilePicture([FromForm]IFormFile formFile)
+    {
+        var header = HttpContext.User.Claims.Single(c => c.Type == "Name");
+
+        var user = await _service.FindByEmail(header.Value);
+        
+        
+        
+        using var dataStream = new MemoryStream();
+        await formFile.CopyToAsync(dataStream);
+        byte[] imageBytes = dataStream.ToArray();
+
+        await _service.UploadProfilePicture(imageBytes, user.Data);
+        return Ok();
+    }
 }

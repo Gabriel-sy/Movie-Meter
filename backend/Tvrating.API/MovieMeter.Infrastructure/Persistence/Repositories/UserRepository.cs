@@ -15,7 +15,8 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> Register(User user)
     {
-        var checkUserExists = await _context.Users.AnyAsync(u => u.Email == user.Email && !u.IsDeleted);
+        var checkUserExists = await _context.Users
+            .AnyAsync(u => u.Email == user.Email && !u.IsDeleted);
 
         if (!checkUserExists)
         {
@@ -59,5 +60,13 @@ public class UserRepository : IUserRepository
     public async Task<User?> FindById(int id)
     {
         return await _context.Users.SingleOrDefaultAsync(u => u.Id == id && !u.IsDeleted);
+    }
+
+    public async Task<User?> UploadProfilePicture(User user)
+    {
+        _context.Update(user);
+        await _context.SaveChangesAsync();
+
+        return user;
     }
 }

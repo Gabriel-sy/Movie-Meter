@@ -84,4 +84,13 @@ public class UserService : IUserService
         
         return ResultViewModel<UserViewModel?>.Success(UserViewModel.FromEntity(user));
     }
+
+    public async Task<ResultViewModel<User>> UploadProfilePicture(byte[] picture, User user)
+    {
+        user.AddProfilePicture(picture);
+
+        var result = await _repository.UploadProfilePicture(user);
+
+        return ResultViewModel<User>.Success(result);
+    }
 }

@@ -10,6 +10,6 @@ public class CreateUserInputModel
 
     public User FromEntity()
     {
-        return new User(Name, Email, Password, "user");
+        return new User(Name, Email, Password, "user", null);
     }
 }
