@@ -1,0 +1,178 @@
+* {
+  color: aliceblue;
+}
+
+body {
+  line-height: 1.6;
+}
+
+.main-container {
+  width: 90%;
+  margin: 40px auto;
+  padding: 20px;
+}
+.main-info {
+  background-color: #1f1f1f;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+.img-user-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.img-user-wrapper h2 {
+  margin-bottom: 0px;
+}
+
+.img-box {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 3px solid #EA3323;
+}
+.img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.userName h2 {
+  font-size: 24px;
+  text-align: center;
+}
+.user-stats {
+  display: flex;
+  gap: 20px;
+}
+.stat {
+  text-align: center;
+}
+.stat-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #EA3323;
+}
+.stat-label {
+  font-size: 14px;
+  color: #888;
+}
+.bio span {
+  color: #888;
+  font-weight: bold;
+}
+.bio p {
+  margin-top: 10px;
+}
+.favorite-shows {
+  background-color: #1f1f1f;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.favorite-shows h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  border-bottom: 2px solid #EA3323;
+  padding-bottom: 10px;
+}
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(265px,2fr));
+  justify-items: stretch;
+  row-gap: 10px;
+  column-gap: 10px;  
+}
+
+.edit-details {
+  background-color: #EA3323;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+  gap: 5px;
+  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.edit-details:hover {
+  background-color: #fd3e2d;
+  box-shadow: 0 6px 15px rgba(229, 9, 20, 0.4);
+  cursor: pointer;
+}
+
+.edit-details-button {
+  margin-left: auto;
+}
+
+.fav-img-box {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  
+  transition: transform 0.3s ease;
+}
+.fav-img-box:hover {
+  cursor: pointer;
+}
+.fav-img-box img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.fav-img-box .title {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  color: #fff;
+  font-size: 14px;
+  z-index: 1;
+  text-align: center;
+}
+
+.activity-item {
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+.activity-date {
+  font-size: 12px;
+  color: #888;
+}
+
+.section {
+  background-color: #1f1f1f;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  margin-top: 40px;
+}
+.section h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  border-bottom: 2px solid #EA3323;
+  padding-bottom: 10px;
+}
+
+h2 {
+  margin-top: 0px;
+}
+
+.recent-activity {
+  padding-left: 20px;
+}
+
+@media(max-width: 550px){
+  .img-user-wrapper {
+    flex-direction: column;
+  }
+}
