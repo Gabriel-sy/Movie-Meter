@@ -64,7 +64,9 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> FindByUserName(string userName)
     {
-        var user = await _context.Users.SingleOrDefaultAsync
+        var user = await _context.Users
+            .Include(u => u.Shows)
+            .SingleOrDefaultAsync
             (u => u.Name == userName && !u.IsDeleted);
 
         return user;

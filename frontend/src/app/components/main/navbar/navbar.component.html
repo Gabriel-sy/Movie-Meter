@@ -62,6 +62,7 @@
       </a>
       <a [routerLink]="['/register']" class="registrar" *ngIf="shouldShowRegister">Registrar</a>
       <a [routerLink]="['/login']" class="login" *ngIf="shouldShowLogin">Login</a>
+      <a [routerLink]="['/user', userName, 'profile']" class="login" *ngIf="isLoggedIn()">Perfil</a>
       <a [routerLink]="['/login']" class="login" (click)="logout()" *ngIf="isLoggedIn()">Logout</a>
     </div>
   </div>

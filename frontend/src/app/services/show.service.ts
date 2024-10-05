@@ -140,11 +140,7 @@ export class ShowService {
         return newArr;
     }
 
-    getCommentsByTitle(title: string, page: number) {
-        return this.http.get<ShowViewModel[]>(this.API + `api/review/${title}/${page}`)
-    }
-
-    getCommentsByTitleOrdered(title: string, page: number, sortCategory?: string, order?: string) {
+    getCommentsByTitle(title: string, page: number, sortCategory?: string, order?: string) {
         return sortCategory && order ?
             this.http.get<ShowViewModel[]>(this.API + `api/review/${title}/${sortCategory}/${order}/${page}`) :
             this.http.get<ShowViewModel[]>(this.API + `api/review/${title}/${page}`)

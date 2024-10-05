@@ -71,7 +71,7 @@
         </div>
     </div>
 
-    <div class="paginator">
+    <div class="paginator" *ngIf="totalItems >= 1">
         <button class="paginator-btn" (click)="changeCurrentPage(false)" *ngIf="currentPage > 1">
             Anterior
         </button>

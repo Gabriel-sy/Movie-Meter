@@ -1,0 +1,30 @@
+<div class="main-container">
+  <h2>Edite o seu perfil</h2>
+  <form>
+    <div class="form-group">
+      <div class="profile-picture-wrapper">
+        <div class="img-box" *ngIf="profilePicture">
+          <img src="data:image/jpeg;base64,{{ profilePicture }}" alt="User image">
+        </div>
+        <div class="img-input-button">
+          <button type="button" (click)="picture.click()">Adicionar nova foto</button>
+        </div>
+      </div>
+      <div class="img-input">
+        <input (change)="pictureUpload($event)" #picture type="file" name="profilePicture" id="profilePicture" class="profilePicture"
+          accept="image/png, image/jpeg">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="userName">Nome de usuário</label>
+      <input type="text" class="userName" placeholder="Nome de usuário">
+    </div>
+    <div class="form-group">
+      <label for="userName">Biografia</label>
+      <textarea name="biography" id="biography" rows="4" placeholder="Fale um pouco sobre você..."></textarea>
+    </div>
+    <div class="submit-button">
+      <button>Salvar mudanças</button>
+    </div>
+  </form>
+</div>

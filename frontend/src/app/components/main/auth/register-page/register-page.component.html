@@ -12,6 +12,7 @@
           <input [ngStyle]="{'border-color': changeInputColor('name')}" formControlName="name" type="user" name="user"
             id="user" class="user" placeholder="Digite o seu nome de usuário">
           <app-form-error [condition]="fieldHasRequiredError('name')" text="Esse campo é obrigatório"></app-form-error>
+          <app-form-error [condition]="(this.formData.get('name')?.hasError('minlength') && this.formData.get('name')?.touched && !fieldHasRequiredError('name')) || false" text="Nome de usuário precisa ter 3 letras ou mais"></app-form-error>
         </div>
         <div class="form-group">
           <label for="email">Email:</label>

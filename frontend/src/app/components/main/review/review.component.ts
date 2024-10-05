@@ -86,7 +86,7 @@ export class ReviewComponent {
       this.sortCategory = sortCategory
       this.order = order
     }
-    this.reviews$ = this.showService.getCommentsByTitleOrdered
+    this.reviews$ = this.showService.getCommentsByTitle
       (this.title, this.currentPage, sortCategory, order)
       .pipe(map((res: ShowViewModel[]) => res.map(s => ({
         ...s,

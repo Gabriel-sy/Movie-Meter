@@ -57,7 +57,6 @@ export class MyListComponent implements OnInit {
   ngOnInit(): void {
     this.localStorageService.isLoggedIn()
     this.shows$ = this.showService.findAllShows()
-
   }
 
   openDialog() {
@@ -122,6 +121,5 @@ export class MyListComponent implements OnInit {
 
   showDropdown() {
     this.dropdownDisplay = !this.dropdownDisplay
-
   }
 }
