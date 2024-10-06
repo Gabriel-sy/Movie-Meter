@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieMeter.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using MovieMeter.Infrastructure.Persistence;
 namespace MovieMeter.Infrastructure.Persistence
 {
     [DbContext(typeof(MovieMeterDbContext))]
-    partial class MovieMeterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241006210449_change favoriteSHows field in user")]
+    partial class changefavoriteSHowsfieldinuser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

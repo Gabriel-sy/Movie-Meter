@@ -8,7 +8,7 @@ public class ReviewViewModel
         List<string> genres, decimal userRating, string posterPath, 
         string overview, string directorName, string originalTitle, 
         string userReview, int likeAmount, List<string> likeNames,
-        bool isLiked, string userName)
+        bool isLiked, string userName, byte[]? profilePicture)
     {
         Id = id;
         ShowId = showId;
@@ -24,6 +24,7 @@ public class ReviewViewModel
         LikeNames = likeNames;
         IsLiked = isLiked;
         UserName = userName;
+        ProfilePicture = profilePicture ?? null;
     }
 
     public int Id { get; set; }
@@ -37,14 +38,16 @@ public class ReviewViewModel
     public string OriginalTitle { get; set; }
     public string? UserReview { get; set; }
     public string? UserName { get; set; }
-    public int LikeAmount { get; private set; }
-    public List<string> LikeNames { get; private set; }
-    public bool IsLiked { get; private set; }
+    public int LikeAmount { get; set; }
+    public List<string> LikeNames { get; set; }
+    public bool IsLiked { get; set; }
+    public byte[]? ProfilePicture { get; set; }
 
     public static ReviewViewModel FromEntity(Review review)
     {
         return new ReviewViewModel(review.Id, review.ShowId, review.ReleaseDate, review.Genres,
             review.UserRating, review.PosterPath, review.Overview, review.DirectorName, review.OriginalTitle
-            , review.UserReview ?? "", review.LikeAmount, review.LikeNames, review.IsLiked, review.User.Name);
+            , review.UserReview ?? "", review.LikeAmount, review.LikeNames, review.IsLiked, review.User.Name,
+            review.User.ProfilePicture);
     }
 }

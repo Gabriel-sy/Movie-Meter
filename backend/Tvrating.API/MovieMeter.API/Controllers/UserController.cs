@@ -68,8 +68,20 @@ public class UserController : ControllerBase
         var header = HttpContext.User.Claims.Single(c => c.Type == "Name");
 
         var user = await _service.FindByEmail(header.Value);
+
+        if (user.Data is null)
+        {
+            return BadRequest(user.Message);
+        }
         
-        
+        Console.WriteLine("TIPO DA IMAGEm " + formFile.ContentType);
+
+        if (formFile.ContentType != "image/png" &&
+            formFile.ContentType != "image/jpg" &&
+            formFile.ContentType != "image/jpeg")
+        {
+            return BadRequest("Tipo de arquivo inválido");
+        }
         
         using var dataStream = new MemoryStream();
         await formFile.CopyToAsync(dataStream);

@@ -25,17 +25,21 @@ public class FavoriteShowService : IFavoriteShowService
         }
 
         var favoriteShow = new FavoriteShow(model.OriginalTitle, model.PosterPath, user.Data, user.Data.Id);
-
+        
         await _repository.AddFavoriteShow(favoriteShow);
         
         return ResultViewModel<FavoriteShow>.Success(favoriteShow);
     }
 
-    public async Task<ResultViewModel<List<FavoriteShow>>> FindAllByUserName(string userName)
+    public async Task<ResultViewModel<List<FavoriteShowViewModel>>> FindAllByUserName(string userName)
     {
         var result = await _repository.FindFavoriteShowsByUserName(userName);
 
-        return ResultViewModel<List<FavoriteShow>>.Success(result);
+        var returnModel = result
+            .Select(f => FavoriteShowViewModel.FromEntity(f))
+            .ToList();
+
+        return ResultViewModel<List<FavoriteShowViewModel>>.Success(returnModel);
     }
 
     public async Task<ResultViewModel<FavoriteShow>> DeleteFavShow(string userName, string originalTitle)

@@ -1,4 +1,6 @@
-﻿namespace MovieMeter.Core.Entities;
+﻿using System.Text.Json.Serialization;
+
+namespace MovieMeter.Core.Entities;
 
 public class FavoriteShow : BaseEntity
 {
@@ -14,6 +16,7 @@ public class FavoriteShow : BaseEntity
 
     public string OriginalTitle { get; private set; }
     public string PosterPath { get; private set; }
+    [JsonIgnore]
     public User User { get; private set; }
     public int UserId { get; private set; }
 }

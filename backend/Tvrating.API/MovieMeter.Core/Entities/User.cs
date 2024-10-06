@@ -6,22 +6,23 @@ public class User : BaseEntity
 {
     protected User(){}
     
-    public User(string name, string email, string password, string role, byte[] profilePicture,
+    public User(string name, string email, string password, string role, byte[]? profilePicture,
         string? biography)
     {
         Name = name;
         Email = email;
         Password = password;
         Reviews = [];
+        FavoriteShows = [];
         TotalLikes = 0;
         Role = role;
-        ProfilePicture = profilePicture;
+        ProfilePicture = profilePicture ?? null;
         Biography = biography ?? null;
     }
 
     public string Name { get; private set; }
     public string? Biography { get; private set; }
-    public byte[] ProfilePicture { get; private set; }
+    public byte[]? ProfilePicture { get; private set; }
     public string Email { get; private set; }
     public string Password { get; private set; }
     public int TotalLikes { get; private set; }
@@ -48,4 +49,6 @@ public class User : BaseEntity
     {
         ProfilePicture = picture;
     }
+
+    
 }

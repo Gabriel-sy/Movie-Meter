@@ -150,6 +150,8 @@ public class ReviewService : IReviewService
         
         review.UpdateLikeAmount(model.IsLiked, model.LikeUserName);
         
+        review.User.UpdateTotalLikes(model.IsLiked);
+        
         if (!model.IsLiked)
         {
             review.RemoveLikeName(model.LikeUserName);

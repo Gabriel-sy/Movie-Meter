@@ -50,7 +50,7 @@ public class UserRepository : IUserRepository
     public async Task<User?> FindByEmailWithShows(string email)
     {
         var user = await _context.Users
-            .Include(u => u.Shows)
+            .Include(u => u.Reviews)
             .SingleOrDefaultAsync(u => u.Email == email && !u.IsDeleted);
         
         
@@ -65,7 +65,7 @@ public class UserRepository : IUserRepository
     public async Task<User?> FindByUserName(string userName)
     {
         var user = await _context.Users
-            .Include(u => u.Shows)
+            .Include(u => u.Reviews)
             .SingleOrDefaultAsync
             (u => u.Name == userName && !u.IsDeleted);
 
