@@ -46,13 +46,13 @@ export class EditProfileComponent implements OnInit {
     this.isLoading = true;
     const picture: File = event.target.files[0];
     const formData = new FormData();
-    console.log(picture.size)
+
     if (picture.size > 8000000) {
       this.fileIsBiggerError = true
       this.isLoading = false
     } else {
       formData.append("formFile", picture, picture.name);
-
+      this.fileIsBiggerError = false;
       this.userService.uploadProfilePicture(formData)
         .pipe(delay(1000))
         .subscribe({

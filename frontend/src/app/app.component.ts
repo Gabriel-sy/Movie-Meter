@@ -10,5 +10,4 @@ import { NavbarComponent } from "./components/main/navbar/navbar.component";
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'frontend';
 }

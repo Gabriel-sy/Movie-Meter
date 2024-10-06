@@ -15,7 +15,7 @@ import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 })
 export class DeleteDialogComponent {
   isLoading: boolean = false;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: string, private showService: ShowService, private dialogRef: MatDialogRef<EditDialogComponent>) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string, private showService: ShowService, private dialogRef: MatDialogRef<DeleteDialogComponent>) {}
 
   deleteShowById(showId: string){
     this.isLoading = true;

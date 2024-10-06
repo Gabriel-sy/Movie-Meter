@@ -7,10 +7,11 @@ body {
 }
 
 .main-container {
-  width: 90%;
+  width: 70%;
   margin: 40px auto;
   padding: 20px;
 }
+
 .main-info {
   background-color: #1f1f1f;
   border-radius: 12px;
@@ -18,6 +19,7 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
 }
+
 .img-user-wrapper {
   display: flex;
   align-items: center;
@@ -36,59 +38,61 @@ body {
   border-radius: 50%;
   border: 3px solid #EA3323;
 }
+
 .img-box img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 .userName h2 {
   font-size: 24px;
   text-align: center;
 }
+
 .user-stats {
   display: flex;
   gap: 20px;
 }
+
 .stat {
   text-align: center;
 }
+
 .stat-value {
   font-size: 18px;
   font-weight: bold;
   color: #EA3323;
 }
+
 .stat-label {
   font-size: 14px;
   color: #888;
 }
+
 .bio span {
   color: #888;
   font-weight: bold;
 }
+
 .bio p {
   margin-top: 10px;
 }
+
 .favorite-shows {
   background-color: #1f1f1f;
   border-radius: 12px;
   padding: 30px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .favorite-shows h2 {
-  margin-bottom: 20px;
   font-size: 22px;
-  border-bottom: 2px solid #EA3323;
-  padding-bottom: 10px;
-}
-.wrapper {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(265px,2fr));
-  justify-items: stretch;
-  row-gap: 10px;
-  column-gap: 10px;  
+  margin-bottom: 0px;
 }
 
-.edit-details {
+.edit-details,
+.edit-fav-button {
   background-color: #EA3323;
   display: flex;
   align-items: center;
@@ -100,30 +104,29 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.edit-details:hover {
+.edit-details:hover,
+.edit-fav-button:hover {
   background-color: #fd3e2d;
   box-shadow: 0 6px 15px rgba(229, 9, 20, 0.4);
   cursor: pointer;
 }
 
-.edit-details-button {
+.edit-fav-container {
+  width: fit-content;
   margin-left: auto;
 }
 
-.fav-img-box {
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  
-  transition: transform 0.3s ease;
+.fav-title-container {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 2px solid #EA3323;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  align-items: center;
 }
-.fav-img-box:hover {
-  cursor: pointer;
-}
-.fav-img-box img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
+
+.edit-details-button {
+  margin-left: auto;
 }
 
 .fav-img-box .title {
@@ -143,6 +146,7 @@ body {
   padding: 15px;
   margin-bottom: 10px;
 }
+
 .activity-date {
   font-size: 12px;
   color: #888;
@@ -156,6 +160,7 @@ body {
   margin-bottom: 30px;
   margin-top: 40px;
 }
+
 .section h2 {
   margin-bottom: 20px;
   font-size: 22px;
@@ -171,8 +176,102 @@ h2 {
   padding-left: 20px;
 }
 
-@media(max-width: 550px){
+.fav-img-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.placeholder {
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.placeholder img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  border-radius: 8px;
+  z-index: 10000;
+  display: none;
+}
+
+.placeholder:hover {
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.placeholder svg {
+  width: 48px;
+  height: 48px;
+  transition: transform 0.3s ease;
+  position: absolute;
+  border-radius: 50%;
+  border: 3px solid aliceblue;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+
+
+@media (min-width: 741px) {
+  .placeholder {
+      width: calc(25% - 15px);
+      height: 400px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .main-container {
+    min-width: 80%;
+  }
+
   .img-user-wrapper {
     flex-direction: column;
+  }
+
+  .edit-details-button {
+    margin-left: 0;
+  }
+
+  .fav-img-wrapper {
+      gap: 15px;
+  }
+
+  .placeholder {
+      width: calc(50% - 7.5px);
+      min-height: 350px;
+  }
+}
+
+@media (max-width: 560px) {
+
+  .placeholder {
+      width: 100%;
+      min-height: 300px;
+  }
+}
+
+
+@media (max-width: 420px) {
+  .main-container {
+    min-width: 80%;
+  }
+
+  .fav-title-container {
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .edit-fav-container {
+    margin-left: 0px;
   }
 }

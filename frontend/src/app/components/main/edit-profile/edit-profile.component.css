@@ -132,3 +132,16 @@ button:disabled {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+.spinner-c {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+}
+
+@media (max-width: 520px){
+  .profile-picture-wrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
