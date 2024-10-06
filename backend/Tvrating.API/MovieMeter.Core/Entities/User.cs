@@ -6,26 +6,27 @@ public class User : BaseEntity
 {
     protected User(){}
     
-    public User(string name, string email, string password, string role, byte[]? profilePicture,
+    public User(string name, string email, string password, string role, byte[] profilePicture,
         string? biography)
     {
         Name = name;
         Email = email;
         Password = password;
-        Shows = [];
+        Reviews = [];
         TotalLikes = 0;
         Role = role;
-        ProfilePicture = profilePicture ?? null;
+        ProfilePicture = profilePicture;
         Biography = biography ?? null;
     }
 
     public string Name { get; private set; }
     public string? Biography { get; private set; }
-    public byte[]? ProfilePicture { get; private set; }
+    public byte[] ProfilePicture { get; private set; }
     public string Email { get; private set; }
     public string Password { get; private set; }
-    public int? TotalLikes { get; private set; }
-    public List<Review> Shows { get; private set; }
+    public int TotalLikes { get; private set; }
+    public List<FavoriteShow> FavoriteShows { get; private set; }
+    public List<Review> Reviews { get; private set; }
     public string Role { get; private set; }
 
     public void SetBiography(string biography)
