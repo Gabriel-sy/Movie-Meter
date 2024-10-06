@@ -23,6 +23,8 @@ builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IFavoriteShowService, FavoriteShowService>();
+builder.Services.AddScoped<IFavoriteShowRepository, FavoriteShowRepository>();
 
 var connectionString = builder.Configuration.GetConnectionString("MovieMeter");
 builder.Services.AddDbContext<MovieMeterDbContext>(o => o.UseSqlServer(connectionString));

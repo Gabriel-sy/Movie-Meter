@@ -22,6 +22,38 @@ namespace MovieMeter.Infrastructure.Persistence
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MovieMeter.Core.Entities.FavoriteShow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OriginalTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PosterPath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavoriteShows");
+                });
+
             modelBuilder.Entity("MovieMeter.Core.Entities.Review", b =>
                 {
                     b.Property<int>("Id")
@@ -119,13 +151,14 @@ namespace MovieMeter.Infrastructure.Persistence
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("ProfilePicture")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TotalLikes")
+                    b.Property<int>("TotalLikes")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -133,10 +166,21 @@ namespace MovieMeter.Infrastructure.Persistence
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("MovieMeter.Core.Entities.FavoriteShow", b =>
+                {
+                    b.HasOne("MovieMeter.Core.Entities.User", "User")
+                        .WithMany("FavoriteShows")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MovieMeter.Core.Entities.Review", b =>
                 {
                     b.HasOne("MovieMeter.Core.Entities.User", "User")
-                        .WithMany("Shows")
+                        .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -146,7 +190,9 @@ namespace MovieMeter.Infrastructure.Persistence
 
             modelBuilder.Entity("MovieMeter.Core.Entities.User", b =>
                 {
-                    b.Navigation("Shows");
+                    b.Navigation("FavoriteShows");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

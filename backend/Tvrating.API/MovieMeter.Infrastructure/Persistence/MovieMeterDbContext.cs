@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using MovieMeter.Core.Entities;
 
 namespace MovieMeter.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ public class MovieMeterDbContext : DbContext
 
     public DbSet<Review> Reviews { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<FavoriteShow> FavoriteShows { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        
         builder
             .Entity<Review>(e =>
             {
@@ -27,10 +30,16 @@ public class MovieMeterDbContext : DbContext
             .Entity<User>(e =>
             {
                 e.HasKey(u => u.Id);
-                e.HasMany(u => u.Shows)
+                e.HasMany(u => u.Reviews)
                     .WithOne(s => s.User)
                     .HasForeignKey(s => s.UserId)
                     .OnDelete(DeleteBehavior.Restrict);
+
+                e.HasMany(u => u.FavoriteShows)
+                    .WithOne(f => f.User)
+                    .HasForeignKey(f => f.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
             });
 
        
