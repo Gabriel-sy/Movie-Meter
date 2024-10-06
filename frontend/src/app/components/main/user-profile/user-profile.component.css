@@ -190,8 +190,9 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+  border: 1px solid transparent;
+  position: relative;
 }
 
 .placeholder img {
@@ -199,16 +200,16 @@ h2 {
   height: 100%;
   width: 100%;
   border-radius: 8px;
-  z-index: 10000;
-  display: none;
+  z-index: 1;
 }
 
 .placeholder:hover {
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid aliceblue;
 }
 
-.placeholder svg {
+.add-svg {
   width: 48px;
   height: 48px;
   transition: transform 0.3s ease;
@@ -219,7 +220,17 @@ h2 {
   transition: opacity 0.3s ease;
 }
 
+.remove-svg {
+  z-index: 1000;
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  transition: all 0.3s ease;
+}
 
+.remove-svg:hover {
+  transform: scale(1.10);
+}
 
 @media (min-width: 741px) {
   .placeholder {
@@ -235,10 +246,6 @@ h2 {
 
   .img-user-wrapper {
     flex-direction: column;
-  }
-
-  .edit-details-button {
-    margin-left: 0;
   }
 
   .fav-img-wrapper {
@@ -259,19 +266,8 @@ h2 {
   }
 }
 
-
 @media (max-width: 420px) {
   .main-container {
     min-width: 80%;
-  }
-
-  .fav-title-container {
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-  }
-
-  .edit-fav-container {
-    margin-left: 0px;
   }
 }

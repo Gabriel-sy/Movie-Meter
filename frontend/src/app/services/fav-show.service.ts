@@ -18,7 +18,7 @@ export class FavShowService {
   }
 
   getFavShows(userName: string){
-    return this.http.get<FavShowViewModel>(this.API, {
+    return this.http.get<FavShowViewModel[]>(this.API, {
       params: {
         userName: userName
       }

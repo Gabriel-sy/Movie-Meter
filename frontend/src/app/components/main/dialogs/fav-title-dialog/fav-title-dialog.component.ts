@@ -2,11 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { Observable, Subscription, finalize } from 'rxjs';
+import { Observable, Subscription, finalize, map } from 'rxjs';
 import { ShowViewModel } from '../../../../domain/ShowViewModel';
 import { ShowService } from '../../../../services/show.service';
 import { SharedService } from '../../../../services/shared.service';
 import { ShowSearchViewModel } from '../../../../domain/ShowSearchViewModel';
+import { FavShowService } from '../../../../services/fav-show.service';
+import { LocalStorageService } from '../../../../services/local-storage.service';
+import { FavShowInputModel } from '../../../../domain/FavShowInputModel';
 
 @Component({
   selector: 'app-fav-title-dialog',
@@ -17,14 +20,20 @@ import { ShowSearchViewModel } from '../../../../domain/ShowSearchViewModel';
 })
 export class FavTitleDialogComponent {
   foundSearch$: Observable<ShowSearchViewModel[]> = new Observable<ShowSearchViewModel[]>();
+  showToSave: ShowSearchViewModel = new ShowSearchViewModel()
   timer = setTimeout(() => { }, 0);
   isLoading: boolean = false;
   inputValue: string = '';
+  userName: string = ''
+  originalTitle: string = ''
+  posterPath: string = ''
   isExpanded: boolean = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: string, 
   private dialogRef: MatDialogRef<FavTitleDialogComponent>,
-  private sharedService: SharedService) {}
+  private sharedService: SharedService,
+  private favShowService: FavShowService,
+  private localStorageService: LocalStorageService) {}
 
   searchMovie(event: any){
     clearTimeout(this.timer)
@@ -45,5 +54,30 @@ export class FavTitleDialogComponent {
 
   setInputValue(title: string){
     this.inputValue = title
+
+    this.userName = this.localStorageService.get('userName')
+
+    this.sharedService.searchTitle(title)
+      .pipe(map((res: ShowSearchViewModel[]) => {
+        res = res.filter(show => show.title == this.inputValue || show.name == this.inputValue)
+        this.showToSave = res[0]
+
+        this.originalTitle = this.showToSave.original_title || this.showToSave.original_name
+        this.posterPath = this.showToSave.poster_path
+
+        let objToSend: FavShowInputModel = {
+          originalTitle: this.originalTitle,
+          posterPath: this.posterPath,
+          userName: this.userName
+        }
+        this.favShowService.addFavShow(objToSend).subscribe({
+          complete: () => {
+          }
+        })
+      }))
+      .subscribe({
+        complete: () => this.dialogRef.close()
+      })
+    
   }
 }

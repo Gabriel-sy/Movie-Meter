@@ -12,7 +12,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   findByToken() {
-    return this.http.get<User>(this.API + "api/user/userByToken");
+    return this.http.get<User>(this.API + "/userByToken");
   }
 
   uploadProfilePicture(formData: FormData){

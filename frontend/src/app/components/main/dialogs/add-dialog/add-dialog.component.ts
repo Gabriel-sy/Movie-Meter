@@ -25,12 +25,10 @@ export class AddDialogComponent implements OnDestroy {
 
   unsubscribeSignal: Subject<void> = new Subject();
   foundSearch$: Observable<ShowSearchViewModel[]> = new Observable<ShowSearchViewModel[]>()
-  @Output() popupEvent = new EventEmitter<boolean>();
   showToSave: ShowInputModel = new ShowInputModel()
   genres: string[] = []
   timer = setTimeout(() => { }, 0)
   foundShows: ShowInputModel[] = []
-  shows: ShowSearchViewModel[] = []
   inputValue: string = this.data;
   isExpanded: boolean = false;
   isLoading: boolean = false;

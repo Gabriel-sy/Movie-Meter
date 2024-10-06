@@ -7,6 +7,7 @@ export class User {
   email!: string
   profilePicture!: number[]
   biography!: string
-  shows!: ShowViewModel[]
+  totalLikes!: number
+  reviews!: ShowViewModel[]
   reviewLikes!: ReviewResponse[]
 }
