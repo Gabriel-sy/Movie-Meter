@@ -1,0 +1,64 @@
+::ng-deep .mat-mdc-dialog-surface {
+  background-color: #1A1A1A !important;
+  border-radius: none !important;
+}
+
+.dialog-container {
+  background-color: #1A1A1A;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+  padding: 25px;
+  width: 100%;
+  height: 190px;
+  min-width: 300px;
+  border-radius: 12px;
+  transition: height 0.3s ease;
+  overflow: hidden;
+}
+
+.dialog-container.expanded {
+  height: 300px;
+}
+
+.title {
+  color: #E50914;
+  font-size: 26px;
+  font-weight: bold;
+  text-align: start;
+  margin-top: 0;
+}
+
+input {
+  background-color: #2C2C2C;
+  color: #FFFFFF;
+  border: 1px solid #444444;
+  width: 100%;
+  padding: 12px;
+  border: 2px solid transparent;
+  outline: none;
+  transition: all 0.3s ease;
+  font-size: 15px;
+}
+
+input:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #00ADB5;
+}
+
+.search-container {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: aliceblue;
+  border-radius: 0 0 8px 8px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.search-title {
+  padding: 10px;
+  display: block;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.search-title:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
