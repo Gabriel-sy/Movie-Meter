@@ -50,6 +50,14 @@
   font-size: 1.2em;
   color: aliceblue;
   margin: 0 0 5px 0;
+  border: 1px solid rgba(0,0,0,0);
+  width: fit-content;
+  transition: all 0.2s ease;
+}
+
+.username:hover {
+  cursor: pointer;
+  border-bottom: 1px solid aliceblue;
 }
 
 .rating {

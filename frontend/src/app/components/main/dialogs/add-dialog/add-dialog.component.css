@@ -3,16 +3,15 @@
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
   padding: 25px;
   width: 100%;
-  max-width: 550px;
-  max-height: 650px;
+  max-width: 600px;
+  height: 548px;
   border-radius: 12px;
-  transition: max-height 0.3s ease, max-width 0.3s ease;
+  transition: height 0.3s ease;
   overflow: hidden;
 }
 
 .dialog-container.expanded {
-  max-height: 740px;
-  max-width: 600px;
+  height: 690px;
 }
 
 .title {
@@ -63,7 +62,7 @@ textarea:focus {
 
 .rating {
   width: 80px;
-  
+
 }
 
 textarea {
@@ -170,5 +169,7 @@ button:disabled {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }

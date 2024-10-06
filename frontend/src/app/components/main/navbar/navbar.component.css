@@ -173,7 +173,7 @@ svg {
   z-index: 1000;
 }
 
-@media (max-width: 577px) {
+@media (max-width: 630px) {
   .auth-container, .home {
     display: none;
   }

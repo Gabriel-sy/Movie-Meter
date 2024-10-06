@@ -15,4 +15,5 @@ export class ShowViewModel {
   reviewUserName!: string
   likeUserName!: string
   userName!: string
+  profilePicture!: number[]
 }

@@ -4,11 +4,10 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { ShowSearchViewModel } from '../../../domain/ShowSearchViewModel';
 import { Observable, catchError, delay, map, throwError } from 'rxjs';
-import { SearchMovieService } from '../../../services/search-movie.service';
-import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { SpinnerComponent } from "../spinner/spinner.component";
+import { SharedService } from '../../../services/shared.service';
 
 
 @Component({
@@ -64,8 +63,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(private localStorageService: LocalStorageService,
     private router: Router,
-    private searchMovieService: SearchMovieService,
-    private renderer: Renderer2) {
+    private renderer: Renderer2,
+    private sharedService: SharedService) {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.userName = this.localStorageService.get('userName');
@@ -119,36 +118,8 @@ export class NavbarComponent implements OnInit {
       if (length > 3) {
         this.searchDisplay = true;
         this.isLoading = true
-        this.foundSearch$ = this.searchMovieService.searchTitle(event.target.value)
-          .pipe(
-            map((res) => {
-              this.shows = res.results.map(movie => movie as ShowSearchViewModel).filter(movie => movie.media_type == 'tv' || movie.media_type == 'movie');
-
-              //A api retorna filmes com 'title' e series com 'name', mesma coisa com release_date e first_air_date
-              for (let i = 0; i < this.shows.length; i++) {
-                if (this.shows[i].title == undefined) {
-                  this.shows[i].title = this.shows[i].name;
-                }
-
-                if (this.shows[i].original_title == undefined) {
-                  this.shows[i].original_title = this.shows[i].original_name
-                }
-
-                if (this.shows[i].release_date == undefined) {
-                  this.shows[i].release_date = this.shows[i].first_air_date;
-                } else if (this.shows[i].first_air_date == undefined) {
-                  this.shows[i].first_air_date = this.shows[i].release_date;
-                }
-              }
-
-              this.shows = this.shows.filter(movie => movie.poster_path != undefined)
-
-              this.shows = this.shows.filter(movie => movie.title != undefined && movie.release_date != undefined && movie.first_air_date != undefined)
-
-              return this.shows
-            }),
+        this.foundSearch$ = this.sharedService.searchTitle(event.target.value).pipe(
             catchError(err => {
-              this.openErrorDialog("Ocorreu um erro ao se comunicar com a API", "Por favor, tente novamente em alguns instantes.")
               this.closeSearchResults()
               return throwError(() => err)
             }),
@@ -166,12 +137,6 @@ export class NavbarComponent implements OnInit {
     this.foundSearch$ = new Observable<ShowSearchViewModel[]>();
     this.inputValue = '';
     this.isLoading = false
-  }
-
-  openErrorDialog(title: string, subtitle: string) {
-    this.dialog.open(ErrorDialogComponent, {
-      data: { title: title, subtitle: subtitle }
-    })
   }
 
   showImage(posterPath: string) {

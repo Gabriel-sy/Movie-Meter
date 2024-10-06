@@ -47,6 +47,7 @@
             routerLinkActive="router-link-active" class="home-dropdown">
             <span>Sua lista</span>
           </a>
+          <a [routerLink]="['/user', userName, 'profile']" class="login" *ngIf="isLoggedIn()">Perfil</a>
           <a (click)="dropdownDisplay = false" [routerLink]="['/register']" class="registrar"
             *ngIf="shouldShowRegister">Registrar</a>
           <a (click)="dropdownDisplay = false" [routerLink]="['/login']" class="login" *ngIf="shouldShowLogin">Login</a>

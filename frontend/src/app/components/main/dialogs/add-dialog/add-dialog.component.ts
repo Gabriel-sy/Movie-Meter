@@ -3,16 +3,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchMovieService } from '../../../../services/search-movie.service';
-import { Observable, Subject, catchError, map, takeUntil, throwError } from 'rxjs';
+import { Observable, Subject, catchError, finalize, map, takeUntil, throwError } from 'rxjs';
 import { ShowInputModel } from '../../../../domain/ShowInputModel';
 import { CommonModule } from '@angular/common';
 import { Results } from '../../../../domain/Results';
 import { ShowService } from '../../../../services/show.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ShowSearchViewModel } from '../../../../domain/ShowSearchViewModel';
-import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { FormErrorComponent } from "../../form-error/form-error.component";
 import { PopupComponent } from "../../popup/popup.component";
+import { SharedService } from '../../../../services/shared.service';
 
 @Component({
   selector: 'app-add-dialog',
@@ -34,7 +34,6 @@ export class AddDialogComponent implements OnDestroy {
   inputValue: string = this.data;
   isExpanded: boolean = false;
   isLoading: boolean = false;
-
   readonly dialog = inject(MatDialog);
 
   formData = this.fb.group({
@@ -48,7 +47,8 @@ export class AddDialogComponent implements OnDestroy {
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private dialogRef: MatDialogRef<AddDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string) { }
+    @Inject(MAT_DIALOG_DATA) public data: string,
+    private sharedService: SharedService) { }
 
   ngOnDestroy(): void {
     this.unsubscribeSignal.next()
@@ -66,21 +66,7 @@ export class AddDialogComponent implements OnDestroy {
             this.foundShows = this.foundShows.filter(show => show.title == this.inputValue || show.name == this.inputValue)
             this.showToSave = this.foundShows[0] as ShowInputModel;
 
-            if (this.showToSave.release_date == undefined) {
-              this.showToSave.release_date = this.showToSave.first_air_date;
-            }
-
-            this.showToSave.user_rating = this.formData.get('rating')?.value as string
-
-            this.showToSave.user_review = this.formData.get('review')?.value || '';
-
-            if (this.showToSave.title == undefined) {
-              this.showToSave.title = this.showToSave.name;
-            }
-
-            if (this.showToSave.original_title == undefined) {
-              this.showToSave.original_title = this.showToSave.original_name;
-            }
+            this.mapShowToSave()
 
             this.searchMovieService.findDirectorName(this.showToSave)
               .pipe(takeUntil(this.unsubscribeSignal))
@@ -122,7 +108,6 @@ export class AddDialogComponent implements OnDestroy {
     }
   }
 
-
   searchMovie(event: any) {
     clearTimeout(this.timer)
 
@@ -130,31 +115,8 @@ export class AddDialogComponent implements OnDestroy {
 
     this.timer = setTimeout(() => {
       if (length > 3) {
-        this.foundSearch$ = this.searchMovieService.searchTitle(event.target.value)
-          .pipe(map((res) => {
-            this.shows = res.results.map(movie => movie as ShowSearchViewModel).filter(movie => movie.media_type == 'tv' || movie.media_type == 'movie');
-
-            //A api retorna filmes com 'title' e series com 'name', mesma coisa com release_date e first_air_date
-            for (let i = 0; i < this.shows.length; i++) {
-              if (this.shows[i].title == undefined) {
-                this.shows[i].title = this.shows[i].name;
-              }
-
-              if (this.shows[i].release_date == undefined) {
-                this.shows[i].release_date = this.shows[i].first_air_date;
-              } else if (this.shows[i].first_air_date == undefined) {
-                this.shows[i].first_air_date = this.shows[i].release_date;
-              }
-            }
-
-            this.shows = this.shows.filter(movie => movie.title != undefined && movie.release_date != undefined && movie.first_air_date != undefined)
-            this.isExpanded = true
-            return this.shows
-          }),
-            catchError(err => {
-              this.openErrorDialog("Ocorreu um erro ao se comunicar com a API", "Por favor, tente novamente em alguns instantes.")
-              return throwError(() => err)
-            }))
+        this.foundSearch$ = this.sharedService.searchTitle(event.target.value)
+        .pipe(finalize(() => this.isExpanded = true))
       } else if (length == 0) {
         this.foundSearch$ = new Observable<ShowSearchViewModel[]>()
         this.isExpanded = false;
@@ -171,10 +133,22 @@ export class AddDialogComponent implements OnDestroy {
     this.cdr.detectChanges();
   }
 
-  openErrorDialog(title: string, subtitle: string) {
-    this.dialog.open(ErrorDialogComponent, {
-      data: { title: title, subtitle: subtitle }
-    })
+  mapShowToSave(){
+    if (this.showToSave.release_date == undefined) {
+      this.showToSave.release_date = this.showToSave.first_air_date;
+    }
+
+    this.showToSave.user_rating = this.formData.get('rating')?.value as string
+
+    this.showToSave.user_review = this.formData.get('review')?.value || '';
+
+    if (this.showToSave.title == undefined) {
+      this.showToSave.title = this.showToSave.name;
+    }
+
+    if (this.showToSave.original_title == undefined) {
+      this.showToSave.original_title = this.showToSave.original_name;
+    }
   }
 
   changeInputColor(fieldName: string) {

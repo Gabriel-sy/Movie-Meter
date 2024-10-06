@@ -40,10 +40,15 @@
             <div class="review">
                 <div class="review-details">
                     <div class="img-wrapper">
-                        <img src="https://image.tmdb.org/t/p/w400/4zMUKCBq1OqMXFnNSLMVT0MgHXz.jpg" alt="User Avatar">
+                        <img *ngIf="review.profilePicture" src="data:image/jpeg;base64,{{ review.profilePicture }}"
+                            alt="User Avatar">
+                        <img *ngIf="!review.profilePicture"
+                            src="https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?t=st=1728179609~exp=1728183209~hmac=bcc2e062443cb92edd6ec60f31d8b25cf6f6a2dd896e177da630c57411aca4ca&w=826"
+                            alt="User Avatar">
                     </div>
                     <div class="user-info">
-                        <p class="username">{{ review.reviewUserName }}</p>
+                        <p class="username" [routerLink]="['/user/', review.reviewUserName, 'profile']">{{
+                            review.reviewUserName }}</p>
                         <p class="rating"><span class="star">★</span>{{ review.userRating }}/10</p>
                     </div>
                 </div>

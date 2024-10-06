@@ -70,7 +70,7 @@ export class SearchMovieService {
         'language': 'en-US',
         'page': page,
         'sort_by': 'popularity.desc',
-        'vote_average.gte': 7,
+        'vote_average.gte': 6,
         'vote_average.lte': 10,
         'vote_count.gte': 300,
         'with_original_language': 'en',

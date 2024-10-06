@@ -8,11 +8,12 @@ import { ShowViewModel } from '../../../domain/ShowViewModel';
 import { SpinnerComponent } from "../spinner/spinner.component";
 import { Paginator } from '../../../domain/Paginator';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-review',
   standalone: true,
-  imports: [CommonModule, SpinnerComponent],
+  imports: [CommonModule, SpinnerComponent, RouterLink],
   templateUrl: './review.component.html',
   styleUrl: './review.component.css',
   animations: [

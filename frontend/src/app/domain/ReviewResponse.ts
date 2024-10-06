@@ -5,4 +5,5 @@ export class ReviewResponse {
   likeAmount!: number
   likeNames!: string[]
   isLiked!: boolean
+  profilePicture!: number[]
 }
