@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { JwtResponse } from '../../../../domain/JwtResponse';
 import { LocalStorageService } from '../../../../services/local-storage.service';
-import { delay } from 'rxjs';
+import { Subject, delay, takeUntil } from 'rxjs';
 import { PopupComponent } from "../../popup/popup.component";
 import { FormErrorComponent } from "../../form-error/form-error.component";
 
@@ -16,7 +16,7 @@ import { FormErrorComponent } from "../../form-error/form-error.component";
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
-export class LoginPageComponent {
+export class LoginPageComponent implements OnDestroy{
 
   isLoading: boolean = false;
   popupDisplay: boolean = false;
@@ -24,6 +24,7 @@ export class LoginPageComponent {
   title: string = '';
   subtitle: string = '';
   invalidCredentials: boolean = false;
+  unsubscribeSignal: Subject<void> = new Subject();
   formData = this.fb.group({
     email: ['', [Validators.required, Validators.pattern(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]],
     password: ['', Validators.required]
@@ -31,6 +32,11 @@ export class LoginPageComponent {
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router,
     private localStorageService: LocalStorageService) { }
+
+  ngOnDestroy(): void {
+    this.unsubscribeSignal.next()
+    this.unsubscribeSignal.unsubscribe()
+  }
 
 
   changeInputColor(fieldName: string) {
@@ -46,7 +52,9 @@ export class LoginPageComponent {
       let values = this.formData.value;
       if (values.email && values.password) {
         this.isLoading = true;
-        this.authService.login(values.email, values.password).pipe(delay(1500))
+        this.authService.login(values.email, values.password).pipe(
+          delay(1500),
+          takeUntil(this.unsubscribeSignal))
           .subscribe({
             next: (res: JwtResponse) => {
               if (this.localStorageService.clear()) {
@@ -81,7 +89,6 @@ export class LoginPageComponent {
   }
 
   fieldHasRequiredError(fieldName: string) {
-
     return this.formData.get(fieldName)?.hasError('required') && this.formData.get(fieldName)?.touched;
   }
 

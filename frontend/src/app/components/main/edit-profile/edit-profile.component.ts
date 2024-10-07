@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { User } from '../../../domain/User';
 import { CommonModule } from '@angular/common';
 import { SpinnerComponent } from "../spinner/spinner.component";
 import { FormErrorComponent } from "../form-error/form-error.component";
-import { delay } from 'rxjs';
+import { Subject, delay, takeUntil } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EditUserInputModel } from '../../../domain/EditUserInputModel';
 import { Router } from '@angular/router';
@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css'
 })
-export class EditProfileComponent implements OnInit {
+export class EditProfileComponent implements OnInit, OnDestroy {
 
   userName: string = ''
   profilePicture: any;
@@ -27,6 +27,7 @@ export class EditProfileComponent implements OnInit {
   currentBiography: string = ''
   fileIsBiggerError: boolean = false;
   serverError: boolean = false;
+  unsubscribeSignal: Subject<void> = new Subject();
   formData = this.fb.group({
     userName: [this.currentUserName, [Validators.required, Validators.minLength(3)]],
     biography: [this.currentBiography]
@@ -36,6 +37,11 @@ export class EditProfileComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private fb: FormBuilder,
     private router: Router) { }
+
+  ngOnDestroy(): void {
+    this.unsubscribeSignal.next()
+    this.unsubscribeSignal.unsubscribe()
+  }
 
   ngOnInit(): void {
     this.userName = this.localStorageService.get('userName')
@@ -54,7 +60,9 @@ export class EditProfileComponent implements OnInit {
       formData.append("formFile", picture, picture.name);
       this.fileIsBiggerError = false;
       this.userService.uploadProfilePicture(formData)
-        .pipe(delay(1000))
+        .pipe(
+          delay(1000),
+          takeUntil(this.unsubscribeSignal))
         .subscribe({
           complete: () => {
             this.getProfilePicture()
@@ -65,21 +73,23 @@ export class EditProfileComponent implements OnInit {
 
 
   getProfilePicture() {
-    this.userService.findByUserName(this.userName).subscribe({
-      next: (res: User) => {
-        this.profilePicture = res.profilePicture
-        this.currentUserName = res.name
-        this.currentBiography = res.biography
-        this.formData.patchValue({ 
-          userName: this.currentUserName,
-          biography: this.currentBiography 
-        });
-      },
-      complete: () => {
-        this.isLoading = false
-        this.fileIsBiggerError = false
-      }
-    })
+    this.userService.findByUserName(this.userName)
+      .pipe(takeUntil(this.unsubscribeSignal))
+      .subscribe({
+        next: (res: User) => {
+          this.profilePicture = res.profilePicture
+          this.currentUserName = res.name
+          this.currentBiography = res.biography
+          this.formData.patchValue({
+            userName: this.currentUserName,
+            biography: this.currentBiography
+          });
+        },
+        complete: () => {
+          this.isLoading = false
+          this.fileIsBiggerError = false
+        }
+      })
   }
 
   onSubmit() {
@@ -92,7 +102,9 @@ export class EditProfileComponent implements OnInit {
         biography: this.formData.get('biography')?.value || this.currentBiography
       }
       this.userService.editUserDetails(obj as EditUserInputModel)
-        .pipe(delay(1000))
+        .pipe(
+          delay(1000),
+          takeUntil(this.unsubscribeSignal))
         .subscribe({
           error: () => {
             this.isSubmitLoading = false;

@@ -42,54 +42,58 @@
     <div class="fav-img-wrapper">
       <div (click)="openFavTitleDialog()" class="placeholder" (mouseover)="changeAddSvgOpacity1 = true"
         (mouseleave)="changeAddSvgOpacity1 = false">
-        
-        <svg *ngIf="shouldShowEditButton && favShows[0]" (click)="deleteFavShow(favShows[0].originalTitle, $event)" class="remove-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+
+        <svg *ngIf="shouldShowEditButton && favShows[0]" (click)="deleteFavShow(favShows[0].originalTitle, $event)"
+          class="remove-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
           fill="#EA3323">
           <path
             d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z" />
         </svg>
-        <svg class="add-svg" [ngStyle]="{'opacity': changeAddSvgOpacity1 ? 1 : 0.5}" xmlns="http://www.w3.org/2000/svg"
-          height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
+        <svg *ngIf="shouldShowEditButton" class="add-svg" [ngStyle]="{'opacity': changeAddSvgOpacity1 ? 1 : 0.5}"
+          xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
           <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
         </svg>
         <img *ngIf="favShows[0]" (click)="stopPropagation($event)" [src]="showImage(favShows[0].posterPath)">
       </div>
       <div (click)="openFavTitleDialog()" class="placeholder" (mouseover)="changeAddSvgOpacity2 = true"
         (mouseleave)="changeAddSvgOpacity2 = false">
-
-        <svg *ngIf="shouldShowEditButton && favShows[1]" (click)="deleteFavShow(favShows[1].originalTitle, $event)" class="remove-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+        
+        <svg *ngIf="shouldShowEditButton && favShows[1]" (click)="deleteFavShow(favShows[1].originalTitle, $event)"
+          class="remove-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
           fill="#EA3323">
           <path
             d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z" />
         </svg>
-        <svg class="add-svg" [ngStyle]="{'opacity': changeAddSvgOpacity2 ? 1 : 0.5}" xmlns="http://www.w3.org/2000/svg"
-          height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
+        <svg *ngIf="shouldShowEditButton" class="add-svg" [ngStyle]="{'opacity': changeAddSvgOpacity2 ? 1 : 0.5}"
+          xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
           <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
         </svg>
         <img *ngIf="favShows[1]" (click)="stopPropagation($event)" [src]="showImage(favShows[1].posterPath)">
       </div>
       <div (click)="openFavTitleDialog()" class="placeholder" (mouseover)="changeAddSvgOpacity3 = true"
         (mouseleave)="changeAddSvgOpacity3 = false">
-        <svg *ngIf="shouldShowEditButton && favShows[2]" (click)="deleteFavShow(favShows[2].originalTitle, $event)" class="remove-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+        <svg *ngIf="shouldShowEditButton && favShows[2]" (click)="deleteFavShow(favShows[2].originalTitle, $event)"
+          class="remove-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
           fill="#EA3323">
           <path
             d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z" />
         </svg>
-        <svg class="add-svg" [ngStyle]="{'opacity': changeAddSvgOpacity3 ? 1 : 0.5}" xmlns="http://www.w3.org/2000/svg"
-          height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
+        <svg *ngIf="shouldShowEditButton" class="add-svg" [ngStyle]="{'opacity': changeAddSvgOpacity3 ? 1 : 0.5}"
+          xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
           <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
         </svg>
-        <img *ngIf="favShows[2]" (click)="stopPropagation($event)"  [src]="showImage(favShows[2].posterPath)">
+        <img *ngIf="favShows[2]" (click)="stopPropagation($event)" [src]="showImage(favShows[2].posterPath)">
       </div>
       <div (click)="openFavTitleDialog()" class="placeholder" (mouseover)="changeAddSvgOpacity4 = true"
         (mouseleave)="changeAddSvgOpacity4 = false">
-        <svg *ngIf="shouldShowEditButton && favShows[3]" (click)="deleteFavShow(favShows[3].originalTitle, $event)" class="remove-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+        <svg *ngIf="shouldShowEditButton && favShows[3]" (click)="deleteFavShow(favShows[3].originalTitle, $event)"
+          class="remove-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
           fill="#EA3323">
           <path
             d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z" />
         </svg>
-        <svg class="add-svg" [ngStyle]="{'opacity': changeAddSvgOpacity4 ? 1 : 0.5}" xmlns="http://www.w3.org/2000/svg"
-          height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
+        <svg *ngIf="shouldShowEditButton" class="add-svg" [ngStyle]="{'opacity': changeAddSvgOpacity4 ? 1 : 0.5}"
+          xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
           <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
         </svg>
         <img *ngIf="favShows[3]" (click)="stopPropagation($event)" [src]="showImage(favShows[3].posterPath)">

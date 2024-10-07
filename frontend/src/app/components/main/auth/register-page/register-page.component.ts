@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { FormErrorComponent } from "../../form-error/form-error.component";
-import { delay } from 'rxjs';
+import { Subject, delay, takeUntil } from 'rxjs';
 import { PopupComponent } from "../../popup/popup.component";
 
 @Component({
@@ -16,7 +16,7 @@ import { PopupComponent } from "../../popup/popup.component";
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.css'
 })
-export class RegisterPageComponent {
+export class RegisterPageComponent implements OnDestroy {
 
   emailExists: boolean = false;
   isSubmitted: boolean = false;
@@ -26,6 +26,7 @@ export class RegisterPageComponent {
   popupType: boolean = true;
   title: string = '';
   subtitle: string = '';
+  unsubscribeSignal: Subject<void> = new Subject();
   formData = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.pattern(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]],
@@ -33,6 +34,11 @@ export class RegisterPageComponent {
   })
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
+
+  ngOnDestroy(): void {
+    this.unsubscribeSignal.next()
+    this.unsubscribeSignal.unsubscribe()
+  }
 
   onSubmit() {
     this.formData.markAllAsTouched();
@@ -42,7 +48,9 @@ export class RegisterPageComponent {
         this.spinnerDisplay = true;
         this.isLoading = true;
         this.authService.registerUser(values.name, values.email, values.password)
-          .pipe(delay(2000))
+          .pipe(
+            delay(2000),
+            takeUntil(this.unsubscribeSignal))
           .subscribe({
             next: () => {
             },

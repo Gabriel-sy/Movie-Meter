@@ -21,4 +21,9 @@
       <ProjectReference Include="..\MovieMeter.Core\MovieMeter.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="default-image.jpg" />
+      <EmbeddedResource Include="default-image.jpg" />
+    </ItemGroup>
+
 </Project>

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { Observable, Subscription, finalize, map } from 'rxjs';
+import { Observable, Subject, Subscription, finalize, map, takeUntil } from 'rxjs';
 import { ShowViewModel } from '../../../../domain/ShowViewModel';
 import { ShowService } from '../../../../services/show.service';
 import { SharedService } from '../../../../services/shared.service';
@@ -18,9 +18,10 @@ import { FavShowInputModel } from '../../../../domain/FavShowInputModel';
   templateUrl: './fav-title-dialog.component.html',
   styleUrl: './fav-title-dialog.component.css'
 })
-export class FavTitleDialogComponent {
+export class FavTitleDialogComponent implements OnDestroy {
   foundSearch$: Observable<ShowSearchViewModel[]> = new Observable<ShowSearchViewModel[]>();
   showToSave: ShowSearchViewModel = new ShowSearchViewModel()
+  unsubscribeSignal: Subject<void> = new Subject();
   timer = setTimeout(() => { }, 0);
   isLoading: boolean = false;
   inputValue: string = '';
@@ -29,13 +30,18 @@ export class FavTitleDialogComponent {
   posterPath: string = ''
   isExpanded: boolean = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: string, 
-  private dialogRef: MatDialogRef<FavTitleDialogComponent>,
-  private sharedService: SharedService,
-  private favShowService: FavShowService,
-  private localStorageService: LocalStorageService) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string,
+    private dialogRef: MatDialogRef<FavTitleDialogComponent>,
+    private sharedService: SharedService,
+    private favShowService: FavShowService,
+    private localStorageService: LocalStorageService) { }
 
-  searchMovie(event: any){
+  ngOnDestroy(): void {
+    this.unsubscribeSignal.next()
+    this.unsubscribeSignal.unsubscribe()
+  }
+
+  searchMovie(event: any) {
     clearTimeout(this.timer)
 
     const length = event.target.value.length
@@ -43,7 +49,9 @@ export class FavTitleDialogComponent {
     this.timer = setTimeout(() => {
       if (length > 3) {
         this.foundSearch$ = this.sharedService.searchTitle(event.target.value)
-        .pipe(finalize(() => this.isExpanded = true))
+          .pipe(
+            finalize(() => this.isExpanded = true),
+            takeUntil(this.unsubscribeSignal))
       } else if (length == 0) {
         this.foundSearch$ = new Observable<ShowSearchViewModel[]>()
         this.isExpanded = false;
@@ -52,7 +60,7 @@ export class FavTitleDialogComponent {
     }, 500);
   }
 
-  setInputValue(title: string){
+  setInputValue(title: string) {
     this.inputValue = title
 
     this.userName = this.localStorageService.get('userName')
@@ -74,10 +82,11 @@ export class FavTitleDialogComponent {
           complete: () => {
           }
         })
-      }))
+      }), takeUntil(this.unsubscribeSignal))
+      
       .subscribe({
         complete: () => this.dialogRef.close()
       })
-    
+
   }
 }

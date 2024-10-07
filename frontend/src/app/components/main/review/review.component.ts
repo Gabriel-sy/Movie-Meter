@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
 import { ShowService } from '../../../services/show.service';
-import { Observable, delay, map, startWith, take } from 'rxjs';
+import { Observable, Subject, delay, map, startWith, take, takeUntil } from 'rxjs';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { User } from '../../../domain/User';
 import { ShowViewModel } from '../../../domain/ShowViewModel';
@@ -41,11 +41,12 @@ import { RouterLink } from '@angular/router';
     ])
   ]
 })
-export class ReviewComponent {
+export class ReviewComponent implements OnDestroy {
   @Input() title: string = ''
   @Input() showId: string = ''
   reviews$: Observable<ShowViewModel[]> = new Observable<ShowViewModel[]>()
   user$: Observable<User> = new Observable<User>()
+  unsubscribeSignal: Subject<void> = new Subject();
   userName: string = '';
   sortCategory: string = ''
   order: string = ''
@@ -59,11 +60,17 @@ export class ReviewComponent {
   constructor(private showService: ShowService,
     private localStorageService: LocalStorageService) { }
 
+  ngOnDestroy(): void {
+    this.unsubscribeSignal.next()
+    this.unsubscribeSignal.unsubscribe()
+  }
+
   ngOnInit(): void {
     this.userName = this.localStorageService.get('userName')
     this.getReviews()
 
     this.showService.getCommentsHeaderByTitle(this.title)
+      .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
         next: (res) => {
           let pagination = JSON.parse(res.headers.get('pagination') || '') as Paginator
@@ -80,10 +87,10 @@ export class ReviewComponent {
   }
 
   getReviews(sortCategory?: string, order?: string) {
-    if(this.dropdownDisplay){
+    if (this.dropdownDisplay) {
       this.dropdownDisplay = false
     }
-    if(sortCategory && order){
+    if (sortCategory && order) {
       this.sortCategory = sortCategory
       this.order = order
     }
@@ -93,7 +100,8 @@ export class ReviewComponent {
         ...s,
         isLiked: s.likeNames.includes(this.userName),
         reviewUserName: s.userName
-      }))))
+      })),
+        takeUntil(this.unsubscribeSignal)))
   }
 
   changeCurrentPage(subtractOrAdd: boolean) {
@@ -105,6 +113,7 @@ export class ReviewComponent {
     review.isLiked = !review.isLiked;
     review.likeUserName = this.userName
     this.showService.changeLikes(review, this.showId)
+      .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
         next: (res: ShowViewModel) => {
           review.likeAmount = res.likeAmount

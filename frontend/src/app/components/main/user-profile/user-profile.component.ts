@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { User } from '../../../domain/User';
 import { UserService } from '../../../services/user.service';
@@ -6,7 +6,7 @@ import { LocalStorageService } from '../../../services/local-storage.service';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { FavTitleDialogComponent } from '../dialogs/fav-title-dialog/fav-title-dialog.component';
-import { Observable, Subscription, delay } from 'rxjs';
+import { Observable, Subject, Subscription, delay, takeUntil } from 'rxjs';
 import { FavShowService } from '../../../services/fav-show.service';
 import { FavShowViewModel } from '../../../domain/FavShowViewModel';
 
@@ -17,9 +17,10 @@ import { FavShowViewModel } from '../../../domain/FavShowViewModel';
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent implements OnInit, OnDestroy {
   user: User = new User()
   favShows: FavShowViewModel[] = []
+  unsubscribeSignal: Subject<void> = new Subject();
   userName: string = ''
   shouldShowEditButton: boolean = false
   changeAddSvgOpacity1: boolean = false;
@@ -33,6 +34,11 @@ export class UserProfileComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private favShowService: FavShowService) { }
 
+  ngOnDestroy(): void {
+    this.unsubscribeSignal.next()
+    this.unsubscribeSignal.unsubscribe()
+  }
+
   ngOnInit(): void {
     this.userName = this.route.snapshot.url[1].path
 
@@ -40,11 +46,13 @@ export class UserProfileComponent implements OnInit {
 
     this.updateFavShows()
 
-    this.userService.findByUserName(this.userName).subscribe({
-      next: (res: User) => {
-        this.user = res;
-      }
-    })
+    this.userService.findByUserName(this.userName)
+      .pipe(takeUntil(this.unsubscribeSignal))
+      .subscribe({
+        next: (res: User) => {
+          this.user = res;
+        }
+      })
   }
 
   openFavTitleDialog() {
@@ -52,21 +60,25 @@ export class UserProfileComponent implements OnInit {
       data: this.localStorageService.get('userName')
     })
 
-    const closeDialog: Subscription = dialog.afterClosed().subscribe({
-      next: () => {
-        this.updateFavShows()
-      }
-    })
+    const closeDialog: Subscription = dialog.afterClosed()
+      .pipe(takeUntil(this.unsubscribeSignal))
+      .subscribe({
+        next: () => {
+          this.updateFavShows()
+        }
+      })
   }
 
   deleteFavShow(originalTitle: string, event: Event) {
     event.stopPropagation()
-    this.favShowService.deleteFavShow(this.localStorageService.get('userName'), originalTitle).subscribe({
-      complete: () => {
-        this.updateFavShows()
-      }
-    })
-    
+    this.favShowService.deleteFavShow(this.localStorageService.get('userName'), originalTitle)
+      .pipe(takeUntil(this.unsubscribeSignal))
+      .subscribe({
+        complete: () => {
+          this.updateFavShows()
+        }
+      })
+
   }
 
   stopPropagation(event: Event) {
@@ -79,7 +91,9 @@ export class UserProfileComponent implements OnInit {
 
   updateFavShows() {
     this.favShowService.getFavShows(this.userName)
-      .pipe(delay(1000))
+      .pipe(
+        delay(1000),
+        takeUntil(this.unsubscribeSignal))
       .subscribe({
         next: (res: FavShowViewModel[]) => {
           this.favShows = res.slice(0, 4)

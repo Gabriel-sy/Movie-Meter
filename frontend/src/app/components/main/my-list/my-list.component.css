@@ -53,7 +53,7 @@
   text-align: start;
   justify-content: start;
   align-items: center;
-
+  z-index: 100;
 }
 
 .dropdown p {
@@ -63,7 +63,6 @@
 }
 
 .dropdown p:hover {
-
   cursor: pointer;
   background-color: rgba(86, 103, 128, 0.1);
 }
