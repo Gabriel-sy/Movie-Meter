@@ -134,4 +134,14 @@ public class ReviewRepository : IReviewRepository
 
         return review;
     }
+
+    public async Task<List<Review>?> FindRecentUserReviews(User user)
+    {
+        var reviews = await _context.Reviews
+            .Where(r => r.CreatedAt.TimeOfDay <= TimeSpan.FromDays(7)
+            && !r.IsDeleted)
+            .ToListAsync();
+
+        return reviews;
+    }
 }

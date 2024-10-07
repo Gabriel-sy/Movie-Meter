@@ -42,11 +42,13 @@ public class FavoriteShowRepository : IFavoriteShowRepository
         return favoriteShow;
     }
 
-    public async Task<FavoriteShow?> FindFavoriteShowByUserName(string userName)
+    public async Task<FavoriteShow?> FindFavoriteShowByUser(User user, string originalTitle)
     {
         var result = await _context.FavoriteShows
-            .SingleOrDefaultAsync(f => f.User.Name == userName
-                                       && !f.IsDeleted);
+            .SingleOrDefaultAsync
+            (f => f.User.Id == user.Id 
+                  && f.OriginalTitle == originalTitle
+                  && !f.IsDeleted);
 
         return result;
     }

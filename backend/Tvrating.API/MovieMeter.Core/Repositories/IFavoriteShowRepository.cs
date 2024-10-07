@@ -7,5 +7,5 @@ public interface IFavoriteShowRepository
     Task<FavoriteShow> AddFavoriteShow(FavoriteShow favoriteShow);
     Task<List<FavoriteShow>> FindFavoriteShowsByUserName(string userName);
     Task<FavoriteShow> DeleteFavoriteShow(FavoriteShow favoriteShow);
-    Task<FavoriteShow?> FindFavoriteShowByUserName(string userName);
+    Task<FavoriteShow?> FindFavoriteShowByUser(User user, string originalTitle);
 }

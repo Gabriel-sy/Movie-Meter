@@ -44,8 +44,15 @@ public class FavoriteShowService : IFavoriteShowService
 
     public async Task<ResultViewModel<FavoriteShow>> DeleteFavShow(string userName, string originalTitle)
     {
-        var favShow = await _repository.FindFavoriteShowByUserName(userName);
+        var user = await _userService.FindFullUserByUserName(userName);
 
+        if (user.Data is null)
+        {
+            return ResultViewModel<FavoriteShow>.Error("Usuário não encontrado");
+        }
+        
+        var favShow = await _repository.FindFavoriteShowByUser(user.Data, originalTitle);
+        
         if (favShow is null)
         {
             return ResultViewModel<FavoriteShow>.Error("Título favorito não encontrado");
