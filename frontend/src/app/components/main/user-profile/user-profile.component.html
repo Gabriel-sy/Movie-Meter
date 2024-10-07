@@ -53,11 +53,12 @@
           xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
           <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
         </svg>
-        <img *ngIf="favShows[0]" (click)="stopPropagation($event)" [src]="showImage(favShows[0].posterPath)">
+        <img *ngIf="favShows[0]" [routerLink]="['/media/details', formatTitle(favShows[0].originalTitle)]"
+          (click)="stopPropagation($event)" [src]="showImage(favShows[0].posterPath)">
       </div>
       <div (click)="openFavTitleDialog()" class="placeholder" (mouseover)="changeAddSvgOpacity2 = true"
         (mouseleave)="changeAddSvgOpacity2 = false">
-        
+
         <svg *ngIf="shouldShowEditButton && favShows[1]" (click)="deleteFavShow(favShows[1].originalTitle, $event)"
           class="remove-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
           fill="#EA3323">
@@ -68,7 +69,9 @@
           xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
           <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
         </svg>
-        <img *ngIf="favShows[1]" (click)="stopPropagation($event)" [src]="showImage(favShows[1].posterPath)">
+        <img *ngIf="favShows[1]" (click)="stopPropagation($event)"
+          [routerLink]="['/media/details', formatTitle(favShows[1].originalTitle)]"
+          [src]="showImage(favShows[1].posterPath)">
       </div>
       <div (click)="openFavTitleDialog()" class="placeholder" (mouseover)="changeAddSvgOpacity3 = true"
         (mouseleave)="changeAddSvgOpacity3 = false">
@@ -82,7 +85,9 @@
           xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
           <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
         </svg>
-        <img *ngIf="favShows[2]" (click)="stopPropagation($event)" [src]="showImage(favShows[2].posterPath)">
+        <img *ngIf="favShows[2]" (click)="stopPropagation($event)"
+          [routerLink]="['/media/details', formatTitle(favShows[2].originalTitle)]"
+          [src]="showImage(favShows[2].posterPath)">
       </div>
       <div (click)="openFavTitleDialog()" class="placeholder" (mouseover)="changeAddSvgOpacity4 = true"
         (mouseleave)="changeAddSvgOpacity4 = false">
@@ -96,7 +101,7 @@
           xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#e8eaed">
           <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
         </svg>
-        <img *ngIf="favShows[3]" (click)="stopPropagation($event)" [src]="showImage(favShows[3].posterPath)">
+        <img *ngIf="favShows[3]" [routerLink]="['/media/details', formatTitle(favShows[3].originalTitle)]" (click)="stopPropagation($event)" [src]="showImage(favShows[3].posterPath)">
       </div>
     </div>
 

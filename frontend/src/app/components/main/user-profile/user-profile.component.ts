@@ -120,4 +120,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         }
       })
   }
+
+  formatTitle(title: string): string {
+    return title.replace(new RegExp(" ", "g"), '-');
+  }
 }

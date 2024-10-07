@@ -30,12 +30,22 @@ export class SearchMovieService {
   }
 
   findDirectorName(show: ShowInputModel, language = 'en-US') {
-    return this.http.get<Results>(`https://api.themoviedb.org/3/movie/${show.id}/credits`, {
-      headers: this.headers,
-      params: {
-        language: language
-      }
-    });
+    if(show.media_type == 'movie'){
+      return this.http.get<Results>(`https://api.themoviedb.org/3/movie/${show.id}/credits`, {
+        headers: this.headers,
+        params: {
+          language: language
+        }
+      });
+    } else {
+      return this.http.get<Results>(`https://api.themoviedb.org/3/tv/${show.id}/credits`, {
+        headers: this.headers,
+        params: {
+          language: language
+        }
+      });
+    }
+    
   }
 
   searchPopularMovies() {
