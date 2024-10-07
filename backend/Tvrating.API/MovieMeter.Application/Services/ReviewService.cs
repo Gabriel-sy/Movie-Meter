@@ -178,15 +178,53 @@ public class ReviewService : IReviewService
 
         var reviews = await _repository.FindRecentUserReviews(user.Data);
 
+        
+
         if (reviews is null)
         {
             return ResultViewModel<List<ReviewViewModel>>.Error("Usuário não tem reviews recentes"); 
         }
 
-        var returnModel = reviews
+        var model = reviews
             .Select(r => ReviewViewModel.FromEntity(r))
             .ToList();
+        
+        model = FormatTimes(model);
 
-        return ResultViewModel<List<ReviewViewModel>>.Success(returnModel);
+        return ResultViewModel<List<ReviewViewModel>>.Success(model);
+    }
+    
+    public List<ReviewViewModel> FormatTimes(List<ReviewViewModel> reviews)
+    {
+        var timeSinceInt = 0;
+        var timeTypeString = "";
+        var since = " atrás.";
+        
+        reviews.ForEach(r =>
+        {
+            var timeSince = r.CreatedAt - DateTime.Now;
+
+            
+            
+            if (timeSince.Value.Days == 00 && timeSince.Value.Hours == 00)
+            {
+                timeSinceInt = Math.Abs(timeSince.Value.Minutes);
+                timeTypeString = " Minutos";
+                
+            } else if (timeSince.Value.Days == 00)
+            {
+                timeSinceInt = Math.Abs(timeSince.Value.Hours);
+                timeTypeString = " Horas";
+            }
+            else
+            {
+                timeSinceInt = Math.Abs(timeSince.Value.Days);
+                timeTypeString = " Dias";
+            }
+            
+            r.TimeSinceCreation = timeSinceInt + timeTypeString + since;
+        });
+        
+        return reviews;
     }
 }
