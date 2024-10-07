@@ -166,4 +166,27 @@ public class ReviewService : IReviewService
         return ResultViewModel<LikeInputModel?>.Success(returnModel);
 
     }
+
+    public async Task<ResultViewModel<List<ReviewViewModel>>> FindRecentUserReviews(string username)
+    {
+        var user = await _userService.FindFullUserByUserName(username);
+
+        if (user.Data is null)
+        {
+            return ResultViewModel<List<ReviewViewModel>>.Error("Usuário não encontrado");
+        }
+
+        var reviews = await _repository.FindRecentUserReviews(user.Data);
+
+        if (reviews is null)
+        {
+            return ResultViewModel<List<ReviewViewModel>>.Error("Usuário não tem reviews recentes"); 
+        }
+
+        var returnModel = reviews
+            .Select(r => ReviewViewModel.FromEntity(r))
+            .ToList();
+
+        return ResultViewModel<List<ReviewViewModel>>.Success(returnModel);
+    }
 }

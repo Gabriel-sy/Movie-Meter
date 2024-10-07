@@ -16,4 +16,5 @@ public interface IReviewService
         string originalTitle,
         int pageNumber, string sortCategory, string order);
     Task<ResultViewModel<LikeInputModel?>> ChangeLikes(LikeInputModel model);
+    Task<ResultViewModel<List<ReviewViewModel>>> FindRecentUserReviews(string username);
 }

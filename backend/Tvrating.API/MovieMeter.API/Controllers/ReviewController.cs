@@ -142,5 +142,19 @@ public class ReviewController : ControllerBase
         return Ok(result.Data);
     }
 
+    [AllowAnonymous]
+    [HttpGet("recent")]
+    public async Task<IActionResult> GetRecentReviews([FromQuery] string username)
+    {
+        var result = await _service.FindRecentUserReviews(username);
+
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
+
+        return Ok(result.Data);
+    }
+
     
 }

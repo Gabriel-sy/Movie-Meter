@@ -138,8 +138,10 @@ public class ReviewRepository : IReviewRepository
     public async Task<List<Review>?> FindRecentUserReviews(User user)
     {
         var reviews = await _context.Reviews
-            .Where(r => r.CreatedAt.TimeOfDay <= TimeSpan.FromDays(7)
+            .Where(r => r.UserId == user.Id
             && !r.IsDeleted)
+            .Take(3)
+            .OrderByDescending(r => r.CreatedAt)
             .ToListAsync();
 
         return reviews;
