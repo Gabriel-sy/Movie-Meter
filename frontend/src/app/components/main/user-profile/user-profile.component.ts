@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { User } from '../../../domain/User';
 import { UserService } from '../../../services/user.service';
 import { LocalStorageService } from '../../../services/local-storage.service';
@@ -9,6 +9,8 @@ import { FavTitleDialogComponent } from '../dialogs/fav-title-dialog/fav-title-d
 import { Observable, Subject, Subscription, delay, takeUntil } from 'rxjs';
 import { FavShowService } from '../../../services/fav-show.service';
 import { FavShowViewModel } from '../../../domain/FavShowViewModel';
+import { ShowViewModel } from '../../../domain/ShowViewModel';
+import { ShowService } from '../../../services/show.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -20,6 +22,7 @@ import { FavShowViewModel } from '../../../domain/FavShowViewModel';
 export class UserProfileComponent implements OnInit, OnDestroy {
   user: User = new User()
   favShows: FavShowViewModel[] = []
+  recentReviews: Observable<ShowViewModel[]> = new Observable<ShowViewModel[]>()
   unsubscribeSignal: Subject<void> = new Subject();
   userName: string = ''
   shouldShowEditButton: boolean = false
@@ -32,7 +35,18 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService,
     private route: ActivatedRoute,
     private localStorageService: LocalStorageService,
-    private favShowService: FavShowService) { }
+    private favShowService: FavShowService,
+    private showService: ShowService,
+    private router: Router) {
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.userName = this.route.snapshot.url[1].path
+        this.getUserDetails()
+        this.updateFavShows()
+        this.shouldShowEditButton = this.userName == this.localStorageService.get('userName')
+      }
+    })
+  }
 
   ngOnDestroy(): void {
     this.unsubscribeSignal.next()
@@ -46,6 +60,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
     this.updateFavShows()
 
+    this.recentReviews = this.showService.getRecentUserReviews(this.userName)
+  }
+
+  getUserDetails() {
     this.userService.findByUserName(this.userName)
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
@@ -56,11 +74,11 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   openFavTitleDialog() {
-    if(this.userName == this.localStorageService.get('userName')){
+    if (this.userName == this.localStorageService.get('userName')) {
       const dialog = this.dialog.open(FavTitleDialogComponent, {
         data: this.localStorageService.get('userName')
       })
-  
+
       const closeDialog: Subscription = dialog.afterClosed()
         .pipe(takeUntil(this.unsubscribeSignal))
         .subscribe({

@@ -16,4 +16,5 @@ export class ShowViewModel {
   likeUserName!: string
   userName!: string
   profilePicture!: number[]
+  timeSinceCreation!: string
 }

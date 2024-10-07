@@ -106,17 +106,9 @@
   <div class="section">
     <h2>Atividade Recente</h2>
     <ul class="recent-activity">
-      <li class="activity-item">
-        <div class="activity-content">Assistiu "Título do Filme 2"</div>
-        <div class="activity-date">2 horas atrás</div>
-      </li>
-      <li class="activity-item">
-        <div class="activity-content">Adicionou "Título da Série 2" à lista "Para Assistir"</div>
-        <div class="activity-date">1 dia atrás</div>
-      </li>
-      <li class="activity-item">
-        <div class="activity-content">Avaliou "Título do Filme 3" com ★★★★☆</div>
-        <div class="activity-date">3 dias atrás</div>
+      <li class="activity-item" *ngFor="let review of recentReviews | async">
+        <div class="activity-content">Avaliou: "{{ review.originalTitle }}"</div>
+        <div class="activity-date">{{ review.timeSinceCreation }}</div>
       </li>
     </ul>
   </div>

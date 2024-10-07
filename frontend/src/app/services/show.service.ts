@@ -164,4 +164,12 @@ export class ShowService {
         return this.http.post<ShowViewModel>(this.API + "api/review/changeLike", objectToSend)
     }
 
+    getRecentUserReviews(userName: string){
+        return this.http.get<ShowViewModel[]>(this.API + 'api/review/recent', {
+            params: {
+                userName: userName
+            }
+        })
+    }
+
 }
