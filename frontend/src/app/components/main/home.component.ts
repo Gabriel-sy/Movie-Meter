@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
         next: (res: Results) => {
-          this.popularMovies = res.results.map(movie => ({
+          this.popularMovies = res.results.slice(0, 15).map(movie => ({
             posterPath: movie.poster_path,
             title: movie.original_title,
           }))
@@ -87,14 +87,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   searchPopularSeries() {
     this.popularSeries$ = this.searchMovieService.searchPopularSeries()
       .pipe(map((res: Results) => {
-        return res.results
+        return res.results.slice(0, 15)
       }))
   }
 
   searchPopularMovieByGenre(genre: string){
     return this.searchMovieService.searchMoviesByGenre(genre)
     .pipe(map((res: Results) => {
-      return res.results
+      return res.results.slice(0, 15)
     }))
   }
 

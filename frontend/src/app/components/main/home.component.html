@@ -1,59 +1,58 @@
+<div class="container">
+    <header>
+        <div class="logo">Movie Meter</div>
+        <app-add-button (click)="openDialog()"></app-add-button>
+    </header>
 
-    <app-add-button class="add-button" (click)="openDialog()"></app-add-button>
+    <app-popup [popupDisplay]="popupDisplay" [title]="title" [subtitle]="subtitle" [type]="popupType"></app-popup>
 
-
-<app-popup [popupDisplay]="popupDisplay" [title]="title" [subtitle]="subtitle" [type]="popupType"></app-popup>
-
-<div class="carousel-container">
-    <h2>Filmes Populares</h2>
-    <div class="carousel" #carousel>
-        <div class="carousel-inner" [style.transform]="'translateX(' + translateValueMovies + 'px)'">
-            <div class="carousel-item" *ngFor="let movie of displayedMovies">
-                <div class="movie-wrapper">
-                    <img [src]="showImage(movie.posterPath)" [alt]="movie.title" [routerLink]="['media/details', formatTitle(movie.title)]">
-                    <div class="movie-title">{{ movie.title }}</div>
-                </div>
+    <section class="media-section">
+        <h2>Filmes Populares</h2>
+        <div class="media-grid">
+            <div class="media-item" *ngFor="let movie of displayedMovies">
+                <img [src]="showImage(movie.posterPath)" [alt]="movie.title" [routerLink]="['media/details', formatTitle(movie.title)]">
+                <div class="media-title">{{ movie.title }}</div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div class="series-container">
-    <h2>Séries Populares</h2>
-    <div class="series-grid">
-        <div class="series-item" *ngFor="let series of popularSeries$ | async">
-            <img [src]="showImage(series.poster_path)" [alt]="series.original_name" [routerLink]="['media/details', formatTitle(series.original_name)]">
-            <div class="series-title">{{ series.original_name }}</div>
+    <section class="media-section">
+        <h2>Séries Populares</h2>
+        <div class="media-grid">
+            <div class="media-item" *ngFor="let series of popularSeries$ | async">
+                <img [src]="showImage(series.poster_path)" [alt]="series.original_name" [routerLink]="['media/details', formatTitle(series.original_name)]">
+                <div class="media-title">{{ series.original_name }}</div>
+            </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div class="series-container">
-    <h2>Filmes de romance</h2>
-    <div class="series-grid">
-        <div class="series-item" *ngFor="let movie of popularRomanceMovies$ | async">
-            <img [src]="showImage(movie.poster_path)" [alt]="movie.title" [routerLink]="['media/details', formatTitle(movie.title)]">
-            <div class="series-title">{{ movie.title }}</div>
+    <section class="media-section">
+        <h2>Filmes de Romance</h2>
+        <div class="media-grid">
+            <div class="media-item" *ngFor="let movie of popularRomanceMovies$ | async">
+                <img [src]="showImage(movie.poster_path)" [alt]="movie.title" [routerLink]="['media/details', formatTitle(movie.title)]">
+                <div class="media-title">{{ movie.title }}</div>
+            </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div class="series-container">
-    <h2>Filmes de terror</h2>
-    <div class="series-grid">
-        <div class="series-item" *ngFor="let movie of popularHorrorMovies$ | async">
-            <img [src]="showImage(movie.poster_path)" [alt]="movie.title" [routerLink]="['media/details', formatTitle(movie.title)]">
-            <div class="series-title">{{ movie.title }}</div>
+    <section class="media-section">
+        <h2>Filmes de Terror</h2>
+        <div class="media-grid">
+            <div class="media-item" *ngFor="let movie of popularHorrorMovies$ | async">
+                <img [src]="showImage(movie.poster_path)" [alt]="movie.title" [routerLink]="['media/details', formatTitle(movie.title)]">
+                <div class="media-title">{{ movie.title }}</div>
+            </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div class="series-container">
-    <h2>Filmes de Ficção Científica</h2>
-    <div class="series-grid">
-        <div class="series-item" *ngFor="let movie of popularScienceFicMovies$ | async">
-            <img [src]="showImage(movie.poster_path)" [alt]="movie.title" [routerLink]="['media/details', formatTitle(movie.title)]">
-            <div class="series-title">{{ movie.title }}</div>
+    <section class="media-section">
+        <h2>Filmes de Ficção Científica</h2>
+        <div class="media-grid">
+            <div class="media-item" *ngFor="let movie of popularScienceFicMovies$ | async">
+                <img [src]="showImage(movie.poster_path)" [alt]="movie.title" [routerLink]="['media/details', formatTitle(movie.title)]">
+                <div class="media-title">{{ movie.title }}</div>
+            </div>
         </div>
-    </div>
+    </section>
 </div>
