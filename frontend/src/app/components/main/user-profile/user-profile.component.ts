@@ -56,17 +56,19 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   openFavTitleDialog() {
-    const dialog = this.dialog.open(FavTitleDialogComponent, {
-      data: this.localStorageService.get('userName')
-    })
-
-    const closeDialog: Subscription = dialog.afterClosed()
-      .pipe(takeUntil(this.unsubscribeSignal))
-      .subscribe({
-        next: () => {
-          this.updateFavShows()
-        }
+    if(this.userName == this.localStorageService.get('userName')){
+      const dialog = this.dialog.open(FavTitleDialogComponent, {
+        data: this.localStorageService.get('userName')
       })
+  
+      const closeDialog: Subscription = dialog.afterClosed()
+        .pipe(takeUntil(this.unsubscribeSignal))
+        .subscribe({
+          next: () => {
+            this.updateFavShows()
+          }
+        })
+    }
   }
 
   deleteFavShow(originalTitle: string, event: Event) {
