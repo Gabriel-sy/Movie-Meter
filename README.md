@@ -1,14 +1,18 @@
 ![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white) <img src="https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white"/> ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=csharp&logoColor=white) <img src="https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white"/> 
 
+![Demo image](demoimage2.png)
+
 # Visão Geral
 
-O Movie Meter é um site em que você pode descobrir, avaliar, compartilhar suas opiniões sobre filmes e séries e muito mais!. Desenvolvi com ASP.NET Core, Entity Framework, SQL Server e Angular.
+Movie Meter é um site em que você pode descobrir, avaliar, compartilhar suas opiniões sobre filmes e séries e muito mais!. Desenvolvi com ASP.NET Core, Entity Framework, SQL Server e Angular.
 
 ## Tecnologias
 * **Frontend:** Angular
 * **Backend:** ASP.NET Core
 * **Banco de dados:** SQL Server
 * **Autenticação:** JWT
+
+![Demo image2](demoImage.png)
 
 ## Funcionalidades Principais
 
@@ -41,8 +45,8 @@ O Movie Meter é um site em que você pode descobrir, avaliar, compartilhar suas
 
 ## Como Utilizar
 
-1. Crie uma conta ou faça login
-2. Configure seu perfil com informações pessoais e preferências
+1. Crie uma conta
+2. Configure seu perfil do jeito que gostar
 3. Avalie e resenhe seus títulos favoritos
 4. Interaja com avaliações de outros usuários
 
