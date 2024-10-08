@@ -22,10 +22,6 @@
   transition: transform 0.3s ease;
 }
 
-.img-container:hover {
-  transform: translateY(-10px);
-}
-
 .img {
   width: 100%;
   min-height: auto;
@@ -34,10 +30,6 @@
   object-position:50% 50%;
   transition: transform 0.3s ease;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-}
-
-.img:hover {
-  transform: scale(1.05);
 }
 
 .main-content {
