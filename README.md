@@ -62,3 +62,4 @@ Fiz esse projeto com o objetivo principal de mostrar e melhorar minhas habilidad
 
 ## TODO
 - Colocar o site no ar usando Azure
+- Mover as requisições da API externa do frontend para o backend
