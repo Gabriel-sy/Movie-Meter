@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Metadata;
+using Microsoft.Extensions.Http;
 using MovieMeter.Application.Models;
 using MovieMeter.Core.Entities;
 using MovieMeter.Core.Repositories;
@@ -10,11 +11,13 @@ public class ReviewService : IReviewService
 {
     private readonly IReviewRepository _repository;
     private readonly IUserService _userService;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public ReviewService(IReviewRepository repository, IUserService userService)
+    public ReviewService(IReviewRepository repository, IUserService userService, IHttpClientFactory httpClientFactory)
     {
         _repository = repository;
         _userService = userService;
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<ResultViewModel<List<ReviewViewModel>>> GetAllShows()
@@ -29,6 +32,10 @@ public class ReviewService : IReviewService
     public async Task<ResultViewModel<List<ReviewViewModel>>> GetAllByEmail(string email)
     {
         var user = await _userService.FindByEmail(email);
+
+        var httpClient = _httpClientFactory.CreateClient("TMDB");
+        
+        
 
         if (user.Data != null)
         {

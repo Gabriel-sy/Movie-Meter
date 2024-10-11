@@ -23,7 +23,6 @@
 
     <ItemGroup>
       <None Remove="default-image.jpg" />
-      <EmbeddedResource Include="default-image.jpg" />
     </ItemGroup>
 
 </Project>

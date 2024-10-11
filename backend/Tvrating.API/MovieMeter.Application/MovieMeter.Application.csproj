@@ -10,4 +10,9 @@
       <ProjectReference Include="..\MovieMeter.Core\MovieMeter.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="HttpClientFactory" Version="1.0.5" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
+    </ItemGroup>
+
 </Project>
