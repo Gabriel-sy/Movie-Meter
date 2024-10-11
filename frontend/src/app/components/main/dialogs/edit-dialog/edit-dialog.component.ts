@@ -4,8 +4,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { ShowService } from '../../../../services/show.service';
 import { FormErrorComponent } from "../../form-error/form-error.component";
+import { ReviewService } from '../../../../services/review.service';
 
 @Component({
   selector: 'app-edit-dialog',
@@ -23,7 +23,7 @@ export class EditDialogComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: {currentRating: string, currentReview: string, showId: string},
-    private showService: ShowService,
+    private reviewService: ReviewService,
     private dialogRef: MatDialogRef<EditDialogComponent>) { }
 
     ngOnInit(): void {
@@ -33,7 +33,7 @@ export class EditDialogComponent implements OnInit {
       });
     }
 
-  editShow() {
+  editReview() {
     if (this.formData.valid) {
       this.isLoading = true;
       if (this.formData.get('rating')?.value != null) {
@@ -46,7 +46,7 @@ export class EditDialogComponent implements OnInit {
   }
 
   editUserRating(showId: string, userRating: string, userReview: string) {
-    const editShow: Subscription = this.showService.editShowRating(showId, userRating, userReview).subscribe({
+    const editShow: Subscription = this.reviewService.editReviewRating(showId, userRating, userReview).subscribe({
       error: () => {
         this.dialogRef.close("openError")
       },

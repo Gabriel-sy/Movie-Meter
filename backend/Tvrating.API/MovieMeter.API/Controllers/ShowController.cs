@@ -21,6 +21,11 @@ public class ShowController : ControllerBase
     {
         var result = await _service.SearchTitle(searchTitle, page);
 
-        return Ok();
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Message);
+        }
+
+        return Ok(result.Data);
     }
 }

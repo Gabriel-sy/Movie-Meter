@@ -53,7 +53,7 @@ public class ReviewService : IReviewService
 
     
 
-    public async Task<ResultViewModel> SaveShow(CreateShowInputModel model, string userEmail)
+    public async Task<ResultViewModel> SaveShow(CreateReviewInputModel model, string userEmail)
     {
         var user = await _userService.FindByEmail(userEmail);
 
@@ -93,7 +93,7 @@ public class ReviewService : IReviewService
         return ResultViewModel.Success();
     }
 
-    public async Task<ResultViewModel> EditShow(EditShowInputModel model)
+    public async Task<ResultViewModel> EditShow(EditReviewInputModel model)
     {
         var show = _repository.GetById(model.Id);
 

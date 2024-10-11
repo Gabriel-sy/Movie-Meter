@@ -7,12 +7,12 @@ import { Observable, Subject, catchError, finalize, map, takeUntil, throwError }
 import { ShowInputModel } from '../../../../domain/ShowInputModel';
 import { CommonModule } from '@angular/common';
 import { Results } from '../../../../domain/Results';
-import { ShowService } from '../../../../services/show.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ShowSearchViewModel } from '../../../../domain/ShowSearchViewModel';
 import { FormErrorComponent } from "../../form-error/form-error.component";
 import { PopupComponent } from "../../popup/popup.component";
 import { SharedService } from '../../../../services/shared.service';
+import { ReviewService } from '../../../../services/review.service';
 
 @Component({
   selector: 'app-add-dialog',
@@ -41,7 +41,7 @@ export class AddDialogComponent implements OnDestroy {
   })
 
   constructor(private searchMovieService: SearchMovieService,
-    private showService: ShowService,
+    private reviewService: ReviewService,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private dialogRef: MatDialogRef<AddDialogComponent>,
@@ -81,7 +81,7 @@ export class AddDialogComponent implements OnDestroy {
                   this.dialogRef.close("openError")
                 },
                 complete: () => {
-                  this.showService.saveShow(this.showToSave)
+                  this.reviewService.saveReview(this.showToSave)
                     .pipe(takeUntil(this.unsubscribeSignal))
                     .subscribe({
                       error: () => {

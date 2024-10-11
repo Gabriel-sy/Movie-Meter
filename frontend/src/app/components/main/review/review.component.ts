@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
-import { ShowService } from '../../../services/show.service';
 import { Observable, Subject, delay, map, startWith, take, takeUntil } from 'rxjs';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { User } from '../../../domain/User';
@@ -9,6 +8,7 @@ import { SpinnerComponent } from "../spinner/spinner.component";
 import { Paginator } from '../../../domain/Paginator';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { RouterLink } from '@angular/router';
+import { ReviewService } from '../../../services/review.service';
 
 @Component({
   selector: 'app-review',
@@ -57,7 +57,7 @@ export class ReviewComponent implements OnDestroy {
   totalPagesArray: number[] = []
   dropdownDisplay: boolean = false
 
-  constructor(private showService: ShowService,
+  constructor(private reviewService: ReviewService,
     private localStorageService: LocalStorageService) { }
 
   ngOnDestroy(): void {
@@ -69,7 +69,7 @@ export class ReviewComponent implements OnDestroy {
     this.userName = this.localStorageService.get('userName')
     this.getReviews()
 
-    this.showService.getCommentsHeaderByTitle(this.title)
+    this.reviewService.getCommentsHeaderByTitle(this.title)
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
         next: (res) => {
@@ -94,7 +94,7 @@ export class ReviewComponent implements OnDestroy {
       this.sortCategory = sortCategory
       this.order = order
     }
-    this.reviews$ = this.showService.getCommentsByTitle
+    this.reviews$ = this.reviewService.getCommentsByTitle
       (this.title, this.currentPage, sortCategory, order)
       .pipe(map((res: ShowViewModel[]) => res.map(s => ({
         ...s,
@@ -112,7 +112,7 @@ export class ReviewComponent implements OnDestroy {
   changeLike(review: ShowViewModel) {
     review.isLiked = !review.isLiked;
     review.likeUserName = this.userName
-    this.showService.changeLikes(review, this.showId)
+    this.reviewService.changeLikes(review, this.showId)
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
         next: (res: ShowViewModel) => {

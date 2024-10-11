@@ -3,8 +3,6 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Observable, Subject, Subscription, finalize, map, takeUntil } from 'rxjs';
-import { ShowViewModel } from '../../../../domain/ShowViewModel';
-import { ShowService } from '../../../../services/show.service';
 import { SharedService } from '../../../../services/shared.service';
 import { ShowSearchViewModel } from '../../../../domain/ShowSearchViewModel';
 import { FavShowService } from '../../../../services/fav-show.service';

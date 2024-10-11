@@ -7,7 +7,7 @@ namespace MovieMeter.Application.Services;
 public class ShowService : IShowService
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
+    private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
     {
         PropertyNameCaseInsensitive = true
     }; 
@@ -24,7 +24,10 @@ public class ShowService : IShowService
         using var response =
             await httpClient.GetAsync($"search/multi?query={searchTitle}&language=pt-BR&page={page}");
 
-        response.EnsureSuccessStatusCode();
+        if (!response.IsSuccessStatusCode)
+        {
+            return ResultViewModel<List<SearchViewModel>>.Error("Erro ao se comunicar com a API externa");
+        }
 
         var stream = await response.Content.ReadAsStreamAsync();
 
@@ -42,7 +45,7 @@ public class ShowService : IShowService
         return ResultViewModel<List<SearchViewModel>>.Success(model);
     }
 
-    private List<ShowInputModel> MapFields(List<ShowInputModel> model)
+    private static List<ShowInputModel> MapFields(List<ShowInputModel> model)
     {
         model = model.Where(s => s.Poster_Path != null && s.Media_Type is "tv" or "movie")
             .ToList();

@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { ShowService } from '../../../services/show.service';
 import { Observable, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ShowViewModel } from '../../../domain/ShowViewModel';
@@ -8,6 +7,7 @@ import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.co
 import { EditDialogComponent } from '../dialogs/edit-dialog/edit-dialog.component';
 import { RouterLink } from '@angular/router';
 import { PopupComponent } from "../popup/popup.component";
+import { ReviewService } from '../../../services/review.service';
 
 @Component({
   selector: 'app-card',
@@ -24,7 +24,7 @@ export class CardComponent implements OnInit {
   title: string = '';
   subtitle: string = '';
 
-  constructor(private showService: ShowService) { }
+  constructor(private reviewService: ReviewService) { }
 
   ngOnInit(): void {
   }
@@ -40,7 +40,7 @@ export class CardComponent implements OnInit {
 
   convertGenres(genres: number[]): string[] {
     console.log(genres)
-    return this.showService.convertGenres(genres);
+    return this.reviewService.convertGenres(genres);
   }
 
   openDeleteDialog(showId: string, event: Event) {
@@ -51,7 +51,7 @@ export class CardComponent implements OnInit {
     const closedDialog: Subscription = dialog.afterClosed().subscribe({
       next: (res) => {
         if (res == "openError" || res == "openSuccess") {
-          this.shows$ = this.showService.findAllShows()
+          this.shows$ = this.reviewService.findAllUserReviews()
           this.popupDisplay = true
           this.popupType = res == "openSuccess" ? true : false;
           this.title = res == "openSuccess" ? 'Sucesso!' : 'Erro ao remover'
@@ -75,7 +75,7 @@ export class CardComponent implements OnInit {
     const closedDialog: Subscription = dialog.afterClosed().subscribe({
       next: (res) => {
         if (res == "openError" || res == "openSuccess") {
-          this.shows$ = this.showService.findAllShows()
+          this.shows$ = this.reviewService.findAllUserReviews()
           this.popupDisplay = true
           this.popupType = res == "openSuccess" ? true : false;
           this.title = res == "openSuccess" ? 'Sucesso!' : 'Erro ao editar'

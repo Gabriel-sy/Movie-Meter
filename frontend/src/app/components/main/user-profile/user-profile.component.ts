@@ -10,7 +10,7 @@ import { Observable, Subject, Subscription, delay, takeUntil } from 'rxjs';
 import { FavShowService } from '../../../services/fav-show.service';
 import { FavShowViewModel } from '../../../domain/FavShowViewModel';
 import { ShowViewModel } from '../../../domain/ShowViewModel';
-import { ShowService } from '../../../services/show.service';
+import { ReviewService } from '../../../services/review.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -36,7 +36,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private localStorageService: LocalStorageService,
     private favShowService: FavShowService,
-    private showService: ShowService,
+    private reviewService: ReviewService,
     private router: Router) {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -60,7 +60,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
     this.updateFavShows()
 
-    this.recentReviews = this.showService.getRecentUserReviews(this.userName)
+    this.recentReviews = this.reviewService.getRecentUserReviews(this.userName)
   }
 
   getUserDetails() {

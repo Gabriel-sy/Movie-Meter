@@ -7,12 +7,11 @@ import { ShowInputModel } from '../domain/ShowInputModel';
 @Injectable({
     providedIn: 'root'
 })
-export class ShowService {
-    private readonly API = "https://localhost:44301/"
+export class ReviewService {
+    private readonly API = "https://localhost:44301/api/review"
     constructor(private http: HttpClient) { }
 
-    saveShow(show: ShowInputModel) {
-        console.log(show.id)
+    saveReview(show: ShowInputModel) {
         var showToSend = {
             ShowId: show.id,
             Title: show.title,
@@ -27,18 +26,22 @@ export class ShowService {
             OriginalTitle: show.original_title,
             UserReview: show.user_review
         }
-        return this.http.post(this.API + 'api/review', showToSend);
+        return this.http.post(this.API, showToSend);
     }
 
-    findAllShows() {
-        return this.http.get<ShowViewModel[]>(this.API + 'api/review/showByToken')
+    findAllUserReviews() {
+        return this.http.get<ShowViewModel[]>(this.API + 'showByToken')
     }
 
-    deleteShowById(showId: string) {
-        return this.http.delete(this.API + 'api/review/' + showId);
+    deleteReviewById(showId: string) {
+        return this.http.delete(this.API, {
+            params: {
+                id: showId
+            }
+        });
     }
 
-    editShowRating(showId: string, userRating: string, userReview: string) {
+    editReviewRating(showId: string, userRating: string, userReview: string) {
         let header = new HttpHeaders();
         header = header.set('Content-Type', 'application/json; charset=utf-8')
         var objectToSend = {
@@ -46,7 +49,7 @@ export class ShowService {
             Rating: userRating.toString(),
             Review: userReview
         }
-        return this.http.put(this.API + 'api/review', objectToSend, { headers: header })
+        return this.http.put(this.API, objectToSend, { headers: header })
     }
 
     convertGenres(genres: number[]) {
@@ -142,12 +145,30 @@ export class ShowService {
 
     getCommentsByTitle(title: string, page: number, sortCategory?: string, order?: string) {
         return sortCategory && order ?
-            this.http.get<ShowViewModel[]>(this.API + `api/review/${title}/${sortCategory}/${order}/${page}`) :
-            this.http.get<ShowViewModel[]>(this.API + `api/review/${title}/${page}`)
+            this.http.get<ShowViewModel[]>(this.API + "/ordered", {
+                params: {
+                    originalTitle: title,
+                    pageNumber: page,
+                    order: order,
+                    sortCategory: sortCategory
+                }
+            }) :
+            this.http.get<ShowViewModel[]>(this.API + "/ordered", {
+                params: {
+                    originalTitle: title,
+                    pageNumber: page
+                }
+            })
     }
 
     getCommentsHeaderByTitle(title: string) {
-        return this.http.get<ShowViewModel[]>(this.API + `api/review/${title}/1`, { observe: 'response' })
+        return this.http.get<ShowViewModel[]>(this.API , { 
+            observe: 'response',
+            params: {
+                originalTitle: title,
+                pageNumber: 1
+            }
+        })
     }
 
     changeLikes(request: ShowViewModel, showId: string) {
@@ -161,11 +182,11 @@ export class ShowService {
             IsLiked: request.isLiked
         }
 
-        return this.http.post<ShowViewModel>(this.API + "api/review/changeLike", objectToSend)
+        return this.http.post<ShowViewModel>(this.API + "/changeLike", objectToSend)
     }
 
     getRecentUserReviews(userName: string){
-        return this.http.get<ShowViewModel[]>(this.API + 'api/review/recent', {
+        return this.http.get<ShowViewModel[]>(this.API + '/recent', {
             params: {
                 userName: userName
             }

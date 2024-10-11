@@ -3,7 +3,7 @@ using MovieMeter.Core.Services;
 
 namespace MovieMeter.Application.Models;
 
-public class CreateShowInputModel
+public class CreateReviewInputModel
 {
     public int ShowId { get; set; }
     public string? ReleaseDate { get; set; }

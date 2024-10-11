@@ -3,7 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ShowViewModel } from '../../../domain/ShowViewModel';
 import { Observable, Subscription, map } from 'rxjs';
-import { ShowService } from '../../../services/show.service';
+
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { AddDialogComponent } from '../dialogs/add-dialog/add-dialog.component';
 import { CommonModule } from '@angular/common';
@@ -11,11 +11,12 @@ import { CardComponent } from '../card/card.component';
 import { MatButtonModule } from '@angular/material/button';
 import { AddButtonComponent } from "../add-button/add-button.component";
 import { PopupComponent } from "../popup/popup.component";
+import { ReviewService } from '../../../services/review.service';
 
 @Component({
   selector: 'app-my-list',
   standalone: true,
-  imports: [CardComponent, MatButtonModule, MatDialogModule, CommonModule, AddButtonComponent, PopupComponent],
+  imports: [MatButtonModule, MatDialogModule, CommonModule, AddButtonComponent, PopupComponent, CardComponent],
   templateUrl: './my-list.component.html',
   styleUrl: './my-list.component.css',
   animations: [
@@ -52,11 +53,11 @@ export class MyListComponent implements OnInit {
   subtitle: string = '';
   dropdownDisplay: boolean = false
 
-  constructor(private showService: ShowService, private localStorageService: LocalStorageService) { }
+  constructor(private reviewService: ReviewService, private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
     this.localStorageService.isLoggedIn()
-    this.shows$ = this.showService.findAllShows()
+    this.shows$ = this.reviewService.findAllUserReviews()
   }
 
   openDialog() {
@@ -65,7 +66,7 @@ export class MyListComponent implements OnInit {
     const closeDialog: Subscription = dialogRef.afterClosed().subscribe({
       next: (res) => {
         if (res == "openError" || res == "openSuccess") {
-          this.shows$ = this.showService.findAllShows()
+          this.shows$ = this.reviewService.findAllUserReviews()
           this.popupDisplay = true
           this.popupType = res == "openSuccess" ? true : false;
           this.title = res == "openSuccess" ? 'Sucesso!' : 'Erro ao adicionar'

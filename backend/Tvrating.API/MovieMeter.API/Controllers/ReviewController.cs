@@ -23,7 +23,7 @@ public class ReviewController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> SaveShow([FromBody]CreateShowInputModel model)
+    public async Task<IActionResult> SaveReview([FromBody]CreateReviewInputModel model)
     {
         var header = HttpContext.User.Claims.Single(c => c.Type == "Name");
         
@@ -38,7 +38,7 @@ public class ReviewController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetAllShows()
+    public async Task<IActionResult> GetAllReviews()
     {
         var shows = await _service.GetAllShows();
 
@@ -51,7 +51,7 @@ public class ReviewController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> EditRating(EditShowInputModel model)
+    public async Task<IActionResult> EditRating(EditReviewInputModel model)
     {
         var result = await _service.EditShow(model);
 
@@ -63,8 +63,8 @@ public class ReviewController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteShow(int id)
+    [HttpDelete()]
+    public async Task<IActionResult> DeleteReview([FromQuery]int id)
     {
         var result = await _service.DeleteShow(id);
         
@@ -93,26 +93,12 @@ public class ReviewController : ControllerBase
     }
     
     [AllowAnonymous]
-    [HttpGet("{originalTitle}/{pageNumber:int}")]
-    public async Task<IActionResult> GetReviewByOrigTitle(string originalTitle, int pageNumber)
-    {
-        var result = await _service.GetReviewsByOrigTitle(originalTitle, pageNumber);
-
-        if (result.Data != null)
-        {
-            Response.AddPaginationHeader(new PaginationHeader(result.Data.CurrentPage,
-                result.Data.PageSize, result.Data.TotalItems, result.Data.TotalPages));
-
-            return Ok(result.Data);
-        }
-
-        return BadRequest("Erro ao processar a requisição");
-    }
-    
-    [AllowAnonymous]
-    [HttpGet("{originalTitle}/{sortCategory?}/{order?}/{pageNumber:int}")]
-    public async Task<IActionResult> GetReviewByOrigTitleOrdered(string originalTitle, string? order, 
-        int pageNumber, string? sortCategory)
+    [HttpGet("ordered")]
+    public async Task<IActionResult> GetReviewsByOrigTitleOrdered(
+        [FromQuery]string originalTitle, 
+        [FromQuery]int pageNumber,
+        [FromQuery]string order = "desc", 
+        [FromQuery]string sortCategory = "rating")
     {
         var result = await _service.GetReviewsByOrigTitleOrdered(originalTitle, pageNumber,
             sortCategory, order);

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { ShowService } from '../../../services/show.service';
 import { SearchMovieService } from '../../../services/search-movie.service';
 import { Results } from '../../../domain/Results';
 import { ShowInputModel } from '../../../domain/ShowInputModel';
@@ -15,6 +14,7 @@ import { AddDialogComponent } from '../dialogs/add-dialog/add-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from "../popup/popup.component";
 import { ReviewComponent } from "../review/review.component";
+import { ReviewService } from '../../../services/review.service';
 
 @Component({
   selector: 'app-media-page',
@@ -38,7 +38,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   director: string = '';
   foundShow: ShowInputModel = new ShowInputModel()
 
-  constructor(private route: ActivatedRoute, private showService: ShowService,
+  constructor(private route: ActivatedRoute, private reviewService: ReviewService,
     private searchMovieService: SearchMovieService,
     private localStorageService: LocalStorageService,
     private userService: UserService,
@@ -149,7 +149,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   }
 
   mapShowFields(show: any) {
-    show.genre_names = this.showService.convertGenres(show.genre_ids);
+    show.genre_names = this.reviewService.convertGenres(show.genre_ids);
 
     if (show.release_date == undefined) {
       show.release_date = show.first_air_date;

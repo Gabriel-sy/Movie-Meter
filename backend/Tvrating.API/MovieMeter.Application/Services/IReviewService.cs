@@ -7,9 +7,9 @@ public interface IReviewService
 {
     Task<ResultViewModel<List<ReviewViewModel>>> GetAllShows();
     Task<ResultViewModel<List<ReviewViewModel>>> GetAllByEmail(string email);
-    Task<ResultViewModel> SaveShow(CreateShowInputModel model, string userEmail);
+    Task<ResultViewModel> SaveShow(CreateReviewInputModel model, string userEmail);
     Task<ResultViewModel> DeleteShow(int id);
-    Task<ResultViewModel> EditShow(EditShowInputModel model);
+    Task<ResultViewModel> EditShow(EditReviewInputModel model);
     Task<ResultViewModel<PagedList<SimpleReviewViewModel>>> GetReviewsByOrigTitle(
         string originalTitle, int pageNumber);
     Task<ResultViewModel<PagedList<SimpleReviewViewModel>>> GetReviewsByOrigTitleOrdered(

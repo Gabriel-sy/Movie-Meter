@@ -1,6 +1,6 @@
 ﻿namespace MovieMeter.Application.Models;
 
-public class EditShowInputModel
+public class EditReviewInputModel
 {
     public int Id { get; set; }
     public decimal Rating { get; set; }
