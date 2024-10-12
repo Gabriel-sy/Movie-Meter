@@ -14,6 +14,7 @@ import { Observable, Subject, Subscription, map, takeUntil } from 'rxjs';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { UserService } from '../../services/user.service';
 import { ShowInputModel } from '../../domain/ShowInputModel';
+import { ShowSearchViewModel } from '../../domain/ShowSearchViewModel';
 
 @Component({
   selector: 'app-home',
@@ -25,15 +26,12 @@ import { ShowInputModel } from '../../domain/ShowInputModel';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  popularSeries$: Observable<ShowInputModel[]> = new Observable<ShowInputModel[]>();
-  popularRomanceMovies$: Observable<ShowInputModel[]> = new Observable<ShowInputModel[]>();
-  popularHorrorMovies$: Observable<ShowInputModel[]> = new Observable<ShowInputModel[]>();
-  popularScienceFicMovies$: Observable<ShowInputModel[]> = new Observable<ShowInputModel[]>();
+  popularSeries$: Observable<ShowSearchViewModel[]> = new Observable<ShowSearchViewModel[]>();
+  popularRomanceMovies$: Observable<ShowSearchViewModel[]> = new Observable<ShowSearchViewModel[]>();
+  popularHorrorMovies$: Observable<ShowSearchViewModel[]> = new Observable<ShowSearchViewModel[]>();
+  popularScienceFicMovies$: Observable<ShowSearchViewModel[]> = new Observable<ShowSearchViewModel[]>();
+  popularMovies$: Observable<ShowSearchViewModel[]> = new Observable<ShowSearchViewModel[]>();
   unsubscribeSignal: Subject<void> = new Subject();
-  popularMovies: PopularMovies[] = [];
-  displayedMovies: PopularMovies[] = [];
-  translateValueMovies = 0;
-  isBrowser: boolean;
   readonly romanceId: string = '10749'
   readonly horrorId: string = '27'
   readonly ScienceFicId: string = '878'
@@ -41,15 +39,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   popupType: boolean = true;
   title: string = '';
   subtitle: string = '';
-  itemWidth = 150;
-  visibleItems = 0;
-  private autoScrollInterval: any;
   readonly dialog = inject(MatDialog);
 
   constructor(private searchMovieService: SearchMovieService,
     @Inject(PLATFORM_ID) private platformId: Object,
     private localStorageService: LocalStorageService, private userService: UserService) {
-    this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
   ngOnDestroy(): void {
@@ -58,44 +52,35 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.searchPopularMovies()
-    this.searchPopularSeries()
+    this.popularMovies$ = this.searchPopularMovies()
+    this.popularSeries$ = this.searchPopularSeries()
     this.popularRomanceMovies$ = this.searchPopularMovieByGenre(this.romanceId)
     this.popularHorrorMovies$ = this.searchPopularMovieByGenre(this.horrorId)
     this.popularScienceFicMovies$ = this.searchPopularMovieByGenre(this.ScienceFicId)
   }
 
   searchPopularMovies() {
-    this.searchMovieService.searchPopularMovies()
-      .pipe(takeUntil(this.unsubscribeSignal))
-      .subscribe({
-        next: (res: Results) => {
-          this.popularMovies = res.results.slice(0, 15).map(movie => ({
-            posterPath: movie.poster_path,
-            title: movie.original_title,
-          }))
-
-          if (this.isBrowser) {
-            this.calculateVisibleItems();
-            this.initializeDisplayedMovies();
-            this.startAutoScroll();
-          }
-        }
-      })
+    return this.searchMovieService.searchPopularMovies()
+      .pipe(takeUntil(this.unsubscribeSignal),
+        map((res: ShowSearchViewModel[]) => {
+          return res.slice(0, 15)
+        }))
   }
 
   searchPopularSeries() {
-    this.popularSeries$ = this.searchMovieService.searchPopularSeries()
-      .pipe(map((res: Results) => {
-        return res.results.slice(0, 15)
-      }))
+    return this.searchMovieService.searchPopularSeries()
+      .pipe(takeUntil(this.unsubscribeSignal),
+        map((res: ShowSearchViewModel[]) => {
+          return res.slice(0, 15)
+        }))
   }
 
-  searchPopularMovieByGenre(genre: string){
+  searchPopularMovieByGenre(genre: string) {
     return this.searchMovieService.searchMoviesByGenre(genre)
-    .pipe(map((res: Results) => {
-      return res.results.slice(0, 15)
-    }))
+      .pipe(takeUntil(this.unsubscribeSignal),
+        map((res: ShowSearchViewModel[]) => {
+          return res.slice(0, 15)
+        }))
   }
 
   openDialog() {
@@ -130,33 +115,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.popupDisplay = false;
       }, 2500);
     }
-  }
-
-  calculateVisibleItems() {
-    const carouselWidth = document.querySelector('.carousel')?.clientWidth || 0;
-    this.visibleItems = Math.floor(carouselWidth / this.itemWidth);
-  }
-
-  initializeDisplayedMovies() {
-    this.displayedMovies = [...this.popularMovies, ...this.popularMovies].slice(0, this.popularMovies.length + this.visibleItems);
-  }
-
-  startAutoScroll() {
-    this.autoScrollInterval = setInterval(() => {
-      this.scrollMovies();
-    }, 3000);
-  }
-
-  scrollMovies() {
-    this.translateValueMovies -= this.itemWidth;
-    if (Math.abs(this.translateValueMovies) >= this.popularMovies.length * this.itemWidth) {
-      this.translateValueMovies = 0;
-    }
-    setTimeout(() => {
-      if (this.translateValueMovies === 0) {
-        this.translateValueMovies = -this.itemWidth;
-      }
-    }, 500);
   }
 
   formatTitle(title: string): string {

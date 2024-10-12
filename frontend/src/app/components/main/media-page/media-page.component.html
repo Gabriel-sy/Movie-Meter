@@ -3,25 +3,25 @@
   <div class="main-container">
     <div class="content-wrapper">
       <div class="img-container">
-        <img class="img" [src]="showImage(foundShow.poster_path)">
+        <img class="img" [src]="showImage(foundShow.posterPath)">
       </div>
       <main class="main-content">
-        <h2 class="title"> {{ foundShow.title }} </h2>
+        <h2 class="title"> {{ foundShow.translatedTitle }} </h2>
         <div class="overview-content">
           <div class="genres">
-            <div class="genre" *ngFor="let genre of foundShow.genre_names">
+            <div class="genre" *ngFor="let genre of foundShow.genreNames">
               <span> {{ genre }} </span>
             </div>
           </div>
           <div class="rating">
             <span class="public-rating">
-              <i class="fas fa-star"></i> Nota geral: {{ foundShow.vote_average }}/10
+              <i class="fas fa-star"></i> Nota geral: {{ foundShow.voteAverage }}/10
             </span>
             <span class="user-rating">
-              <app-add-button class="add-button" (click)="openDialog(foundShow.title)"
-                *ngIf="foundShow.user_rating == undefined"></app-add-button>
-              <i class="fas fa-user-star"></i><span *ngIf="isLoggedIn() && this.foundShow.user_rating != undefined">Sua
-                nota: {{ foundShow.user_rating }}</span>
+              <app-add-button class="add-button" (click)="openDialog(foundShow.originalTitle)"
+                *ngIf="foundShow.userRating == -1"></app-add-button>
+              <i class="fas fa-user-star"></i><span *ngIf="isLoggedIn() && this.foundShow.userRating != -1">Sua
+                nota: {{ foundShow.userRating }}</span>
             </span>
           </div>
           <div class="sinopsis">
@@ -30,11 +30,11 @@
               {{ foundShow.overview }}
             </p>
           </div>
-          <div class="sinopsis" *ngIf="foundShow.user_review != undefined">
+          <div class="sinopsis" *ngIf="foundShow.userReview != ''">
             <h4 class="sinopsis-title">Sua avaliação</h4>
             <p class="sinopsis-text">
               <em>
-                {{ foundShow.user_review }}
+                {{ foundShow.userReview }}
               </em>
             </p>
           </div>
@@ -42,13 +42,13 @@
       </main>
     </div>
     <aside class="additional-info">
-      <div class="info-card" *ngIf="foundShow.directorName != undefined">
+      <div class="info-card" *ngIf="foundShow.directorName != ''">
         <h4 class="info-card-title">Diretor</h4>
         <p class="info-card-content">{{ foundShow.directorName }}</p>
       </div>
-      <div class="info-card" *ngIf="foundShow.release_date">
+      <div class="info-card" *ngIf="foundShow.releaseDate">
         <h4 class="info-card-title">Ano de Lançamento</h4>
-        <p class="info-card-content">{{ foundShow.release_date.substring(0, 4) }}</p>
+        <p class="info-card-content">{{ foundShow.releaseDate.substring(0, 4) }}</p>
       </div>
       <div class="info-card">
         <h4 class="info-card-title">Elenco Principal</h4>
@@ -72,6 +72,6 @@
   <h2 class="user-reviews-title">Avaliações dos Usuários</h2>
   <div class="wrapper">
 
-    <app-review [title]="showName" [showId]="foundShow.id"></app-review>
+    <app-review [title]="showName" [showId]="foundShow.showId.toString()"></app-review>
   </div>
 </section>

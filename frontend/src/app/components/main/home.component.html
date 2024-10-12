@@ -9,9 +9,10 @@
     <section class="media-section">
         <h2>Filmes Populares</h2>
         <div class="media-grid">
-            <div class="media-item" *ngFor="let movie of displayedMovies">
-                <img [src]="showImage(movie.posterPath)" [alt]="movie.title" [routerLink]="['media/details', formatTitle(movie.title)]">
-                <div class="media-title">{{ movie.title }}</div>
+            <div class="media-item" *ngFor="let movie of popularMovies$ | async">
+                <img [src]="showImage(movie.posterPath)" [alt]="movie.originalTitle"
+                    [routerLink]="['media/details', formatTitle(movie.originalTitle)]">
+                <div class="media-title">{{ movie.originalTitle }}</div>
             </div>
         </div>
     </section>
@@ -20,8 +21,9 @@
         <h2>Séries Populares</h2>
         <div class="media-grid">
             <div class="media-item" *ngFor="let series of popularSeries$ | async">
-                <img [src]="showImage(series.poster_path)" [alt]="series.original_name" [routerLink]="['media/details', formatTitle(series.original_name)]">
-                <div class="media-title">{{ series.original_name }}</div>
+                <img [src]="showImage(series.posterPath)" [alt]="series.originalTitle"
+                    [routerLink]="['media/details', formatTitle(series.originalTitle)]">
+                <div class="media-title">{{ series.originalTitle }}</div>
             </div>
         </div>
     </section>
@@ -30,8 +32,9 @@
         <h2>Filmes de Romance</h2>
         <div class="media-grid">
             <div class="media-item" *ngFor="let movie of popularRomanceMovies$ | async">
-                <img [src]="showImage(movie.poster_path)" [alt]="movie.title" [routerLink]="['media/details', formatTitle(movie.title)]">
-                <div class="media-title">{{ movie.title }}</div>
+                <img [src]="showImage(movie.posterPath)" [alt]="movie.originalTitle"
+                    [routerLink]="['media/details', formatTitle(movie.originalTitle)]">
+                <div class="media-title">{{ movie.originalTitle }}</div>
             </div>
         </div>
     </section>
@@ -40,8 +43,9 @@
         <h2>Filmes de Terror</h2>
         <div class="media-grid">
             <div class="media-item" *ngFor="let movie of popularHorrorMovies$ | async">
-                <img [src]="showImage(movie.poster_path)" [alt]="movie.title" [routerLink]="['media/details', formatTitle(movie.title)]">
-                <div class="media-title">{{ movie.title }}</div>
+                <img [src]="showImage(movie.posterPath)" [alt]="movie.originalTitle"
+                    [routerLink]="['media/details', formatTitle(movie.originalTitle)]">
+                <div class="media-title">{{ movie.originalTitle }}</div>
             </div>
         </div>
     </section>
@@ -50,8 +54,9 @@
         <h2>Filmes de Ficção Científica</h2>
         <div class="media-grid">
             <div class="media-item" *ngFor="let movie of popularScienceFicMovies$ | async">
-                <img [src]="showImage(movie.poster_path)" [alt]="movie.title" [routerLink]="['media/details', formatTitle(movie.title)]">
-                <div class="media-title">{{ movie.title }}</div>
+                <img [src]="showImage(movie.posterPath)" [alt]="movie.originalTitle"
+                    [routerLink]="['media/details', formatTitle(movie.originalTitle)]">
+                <div class="media-title">{{ movie.originalTitle }}</div>
             </div>
         </div>
     </section>

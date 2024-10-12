@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from "../popup/popup.component";
 import { ReviewComponent } from "../review/review.component";
 import { ReviewService } from '../../../services/review.service';
+import { FullShowViewModel } from '../../../domain/FullShowViewModel';
 
 @Component({
   selector: 'app-media-page',
@@ -36,7 +37,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   showName: string = "";
   userRating: string = ''
   director: string = '';
-  foundShow: ShowInputModel = new ShowInputModel()
+  foundShow: FullShowViewModel = new FullShowViewModel()
 
   constructor(private route: ActivatedRoute, private reviewService: ReviewService,
     private searchMovieService: SearchMovieService,
@@ -44,12 +45,12 @@ export class MediaPageComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private router: Router) {
     router.events.subscribe(event => {
-      if (event instanceof NavigationEnd && this.foundShow.title != undefined) {
-        let currentUrl = this.foundShow.title
+      if (event instanceof NavigationEnd && this.foundShow.originalTitle != undefined) {
+        let currentUrl = this.foundShow.originalTitle
         if (currentUrl != this.formatTitle(this.route.snapshot.url[2].path)) {
           this.actors = [];
           this.mainActorsName = [];
-          this.foundShow = new ShowInputModel()
+          this.foundShow = new FullShowViewModel()
           this.showName = this.route.snapshot.url[2].path.replace(new RegExp("-", "g"), ' ')
           this.loadShow()
         }
@@ -70,18 +71,12 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   }
 
   loadShow() {
-    this.searchMovieService.searchTitle(this.showName)
+    this.searchMovieService
+      .getFullDetailShow(this.showName, this.localStorageService.get('uesrName'))
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
-        next: (res: Results) => {
-          this.foundShow = res.results.find(m => m.original_title == this.showName || m.original_name == this.showName)
-            || new ShowInputModel()
-
-          this.foundShow = this.mapShowFields(this.foundShow)
-
-          this.getUserRating()
-
-          this.getDirectorAndActors()
+        next: (res: FullShowViewModel) => {
+          this.foundShow = res;
         }
       })
   }
@@ -122,65 +117,8 @@ export class MediaPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  getDirectorAndActors() {
-    this.searchMovieService.findDirectorName(this.foundShow)
-      .pipe(takeUntil(this.unsubscribeSignal))
-      .subscribe({
-        next: (res: Results) => {
-          for (let i = 0; i < res.crew.length; i++) {
-            if (res.crew[i].known_for_department == "Directing" && res.crew[i].job == "Director") {
-              this.foundShow.directorName = res.crew[i].name;
-            }
-          }
-          for (let i = 0; i <= 7; i++) {
-            if (res.cast[i] != undefined) {
-              this.actors.push(res.cast[i]);
-              this.mainActorsName.push(res.cast[i].name)
-              if (i < 7) {
-                this.mainActorsName[i] += ",";
-              }
-            }
-          }
-          let lastIndex = this.mainActorsName.length - 1
-          this.mainActorsName[lastIndex] = this.mainActorsName[lastIndex].slice(0, -1)
-          this.mainActorsName[lastIndex] += "."
-        },
-      })
-  }
-
-  mapShowFields(show: any) {
-    show.genre_names = this.reviewService.convertGenres(show.genre_ids);
-
-    if (show.release_date == undefined) {
-      show.release_date = show.first_air_date;
-    }
-
-    if (show.title == undefined) {
-      show.title = show.name;
-    }
-    return show
-  }
-
-  getUserRating() {
-    if (this.isLoggedIn()) {
-      this.userService.findByToken()
-        .pipe(takeUntil(this.unsubscribeSignal))
-        .subscribe({
-          next: (res: User) => {
-            res.reviews.forEach(movie => {
-              if (movie.originalTitle == this.foundShow.original_title) {
-                this.foundShow.user_rating = movie.userRating as unknown as string;
-                this.foundShow.user_review = movie.userReview;
-              }
-            })
-          }
-        })
-    }
-  }
-
   showImage(posterPath: string) {
     return 'https://image.tmdb.org/t/p/w400' + posterPath
-
   }
 
   isLoggedIn() {
