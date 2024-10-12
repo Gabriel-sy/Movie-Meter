@@ -87,7 +87,7 @@ public class ShowService : IShowService
 
         var responseBody = JsonSerializer.Deserialize<ResultsInputModel>(stream, _serializerOptions);
         
-        if (responseBody is null || responseBody.Results is null)
+        if (responseBody is null)
         {
             return ResultViewModel<ResultsInputModel>.Error("Nada encontrado");
         }
@@ -97,8 +97,11 @@ public class ShowService : IShowService
 
     public async Task<ResultViewModel<FullShowViewModel>> GetShowWithAllDetails(
         string searchTitle,
-        string userName)
+        string? userName)
     {
+        var userReview = "";
+        decimal userRating = -1;
+        
         var search = await SearchTitle(searchTitle);
         if (!search.IsSuccess || search.Data is null || search.Data.Results is null)
         {
@@ -113,13 +116,16 @@ public class ShowService : IShowService
             return ResultViewModel<FullShowViewModel>.Error(credits.Message);
         }
 
-        var user = await _userService.FindFullUserByUserName(userName);
-        if (!user.IsSuccess || user.Data is null)
+        if (userName is not null)
         {
-            return ResultViewModel<FullShowViewModel>.Error("Usuário não encontrado");
+            var user = await _userService.FindFullUserByUserName(userName);
+            if (!user.IsSuccess || user.Data is null)
+            {
+                return ResultViewModel<FullShowViewModel>.Error("Usuário não encontrado");
+            }
+            (userReview, userRating) = GetUserReviewAndRating(user.Data, searchTitle);
         }
-
-        var (userReview, userRating) = GetUserReviewAndRating(user.Data, searchTitle);
+        
         var genreNames = ConvertGenre.Convert(actualShow.Genre_Ids);
         var directorName = MapDirectorName(actualShow.Media_Type, credits.Data.Crew);
         var cast = GetCast(credits.Data.Cast, 8);
@@ -195,7 +201,7 @@ public class ShowService : IShowService
         return ResultViewModel<List<SearchViewModel>>.Success(model);
     }
 
-    public async Task<ResultViewModel<List<SearchViewModel>>> GetMoviesByGenre(string genre, int? page = 1)
+    public async Task<ResultViewModel<List<SearchViewModel>>> GetPopularMoviesByGenre(string genre, int? page = 1)
     {
         var httpClient = _httpClientFactory.CreateClient("TMDB");
 
@@ -242,7 +248,7 @@ public class ShowService : IShowService
     private static (string? userReview, decimal userRating) GetUserReviewAndRating(User user, string searchTitle)
     {
         var review = user.Reviews.SingleOrDefault(r => r.OriginalTitle == searchTitle);
-        return review != null ? (review.UserReview, review.UserRating) : (string.Empty, 0);
+        return review != null ? (review.UserReview, review.UserRating) : (string.Empty, -1);
     }
 
     private static string MapDirectorName(string mediaType, List<Person> crew)

@@ -7,8 +7,8 @@ public interface IShowService
     Task<ResultViewModel<ResultsInputModel>> SearchTitle(string searchTitle, int? page = 1);
     Task<ResultViewModel<List<SearchViewModel>>> SimpleTitleSearch(string searchTitle, int? page = 1);
     Task<ResultViewModel<ResultsInputModel>> GetShowCredits(int showId);
-    Task<ResultViewModel<FullShowViewModel>> GetShowWithAllDetails(string searchTitle, string userName);
+    Task<ResultViewModel<FullShowViewModel>> GetShowWithAllDetails(string searchTitle, string? userName);
     Task<ResultViewModel<List<SearchViewModel>>> GetPopularMovies(int? page = 1);
     Task<ResultViewModel<List<SearchViewModel>>> GetPopularSeries(int? page = 1);
-    Task<ResultViewModel<List<SearchViewModel>>> GetMoviesByGenre(string genre, int? page = 1);
+    Task<ResultViewModel<List<SearchViewModel>>> GetPopularMoviesByGenre(string genre, int? page = 1);
 }

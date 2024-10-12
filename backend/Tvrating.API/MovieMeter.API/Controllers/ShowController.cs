@@ -31,7 +31,7 @@ public class ShowController : ControllerBase
     [HttpGet("detailed")]
     public async Task<IActionResult> GetFullDetailedShow(
         [FromQuery] string searchTitle,
-        [FromQuery] string userName)
+        [FromQuery] string? userName)
     {
         var result = await _service.GetShowWithAllDetails(searchTitle, userName);
 
@@ -44,9 +44,13 @@ public class ShowController : ControllerBase
     }
 
     [HttpGet("movie/popular")]
-    public async Task<IActionResult> GetPopularMovies([FromQuery]int? page = 1)
+    public async Task<IActionResult> GetPopularMovies(
+        [FromQuery]string? genre, 
+        [FromQuery]int? page = 1)
     {
-        var result = await _service.GetPopularMovies(page);
+        var result = genre == null ? 
+            await _service.GetPopularMovies(page) :
+            await _service.GetPopularMoviesByGenre(genre, page);
 
         if (!result.IsSuccess)
         {
@@ -60,21 +64,6 @@ public class ShowController : ControllerBase
     public async Task<IActionResult> GetPopularSeries([FromQuery] int? page = 1)
     {
         var result = await _service.GetPopularSeries(page);
-
-        if (!result.IsSuccess)
-        {
-            return BadRequest(result.Message);
-        }
-
-        return Ok(result.Data);
-    }
-
-    [HttpGet("movie/popular")]
-    public async Task<IActionResult> GetPopularMoviesByGenre(
-        [FromQuery] string genre,
-        [FromQuery] int? page = 1)
-    {
-        var result = await _service.GetMoviesByGenre(genre, page);
 
         if (!result.IsSuccess)
         {

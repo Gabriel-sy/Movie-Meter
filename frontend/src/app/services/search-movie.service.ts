@@ -1,93 +1,49 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ShowInputModel } from '../domain/ShowInputModel';
-import { Results } from '../domain/Results';
+import { ShowSearchViewModel } from '../domain/ShowSearchViewModel';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchMovieService {
 
-  private readonly URL = 'https://api.themoviedb.org/3'
+  private readonly API = 'https://localhost:44301/api/show'
 
-  headers = {
-    accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMGQwZjMwMWI4YTMwYzg3MDI2OGY0MzE0MWQ3YTcxMCIsIm5iZiI6MTcyMDY0NzE2MS42OTA0OTksInN1YiI6IjY2OGViYTg0MGQ1ODlkMTMzZWYxNzdkMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NjzfMPs94DIwgyR9raXICaZ-zT_iiRZIh8VYW6i7SNw'
-  }
+  
 
   constructor(private http: HttpClient) { }
 
-  searchTitle(showName: string, page = 1) {
-    return this.http.get<Results>(this.URL + '/search/multi', {
-      headers: this.headers,
+  searchTitle(search: string, page = 1) {
+      return this.http.get<ShowSearchViewModel[]>(this.API + '/search', {
+        params: {
+          searchTitle: search,
+          page: page
+        }
+      })
+  }
+
+  searchPopularMovies(page = 1) {
+    return this.http.get<ShowSearchViewModel[]>(this.API + '/movie/popular', {
       params: {
-        query: showName,
-        language: 'pt-BR',
         page: page
       }
     })
-
   }
 
-  findDirectorName(show: ShowInputModel, language = 'en-US') {
-    if(show.media_type == 'movie'){
-      return this.http.get<Results>(`https://api.themoviedb.org/3/movie/${show.id}/credits`, {
-        headers: this.headers,
-        params: {
-          language: language
-        }
-      });
-    } else {
-      return this.http.get<Results>(`https://api.themoviedb.org/3/tv/${show.id}/credits`, {
-        headers: this.headers,
-        params: {
-          language: language
-        }
-      });
-    }
-    
-  }
-
-  searchPopularMovies() {
-    return this.http.get<Results>("https://api.themoviedb.org/3/movie/popular", {
-      headers: this.headers
-    });
-  }
-
-  searchPopularSeries() {
-    return this.http.get<Results>("https://api.themoviedb.org/3/discover/tv", {
-      headers: this.headers,
+  searchPopularSeries(page = 1) {
+    return this.http.get<ShowSearchViewModel[]>(this.API + '/tv/popular', {
       params: {
-        include_null_first_air_dates: false,
-        language: 'en-US',
-        page: 1,
-        sort_by: 'popularity.desc',
-        'vote_average.gte': 7,
-        'vote_average.lte': 10,
-        'vote_count.gte': 1000,
-        with_original_language: 'en',
-        without_genres: '10767%2C%2035%2C%2010764%2C%2010763%2C%2099',
-      },
-    });
+        page: page
+      }
+    })
   }
 
   searchMoviesByGenre(genre: string, page = 1) {
-    return this.http.get<Results>(this.URL + '/discover/movie', {
-      headers: this.headers,
-      params:
-      {
-        'include_null_first_air_dates': false,
-        'language': 'en-US',
-        'page': page,
-        'sort_by': 'popularity.desc',
-        'vote_average.gte': 6,
-        'vote_average.lte': 10,
-        'vote_count.gte': 300,
-        'with_original_language': 'en',
-        'with_genres': genre,
-        'primary_release_date.gte': '2023-01-01',
-
-      },
+    return this.http.get<ShowSearchViewModel[]>(this.API + '/movie/popular', {
+      params: {
+        genre: genre,
+        page: page
+      }
     })
   }
 
