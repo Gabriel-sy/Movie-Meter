@@ -1,10 +1,8 @@
 import { Component, HostListener, Inject, OnDestroy, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SearchMovieService } from '../../services/search-movie.service';
-import { Results } from '../../domain/Results';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
-import { PopularMovies } from '../../domain/PopularMovie';
 import { RouterLink } from '@angular/router';
 import { AddButtonComponent } from "./add-button/add-button.component";
 import { PopupComponent } from "./popup/popup.component";
@@ -13,7 +11,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject, Subscription, map, takeUntil } from 'rxjs';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { UserService } from '../../services/user.service';
-import { ShowInputModel } from '../../domain/ShowInputModel';
 import { ShowSearchViewModel } from '../../domain/ShowSearchViewModel';
 
 @Component({

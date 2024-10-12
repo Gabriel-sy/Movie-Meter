@@ -4,7 +4,6 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angu
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchMovieService } from '../../../../services/search-movie.service';
 import { Observable, Subject, finalize, takeUntil } from 'rxjs';
-import { ShowInputModel } from '../../../../domain/ShowInputModel';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ShowSearchViewModel } from '../../../../domain/ShowSearchViewModel';
@@ -24,7 +23,6 @@ export class AddDialogComponent implements OnDestroy {
 
   unsubscribeSignal: Subject<void> = new Subject();
   foundSearch$: Observable<ShowSearchViewModel[]> = new Observable<ShowSearchViewModel[]>()
-  showToSave: ShowInputModel = new ShowInputModel()
   genres: string[] = []
   timer = setTimeout(() => { }, 0)
   foundShow: FullShowViewModel = new FullShowViewModel()

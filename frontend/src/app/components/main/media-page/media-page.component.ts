@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { SearchMovieService } from '../../../services/search-movie.service';
-import { Results } from '../../../domain/Results';
-import { ShowInputModel } from '../../../domain/ShowInputModel';
 import { Observable, Subject, Subscription, map, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Person } from '../../../domain/Person';
