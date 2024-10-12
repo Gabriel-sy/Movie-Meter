@@ -95,7 +95,8 @@ public class ShowService : IShowService
         return ResultViewModel<ResultsInputModel>.Success(responseBody);
     }
 
-    public async Task<ResultViewModel<FullShowViewModel>> GetShowWithAllDetails(string searchTitle,
+    public async Task<ResultViewModel<FullShowViewModel>> GetShowWithAllDetails(
+        string searchTitle,
         string userName)
     {
         var search = await SearchTitle(searchTitle);
