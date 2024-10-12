@@ -17,7 +17,7 @@ public class ShowController : ControllerBase
 
     [AllowAnonymous]
     [HttpGet("search")]
-    public async Task<IActionResult> SearchTitle([FromQuery]string searchTitle, [FromQuery]int? page = 1)
+    public async Task<IActionResult> SimpleTitleSearch([FromQuery]string searchTitle, [FromQuery]int? page = 1)
     {
         var result = await _service.SimpleTitleSearch(searchTitle, page);
 
