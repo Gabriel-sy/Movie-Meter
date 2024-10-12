@@ -129,12 +129,50 @@ public class ShowService : IShowService
         return ResultViewModel<FullShowViewModel>.Success(model);
     }
 
-    public async Task<ResultViewModel<List<SearchViewModel>>> GetPopularMovies()
+    public async Task<ResultViewModel<List<SearchViewModel>>> GetPopularMovies(int? page = 1)
     {
         var httpClient = _httpClientFactory.CreateClient("TMDB");
 
         using var response =
-            await httpClient.GetAsync("movie/popular");
+            await httpClient.GetAsync($"movie/popular?page={page}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return ResultViewModel<List<SearchViewModel>>.Error("Erro ao se comunicar com a API externa");
+        }
+
+        var stream = await response.Content.ReadAsStreamAsync();
+        
+        var responseBody = JsonSerializer.Deserialize<ResultsInputModel>(stream, _serializerOptions);
+        
+        if (responseBody is null || responseBody.Results is null)
+        {
+            return ResultViewModel<List<SearchViewModel>>.Error("Nada encontrado");
+        }
+
+        var model = MapFields(responseBody.Results)
+            .Select(s => SearchViewModel.FromEntity(s)).ToList();
+
+        return ResultViewModel<List<SearchViewModel>>.Success(model);
+    }
+
+    public async Task<ResultViewModel<List<SearchViewModel>>> GetPopularSeries(int? page = 1)
+    {
+        var httpClient = _httpClientFactory.CreateClient("TMDB");
+
+        var queryParams = HttpUtility.ParseQueryString(string.Empty);
+
+        queryParams["page"] = page.ToString();
+        queryParams["vote_average.lte"] = "7";
+        queryParams["vote_average.tle"] = "10";
+        queryParams["vote_count.gte"] = "1000";
+        queryParams["with_original_language"] = "en";
+        queryParams["without_genres"] = "10767%2C%2035%2C%2010764%2C%2010763%2C%2099";
+        
+        var queryString = queryParams.ToString();
+
+        using var response =
+            await httpClient.GetAsync($"discover/tv?{queryString}");
 
         if (!response.IsSuccessStatusCode)
         {
