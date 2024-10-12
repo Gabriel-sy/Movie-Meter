@@ -7,7 +7,7 @@ public class CreateReviewInputModel
 {
     public int ShowId { get; set; }
     public string? ReleaseDate { get; set; }
-    public int[] Genres { get; set; }
+    public List<string> Genres { get; set; }
     public decimal UserRating { get; set; }
     public string PosterPath { get; set; }
     public string Overview { get; set; }
@@ -19,7 +19,7 @@ public class CreateReviewInputModel
     {
         ReleaseDate = ReleaseDate?[..4];
 
-        return new Review(ShowId, ReleaseDate, ConvertGenre.Convert(Genres), UserRating
+        return new Review(ShowId, ReleaseDate, Genres, UserRating
         , PosterPath, Overview, DirectorName, user, userId, OriginalTitle, UserReview);
         
     }

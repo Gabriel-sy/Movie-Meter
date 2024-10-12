@@ -51,6 +51,10 @@ public class ShowService : IShowService
             return ResultViewModel<ResultsInputModel>.Error("Nada encontrado");
         }
 
+        responseBody.Results = responseBody.Results
+            .Where(s => s.Media_Type is "tv" or "movie")
+            .ToList();
+
         responseBody.Results = MapFields(responseBody.Results);
         
         return ResultViewModel<ResultsInputModel>.Success(responseBody);
@@ -159,7 +163,7 @@ public class ShowService : IShowService
 
         var model = MapFields(responseBody.Results)
             .Select(s => SearchViewModel.FromEntity(s)).ToList();
-
+        
         return ResultViewModel<List<SearchViewModel>>.Success(model);
     }
 
@@ -261,9 +265,12 @@ public class ShowService : IShowService
 
     private static List<ShowInputModel> MapFields(List<ShowInputModel> model)
     {
-        model = model.Where(s => s.Poster_Path != null && s.Media_Type is "tv" or "movie")
+        model = model
+            .Where(s => s.Poster_Path != null &&
+                        (s.Release_Date is not null ||
+                         s.First_Air_Date is not null))
             .ToList();
-        
+
         model.ForEach(s =>
         {
             if (s.Original_Title is null)
@@ -282,7 +289,7 @@ public class ShowService : IShowService
             }
             
         });
-
+        
         return model;
     }
     

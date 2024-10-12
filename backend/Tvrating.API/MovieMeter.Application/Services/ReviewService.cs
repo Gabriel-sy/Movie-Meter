@@ -210,8 +210,6 @@ public class ReviewService : IReviewService
         reviews.ForEach(r =>
         {
             var timeSince = r.CreatedAt - DateTime.Now;
-
-            
             
             if (timeSince.Value.Days == 00 && timeSince.Value.Hours == 00)
             {
