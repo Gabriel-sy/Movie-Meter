@@ -8,6 +8,7 @@ import { ShowSearchViewModel } from '../../../../domain/ShowSearchViewModel';
 import { FavShowService } from '../../../../services/fav-show.service';
 import { LocalStorageService } from '../../../../services/local-storage.service';
 import { FavShowInputModel } from '../../../../domain/FavShowInputModel';
+import { SearchMovieService } from '../../../../services/search-movie.service';
 
 @Component({
   selector: 'app-fav-title-dialog',
@@ -32,7 +33,8 @@ export class FavTitleDialogComponent implements OnDestroy {
     private dialogRef: MatDialogRef<FavTitleDialogComponent>,
     private sharedService: SharedService,
     private favShowService: FavShowService,
-    private localStorageService: LocalStorageService) { }
+    private localStorageService: LocalStorageService,
+    private searchMovieService: SearchMovieService) { }
 
   ngOnDestroy(): void {
     this.unsubscribeSignal.next()
@@ -46,7 +48,7 @@ export class FavTitleDialogComponent implements OnDestroy {
 
     this.timer = setTimeout(() => {
       if (length > 3) {
-        this.foundSearch$ = this.sharedService.searchTitle(event.target.value)
+        this.foundSearch$ = this.searchMovieService.searchTitle(event.target.value)
           .pipe(
             finalize(() => this.isExpanded = true),
             takeUntil(this.unsubscribeSignal))
@@ -63,25 +65,22 @@ export class FavTitleDialogComponent implements OnDestroy {
 
     this.userName = this.localStorageService.get('userName')
 
-    this.sharedService.searchTitle(title)
+    this.searchMovieService.searchTitle(title)
       .pipe(map((res: ShowSearchViewModel[]) => {
-        res = res.filter(show => show.title == this.inputValue || show.name == this.inputValue)
+        res = res.filter(show => show.translatedTitle == this.inputValue)
         this.showToSave = res[0]
 
-        this.originalTitle = this.showToSave.original_title || this.showToSave.original_name
-        this.posterPath = this.showToSave.poster_path
+        this.originalTitle = this.showToSave.originalTitle
+        this.posterPath = this.showToSave.posterPath
 
         let objToSend: FavShowInputModel = {
           originalTitle: this.originalTitle,
           posterPath: this.posterPath,
           userName: this.userName
         }
-        this.favShowService.addFavShow(objToSend).subscribe({
-          complete: () => {
-          }
-        })
+        this.favShowService.addFavShow(objToSend).subscribe()
       }), takeUntil(this.unsubscribeSignal))
-      
+
       .subscribe({
         complete: () => this.dialogRef.close()
       })

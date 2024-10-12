@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   searchPopularMovies() {
     return this.searchMovieService.searchPopularMovies()
-      .pipe(takeUntil(this.unsubscribeSignal),
+      .pipe(
         map((res: ShowSearchViewModel[]) => {
           return res.slice(0, 15)
         }))
@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   searchPopularSeries() {
     return this.searchMovieService.searchPopularSeries()
-      .pipe(takeUntil(this.unsubscribeSignal),
+      .pipe(
         map((res: ShowSearchViewModel[]) => {
           return res.slice(0, 15)
         }))
@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   searchPopularMovieByGenre(genre: string) {
     return this.searchMovieService.searchMoviesByGenre(genre)
-      .pipe(takeUntil(this.unsubscribeSignal),
+      .pipe(
         map((res: ShowSearchViewModel[]) => {
           return res.slice(0, 15)
         }))

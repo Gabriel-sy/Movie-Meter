@@ -9,8 +9,8 @@
     <ng-container>
       <div class="search-container">
         <div *ngFor="let show of foundSearch$ | async">
-          <span class="search-title" (click)="setInputValue(show.title)">{{ show.title }} ({{
-            show.release_date.slice(0,4) }})</span>
+          <span class="search-title" (click)="setInputValue(show.originalTitle)">{{ show.originalTitle }} ({{
+            show.releaseDate.slice(0,4) }})</span>
         </div>
       </div>
     </ng-container>

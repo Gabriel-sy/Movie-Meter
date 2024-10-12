@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { SpinnerComponent } from "../spinner/spinner.component";
 import { SharedService } from '../../../services/shared.service';
+import { SearchMovieService } from '../../../services/search-movie.service';
 
 
 @Component({
@@ -64,7 +65,8 @@ export class NavbarComponent implements OnInit {
   constructor(private localStorageService: LocalStorageService,
     private router: Router,
     private renderer: Renderer2,
-    private sharedService: SharedService) {
+    private sharedService: SharedService,
+    private searchMovieService: SearchMovieService) {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.userName = this.localStorageService.get('userName');
@@ -118,7 +120,8 @@ export class NavbarComponent implements OnInit {
       if (length > 3) {
         this.searchDisplay = true;
         this.isLoading = true
-        this.foundSearch$ = this.sharedService.searchTitle(event.target.value).pipe(
+        this.foundSearch$ = this.searchMovieService.searchTitle(event.target.value)
+        .pipe(
             catchError(err => {
               this.closeSearchResults()
               return throwError(() => err)

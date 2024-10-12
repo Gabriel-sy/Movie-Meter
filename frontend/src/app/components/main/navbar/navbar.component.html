@@ -17,13 +17,13 @@
       <div #results class="results-box" [ngStyle]="{'opacity': searchDisplay ? 1 : 0}" [class.close]="!searchDisplay">
         <div class="result-wrapper" *ngIf="foundSearch$ | async; else loadingSpinner;">
           <div class="result" *ngFor="let show of foundSearch$ | async" (click)="searchDisplay = false"
-            [routerLink]="['media/details', formatTitle(show.original_title)]">
+            [routerLink]="['media/details', formatTitle(show.originalTitle)]">
             <div class="img-box">
-              <img [src]="showImage(show.poster_path)" alt="">
+              <img [src]="showImage(show.posterPath)" alt="">
             </div>
             <div class="texts">
-              <span class="title">{{ show.title }}</span>
-              <span class="year">{{ show.release_date }}</span>
+              <span class="title">{{ show.translatedTitle }}</span>
+              <span class="year">{{ show.releaseDate }}</span>
             </div>
           </div>
         </div>

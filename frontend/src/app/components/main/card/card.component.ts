@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { ShowViewModel } from '../../../domain/ShowViewModel';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.component';
 import { EditDialogComponent } from '../dialogs/edit-dialog/edit-dialog.component';
 import { RouterLink } from '@angular/router';
 import { PopupComponent } from "../popup/popup.component";
 import { ReviewService } from '../../../services/review.service';
+import { ReviewViewModel } from '../../../domain/ReviewViewModel';
 
 @Component({
   selector: 'app-card',
@@ -18,7 +18,7 @@ import { ReviewService } from '../../../services/review.service';
 })
 export class CardComponent implements OnInit {
   readonly dialog = inject(MatDialog);
-  @Input() shows$: Observable<ShowViewModel[]> = new Observable<ShowViewModel[]>()
+  @Input() shows$: Observable<ReviewViewModel[]> = new Observable<ReviewViewModel[]>()
   popupDisplay: boolean = false;
   popupType: boolean = true;
   title: string = '';
@@ -36,11 +36,6 @@ export class CardComponent implements OnInit {
   showImage(posterPath: string) {
     return 'https://image.tmdb.org/t/p/w400' + posterPath
 
-  }
-
-  convertGenres(genres: number[]): string[] {
-    console.log(genres)
-    return this.reviewService.convertGenres(genres);
   }
 
   openDeleteDialog(showId: string, event: Event) {
