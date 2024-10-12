@@ -194,6 +194,45 @@ public class ShowService : IShowService
         return ResultViewModel<List<SearchViewModel>>.Success(model);
     }
 
+    public async Task<ResultViewModel<List<SearchViewModel>>> GetMoviesByGenre(string genre, int? page = 1)
+    {
+        var httpClient = _httpClientFactory.CreateClient("TMDB");
+
+        var queryParams = HttpUtility.ParseQueryString(string.Empty);
+
+        queryParams["page"] = page.ToString();
+        queryParams["vote_average.gte"] = "6";
+        queryParams["vote_average.tle"] = "10";
+        queryParams["vote_count.gte"] = "300";
+        queryParams["with_original_language"] = "en";
+        queryParams["with_genres"] = genre;
+        queryParams["primary_release_date.gte"] = "2023-01-01";
+        
+        var queryString = queryParams.ToString();
+
+        using var response =
+            await httpClient.GetAsync($"discover/movie?{queryString}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return ResultViewModel<List<SearchViewModel>>.Error("Erro ao se comunicar com a API externa");
+        }
+
+        var stream = await response.Content.ReadAsStreamAsync();
+        
+        var responseBody = JsonSerializer.Deserialize<ResultsInputModel>(stream, _serializerOptions);
+        
+        if (responseBody is null || responseBody.Results is null)
+        {
+            return ResultViewModel<List<SearchViewModel>>.Error("Nada encontrado");
+        }
+
+        var model = MapFields(responseBody.Results)
+            .Select(s => SearchViewModel.FromEntity(s)).ToList();
+
+        return ResultViewModel<List<SearchViewModel>>.Success(model);
+    }
+
     private static List<Person> GetCast(List<Person> cast, int amount)
     {
         return cast.Take(amount).ToList();

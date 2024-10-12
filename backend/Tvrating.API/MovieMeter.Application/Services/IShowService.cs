@@ -10,4 +10,5 @@ public interface IShowService
     Task<ResultViewModel<FullShowViewModel>> GetShowWithAllDetails(string searchTitle, string userName);
     Task<ResultViewModel<List<SearchViewModel>>> GetPopularMovies(int? page = 1);
     Task<ResultViewModel<List<SearchViewModel>>> GetPopularSeries(int? page = 1);
+    Task<ResultViewModel<List<SearchViewModel>>> GetMoviesByGenre(string genre, int? page = 1);
 }
