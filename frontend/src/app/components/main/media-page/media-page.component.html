@@ -57,8 +57,8 @@
     </aside>
   </div>
   <div class="actors-container">
-    <div class="actor" *ngFor="let actor of actors">
-      <img class="actor-image" [src]="showImage(actor.profile_path)" alt="">
+    <div class="actor" *ngFor="let actor of foundShow.cast">
+      <img class="actor-image" [src]="showImage(actor.profile_Path)" alt="">
       <div class="actor-text-container">
         <span class="actor-name"> {{ actor.name }} </span>
         <span class="character-name"> {{ actor.character }} </span>

@@ -57,6 +57,8 @@ export class AddDialogComponent implements OnDestroy {
         .subscribe({
           next: (res: FullShowViewModel) => {
             this.foundShow = res;
+            this.foundShow.userReview = this.formData.get('review')?.value || ''
+            this.foundShow.userRating = this.formData.get('rating')?.value as unknown as number
 
             this.reviewService.saveReview(this.foundShow)
               .pipe(takeUntil(this.unsubscribeSignal))

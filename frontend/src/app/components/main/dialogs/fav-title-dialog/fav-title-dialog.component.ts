@@ -67,7 +67,7 @@ export class FavTitleDialogComponent implements OnDestroy {
 
     this.searchMovieService.searchTitle(title)
       .pipe(map((res: ShowSearchViewModel[]) => {
-        res = res.filter(show => show.translatedTitle == this.inputValue)
+        res = res.filter(show => show.originalTitle == this.inputValue)
         this.showToSave = res[0]
 
         this.originalTitle = this.showToSave.originalTitle
@@ -78,7 +78,7 @@ export class FavTitleDialogComponent implements OnDestroy {
           posterPath: this.posterPath,
           userName: this.userName
         }
-        this.favShowService.addFavShow(objToSend).subscribe()
+        this.favShowService.addFavShow(objToSend).subscribe({next: () => console.log('aaaaa')})
       }), takeUntil(this.unsubscribeSignal))
 
       .subscribe({

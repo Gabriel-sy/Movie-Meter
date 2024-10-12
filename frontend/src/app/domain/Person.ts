@@ -1,7 +1,7 @@
 export class Person {
-  known_for_department!: string
+  known_For_Department!: string
   name!: string
   job!: string
-  profile_path!: string
+  profile_Path!: string
   character!: string
 }

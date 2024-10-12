@@ -9,8 +9,8 @@ import { FavTitleDialogComponent } from '../dialogs/fav-title-dialog/fav-title-d
 import { Observable, Subject, Subscription, delay, takeUntil } from 'rxjs';
 import { FavShowService } from '../../../services/fav-show.service';
 import { FavShowViewModel } from '../../../domain/FavShowViewModel';
-import { ShowViewModel } from '../../../domain/ShowViewModel';
 import { ReviewService } from '../../../services/review.service';
+import { ReviewViewModel } from '../../../domain/ReviewViewModel';
 
 @Component({
   selector: 'app-user-profile',
@@ -22,7 +22,7 @@ import { ReviewService } from '../../../services/review.service';
 export class UserProfileComponent implements OnInit, OnDestroy {
   user: User = new User()
   favShows: FavShowViewModel[] = []
-  recentReviews: Observable<ShowViewModel[]> = new Observable<ShowViewModel[]>()
+  recentReviews: Observable<ReviewViewModel[]> = new Observable<ReviewViewModel[]>()
   unsubscribeSignal: Subject<void> = new Subject();
   userName: string = ''
   shouldShowEditButton: boolean = false

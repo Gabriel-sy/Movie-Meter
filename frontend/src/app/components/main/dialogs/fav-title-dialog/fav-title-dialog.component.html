@@ -6,11 +6,11 @@
         (keyup)="searchMovie($event)" class="select-movie" placeholder="Digite um título..." type="text"
         name="select-movie" id="select-movie">
     </div>
-    <ng-container>
-      <div class="search-container">
+   
+      <div class="search-container" [ngStyle]="{'opacity': isExpanded ? 1 : 0}">
         <div *ngFor="let show of foundSearch$ | async">
           <span class="search-title" (click)="setInputValue(show.originalTitle)">{{ show.originalTitle }} ({{
             show.releaseDate.slice(0,4) }})</span>
         </div>
       </div>
-    </ng-container>
+    

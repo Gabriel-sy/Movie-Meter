@@ -224,7 +224,7 @@ h2 {
 }
 
 .remove-svg {
-  z-index: 1000;
+  z-index: 100;
   position: absolute;
   right: -10px;
   top: -10px;
@@ -252,6 +252,14 @@ h2 {
     width: 100%;
     max-width: 400px;
     min-width: 100px;
+  }
+
+  
+}
+
+@media (max-width: 750px){
+  .img-user-wrapper {
+    flex-direction: column;
   }
 }
 

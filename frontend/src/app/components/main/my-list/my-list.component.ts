@@ -1,7 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ShowViewModel } from '../../../domain/ShowViewModel';
 import { Observable, Subscription, map } from 'rxjs';
 
 import { LocalStorageService } from '../../../services/local-storage.service';
@@ -12,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AddButtonComponent } from "../add-button/add-button.component";
 import { PopupComponent } from "../popup/popup.component";
 import { ReviewService } from '../../../services/review.service';
+import { ReviewViewModel } from '../../../domain/ReviewViewModel';
 
 @Component({
   selector: 'app-my-list',
@@ -46,7 +46,7 @@ import { ReviewService } from '../../../services/review.service';
 })
 export class MyListComponent implements OnInit {
   readonly dialog = inject(MatDialog);
-  shows$: Observable<ShowViewModel[]> = new Observable<ShowViewModel[]>()
+  shows$: Observable<ReviewViewModel[]> = new Observable<ReviewViewModel[]>()
   popupDisplay: boolean = false;
   popupType: boolean = true;
   title: string = '';

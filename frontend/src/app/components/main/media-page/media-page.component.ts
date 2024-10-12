@@ -3,11 +3,9 @@ import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular
 import { SearchMovieService } from '../../../services/search-movie.service';
 import { Observable, Subject, Subscription, map, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { Person } from '../../../domain/Person';
 import { AddButtonComponent } from "../add-button/add-button.component";
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { UserService } from '../../../services/user.service';
-import { User } from '../../../domain/User';
 import { AddDialogComponent } from '../dialogs/add-dialog/add-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from "../popup/popup.component";
@@ -26,7 +24,6 @@ export class MediaPageComponent implements OnInit, OnDestroy {
 
   readonly dialog = inject(MatDialog);
   unsubscribeSignal: Subject<void> = new Subject();
-  actors: Person[] = [];
   mainActorsName: string[] = [];
   popupDisplay: boolean = false;
   popupType: boolean = true;
@@ -46,7 +43,6 @@ export class MediaPageComponent implements OnInit, OnDestroy {
       if (event instanceof NavigationEnd && this.foundShow.originalTitle != undefined) {
         let currentUrl = this.foundShow.originalTitle
         if (currentUrl != this.formatTitle(this.route.snapshot.url[2].path)) {
-          this.actors = [];
           this.mainActorsName = [];
           this.foundShow = new FullShowViewModel()
           this.showName = this.route.snapshot.url[2].path.replace(new RegExp("-", "g"), ' ')
@@ -70,7 +66,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
 
   loadShow() {
     this.searchMovieService
-      .getFullDetailShow(this.showName, this.localStorageService.get('uesrName'))
+      .getFullDetailShow(this.showName, this.localStorageService.get('userName'))
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
         next: (res: FullShowViewModel) => {

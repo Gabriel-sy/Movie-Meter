@@ -3,12 +3,12 @@ import { Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/cor
 import { Observable, Subject, delay, map, startWith, take, takeUntil } from 'rxjs';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { User } from '../../../domain/User';
-import { ShowViewModel } from '../../../domain/ShowViewModel';
 import { SpinnerComponent } from "../spinner/spinner.component";
 import { Paginator } from '../../../domain/Paginator';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { RouterLink } from '@angular/router';
 import { ReviewService } from '../../../services/review.service';
+import { ReviewViewModel } from '../../../domain/ReviewViewModel';
 
 @Component({
   selector: 'app-review',
@@ -44,7 +44,7 @@ import { ReviewService } from '../../../services/review.service';
 export class ReviewComponent implements OnDestroy {
   @Input() title: string = ''
   @Input() showId: string = ''
-  reviews$: Observable<ShowViewModel[]> = new Observable<ShowViewModel[]>()
+  reviews$: Observable<ReviewViewModel[]> = new Observable<ReviewViewModel[]>()
   user$: Observable<User> = new Observable<User>()
   unsubscribeSignal: Subject<void> = new Subject();
   userName: string = '';
@@ -96,7 +96,7 @@ export class ReviewComponent implements OnDestroy {
     }
     this.reviews$ = this.reviewService.getCommentsByTitle
       (this.title, this.currentPage, sortCategory, order)
-      .pipe(map((res: ShowViewModel[]) => res.map(s => ({
+      .pipe(map((res: ReviewViewModel[]) => res.map(s => ({
         ...s,
         isLiked: s.likeNames.includes(this.userName),
         reviewUserName: s.userName
@@ -109,13 +109,13 @@ export class ReviewComponent implements OnDestroy {
     this.getReviews(this.sortCategory, this.order)
   }
 
-  changeLike(review: ShowViewModel) {
+  changeLike(review: ReviewViewModel) {
     review.isLiked = !review.isLiked;
     review.likeUserName = this.userName
     this.reviewService.changeLikes(review, this.showId)
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
-        next: (res: ShowViewModel) => {
+        next: (res: ReviewViewModel) => {
           review.likeAmount = res.likeAmount
         }
       })

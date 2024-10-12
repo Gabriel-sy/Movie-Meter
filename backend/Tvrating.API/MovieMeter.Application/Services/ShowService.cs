@@ -123,7 +123,7 @@ public class ShowService : IShowService
         if (userName is not null)
         {
             var user = await _userService.FindFullUserByUserName(userName);
-            if (!user.IsSuccess || user.Data is null)
+            if (!user.IsSuccess)
             {
                 return ResultViewModel<FullShowViewModel>.Error("Usuário não encontrado");
             }
@@ -176,7 +176,7 @@ public class ShowService : IShowService
         queryParams["page"] = page.ToString();
         queryParams["vote_average.lte"] = "7";
         queryParams["vote_average.tle"] = "10";
-        queryParams["vote_count.gte"] = "1000";
+        queryParams["vote_count.gte"] = "900";
         queryParams["with_original_language"] = "en";
         queryParams["without_genres"] = "10767%2C%2035%2C%2010764%2C%2010763%2C%2099";
         
@@ -266,9 +266,7 @@ public class ShowService : IShowService
     private static List<ShowInputModel> MapFields(List<ShowInputModel> model)
     {
         model = model
-            .Where(s => s.Poster_Path != null &&
-                        (s.Release_Date is not null ||
-                         s.First_Air_Date is not null))
+            .Where(s => s.Poster_Path != null )
             .ToList();
 
         model.ForEach(s =>

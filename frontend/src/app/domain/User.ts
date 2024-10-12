@@ -1,6 +1,6 @@
 
 import { ReviewResponse } from "./ReviewResponse"
-import { ShowViewModel } from "./ShowViewModel"
+import { ReviewViewModel } from "./ReviewViewModel"
 
 export class User {
   name!: string
@@ -8,6 +8,6 @@ export class User {
   profilePicture!: number[]
   biography!: string
   totalLikes!: number
-  reviews!: ShowViewModel[]
+  reviews!: ReviewViewModel[]
   reviewLikes!: ReviewResponse[]
 }
