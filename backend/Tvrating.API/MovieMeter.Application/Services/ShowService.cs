@@ -1,23 +1,27 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
 using MovieMeter.Application.Models;
+using MovieMeter.Core.Entities;
+using MovieMeter.Core.Services;
 
 namespace MovieMeter.Application.Services;
 
 public class ShowService : IShowService
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IUserService _userService;
     private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
     {
         PropertyNameCaseInsensitive = true
     }; 
 
-    public ShowService(IHttpClientFactory httpClientFactory)
+    public ShowService(IHttpClientFactory httpClientFactory, IUserService userService)
     {
         _httpClientFactory = httpClientFactory;
+        _userService = userService;
     }
 
-    public async Task<ResultViewModel<List<SearchViewModel>>> SearchTitle(string searchTitle, int? page = 1)
+    public async Task<ResultViewModel<ResultsInputModel>> SearchTitle(string searchTitle, int? page = 1)
     {
         var httpClient = _httpClientFactory.CreateClient("TMDB");
 
@@ -26,7 +30,7 @@ public class ShowService : IShowService
 
         if (!response.IsSuccessStatusCode)
         {
-            return ResultViewModel<List<SearchViewModel>>.Error("Erro ao se comunicar com a API externa");
+            return ResultViewModel<ResultsInputModel>.Error("Erro ao se comunicar com a API externa");
         }
 
         var stream = await response.Content.ReadAsStreamAsync();
@@ -35,14 +39,104 @@ public class ShowService : IShowService
 
         if (responseBody is null || responseBody.Results is null)
         {
-            return ResultViewModel<List<SearchViewModel>>.Error("Nada encontrado");
+            return ResultViewModel<ResultsInputModel>.Error("Nada encontrado");
         }
 
-        var model = MapFields(responseBody.Results)
-            .Select(s => SearchViewModel.FromEntity(s)).ToList();
+        responseBody.Results = MapFields(responseBody.Results);
+        
+        return ResultViewModel<ResultsInputModel>.Success(responseBody);
+    }
 
+    public async Task<ResultViewModel<List<SearchViewModel>>> SimpleTitleSearch(string searchTitle, int? page = 1)
+    {
+        var result = await SearchTitle(searchTitle, page);
+
+        if (!result.IsSuccess && result.Data is not null)
+        {
+            return ResultViewModel<List<SearchViewModel>>.Error(result.Message);
+        }
+        
+        var model = result.Data.Results.Select
+            (s => SearchViewModel.FromEntity(s)).ToList();
         
         return ResultViewModel<List<SearchViewModel>>.Success(model);
+    }
+
+    public async Task<ResultViewModel<ResultsInputModel>> GetShowCredits(int showId)
+    {
+        var httpClient = _httpClientFactory.CreateClient("TMDB");
+
+        using var response =
+            await httpClient.GetAsync($"movie/{showId}/credits");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return ResultViewModel<ResultsInputModel>.Error("Erro ao se comunicar com a API externa");
+        }
+        
+        var stream = await response.Content.ReadAsStreamAsync();
+
+        var responseBody = JsonSerializer.Deserialize<ResultsInputModel>(stream, _serializerOptions);
+        
+        if (responseBody is null || responseBody.Results is null)
+        {
+            return ResultViewModel<ResultsInputModel>.Error("Nada encontrado");
+        }
+        
+        return ResultViewModel<ResultsInputModel>.Success(responseBody);
+    }
+
+    public async Task<ResultViewModel<FullShowViewModel>> GetShowWithAllDetails(string searchTitle,
+        string userName)
+    {
+        var search = await SearchTitle(searchTitle);
+        if (!search.IsSuccess || search.Data is null || search.Data.Results is null)
+        {
+            return ResultViewModel<FullShowViewModel>.Error(search.Message);
+        }
+
+        var actualShow = search.Data.Results.First();
+        
+        var credits = await GetShowCredits(actualShow.Id);
+        if (!credits.IsSuccess || credits.Data is null || credits.Data.Crew is null)
+        {
+            return ResultViewModel<FullShowViewModel>.Error(credits.Message);
+        }
+
+        var user = await _userService.FindFullUserByUserName(userName);
+        if (!user.IsSuccess || user.Data is null)
+        {
+            return ResultViewModel<FullShowViewModel>.Error("Usuário não encontrado");
+        }
+
+        var (userReview, userRating) = GetUserReviewAndRating(user.Data, searchTitle);
+        var genreNames = ConvertGenre.Convert(actualShow.Genre_Ids);
+        var directorName = MapDirectorName(actualShow.Media_Type, credits.Data.Crew);
+        var cast = GetCast(credits.Data.Cast, 8);
+
+        var model = FullShowViewModel.FromEntity(actualShow, directorName, cast, genreNames,
+            userRating, userReview);
+        
+        return ResultViewModel<FullShowViewModel>.Success(model);
+    }
+
+    private static List<Person> GetCast(List<Person> cast, int amount)
+    {
+        return cast.Take(amount).ToList();
+    }
+
+    private static (string? userReview, decimal userRating) GetUserReviewAndRating(User user, string searchTitle)
+    {
+        var review = user.Reviews.SingleOrDefault(r => r.OriginalTitle == searchTitle);
+        return review != null ? (review.UserReview, review.UserRating) : (string.Empty, 0);
+    }
+
+    private static string MapDirectorName(string mediaType, List<Person> crew)
+    {
+        if (mediaType != "movie") return string.Empty;
+
+        return crew.FirstOrDefault
+            (p => p.Known_For_Department == "Directing" && p.Job == "Director")?.Name ?? string.Empty;
     }
 
     private static List<ShowInputModel> MapFields(List<ShowInputModel> model)

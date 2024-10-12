@@ -12,8 +12,6 @@ public class ShowInputModel
     public string? Poster_Path { get; set; }
     public string Overview { get; set; }
     public string? First_Air_Date { get; set; }
-    public string? DirectorName { get; set; }
     public string? Original_Title { get; set; }
     public string? Original_Name { get; set; }
-
 }

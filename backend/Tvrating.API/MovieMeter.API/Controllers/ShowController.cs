@@ -19,7 +19,7 @@ public class ShowController : ControllerBase
     [HttpGet("search")]
     public async Task<IActionResult> SearchTitle([FromQuery]string searchTitle, [FromQuery]int? page = 1)
     {
-        var result = await _service.SearchTitle(searchTitle, page);
+        var result = await _service.SimpleTitleSearch(searchTitle, page);
 
         if (!result.IsSuccess)
         {
