@@ -22,7 +22,7 @@
       <img [src]="showImage(show.posterPath)" alt="{{ show.originalTitle }} poster">
     <div class="review-content">
       <h5 *ngIf="show.userReview">Sua Avaliação:</h5>
-      <p class="overview user" *ngIf="show.userReview"><em>{{ show.userReview }}</em></p>
+      <p class="user-overview" *ngIf="show.userReview"><em>{{ show.userReview }}</em></p>
       <p class="overview" *ngIf="!show.userReview">{{ show.overview }}</p>
     </div>
   </div>

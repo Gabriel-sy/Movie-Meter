@@ -4,15 +4,12 @@
   padding: 25px;
   width: 100%;
   max-width: 600px;
-  height: 548px;
+  min-height: 548px;
   border-radius: 12px;
   transition: height 0.3s ease;
   overflow: hidden;
 }
 
-.dialog-container.expanded {
-  height: 690px;
-}
 
 .title {
   color: #E50914;
@@ -107,6 +104,11 @@ button[mat-button] {
   cursor: pointer;
 }
 
+.mat-mdc-dialog-actions {
+  flex-wrap: nowrap !important;
+  padding: 0px !important;
+}
+
 button[mat-button]:hover {
   background-color: #B2070F;
   transform: translateY(-2px);
@@ -171,5 +173,19 @@ button:disabled {
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 420px) {
+  button[mat-button] {
+    font-size: 13.5px;
+  }
+
+  .dialog-container {
+    width: auto;
+  }
+
+  h2 {
+    font-size: 20px !important;
   }
 }

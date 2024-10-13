@@ -75,12 +75,14 @@ public class ShowService : IShowService
         return ResultViewModel<List<SearchViewModel>>.Success(model);
     }
 
-    public async Task<ResultViewModel<ResultsInputModel>> GetShowCredits(int showId)
+    public async Task<ResultViewModel<ResultsInputModel>> GetShowCredits(int showId, bool isMovie)
     {
         var httpClient = _httpClientFactory.CreateClient("TMDB");
 
         using var response =
-            await httpClient.GetAsync($"movie/{showId}/credits");
+            isMovie ?
+            await httpClient.GetAsync($"movie/{showId}/credits") :
+            await httpClient.GetAsync($"tv/{showId}/credits");
 
         if (!response.IsSuccessStatusCode)
         {
@@ -114,7 +116,8 @@ public class ShowService : IShowService
 
         var actualShow = search.Data.Results.First();
         
-        var credits = await GetShowCredits(actualShow.Id);
+        var credits = await GetShowCredits(
+            actualShow.Id, actualShow.Media_Type == "movie");
         if (!credits.IsSuccess || credits.Data is null || credits.Data.Crew is null)
         {
             return ResultViewModel<FullShowViewModel>.Error(credits.Message);

@@ -3,6 +3,7 @@
   flex-direction: column;
   color: white;
   max-width: 400px;
+  min-width: 280px;
   background-color: #1A1A1A;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
   border-radius: 15px;
@@ -93,6 +94,7 @@ h4 {
   height: auto;
   border-radius: 10px;
   object-fit: cover;
+  min-width: 150px;
 }
 
 .review-content {
@@ -100,6 +102,7 @@ h4 {
   display: flex;
   flex-direction: column;
   gap: 0px;
+  word-wrap: break-word;
 }
 
 .review-content h5,
@@ -107,8 +110,8 @@ h4 {
   font-size: 0.95em;
   color: #BBBBBB;
   margin-top: 0;
-  margin-top: 0px ;
-  margin-bottom: 0px ;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .overview {
@@ -116,11 +119,25 @@ h4 {
   color: #DDDDDD;
   line-height: 1.6;
   display: -webkit-box;
-  -webkit-line-clamp: 7;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 0px ;
+  margin-top: 0px;
+  width: inherit;
+}
+
+.user-overview {
+  font-size: 1em;
+  color: #DDDDDD;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 0px;
+  width: 200px;
 }
 
 .user {
@@ -128,7 +145,7 @@ h4 {
 }
 
 p {
-  margin-top: 0px ;
+  margin-top: 0px;
 }
 
 .buttons {
@@ -161,4 +178,16 @@ p {
 
 .delete:hover {
   background-color: #B2070F;
+}
+
+@media (max-width: 500px) {
+  .card-body {
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+  }
+
+  .user-overview, .overview {
+    width: 250px;
+  }
 }

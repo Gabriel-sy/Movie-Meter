@@ -111,6 +111,7 @@
 
 .sinopsis-text {
   text-align: justify;
+  word-wrap: break-word;
 }
 
 .additional-info {

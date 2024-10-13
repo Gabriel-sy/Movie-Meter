@@ -1,5 +1,5 @@
 <div class="dialog-container" [class.expanded]="isExpanded">
-  <h2 mat-dialog-title class="title">Adicionar Avaliação de Filme</h2>
+  <h2 mat-dialog-title class="title">Adicionar Avaliação</h2>
   <mat-dialog-content class="form-container">
     <form [formGroup]="formData" (ngSubmit)="saveMovie()" autocomplete="off">
       <div class="form-group">
@@ -40,7 +40,7 @@
           placeholder="O que você achou do filme?" name="review" id="review" rows="4"></textarea>
           
       </div>
-      <mat-dialog-actions align="end">
+      <mat-dialog-actions align="end" >
         <button mat-button mat-dialog-close="b">Cancelar</button>
         <button mat-button cdkFocusInitial type="submit" [disabled]="isLoading">
           <span *ngIf="!isLoading">

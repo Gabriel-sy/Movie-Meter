@@ -40,7 +40,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private router: Router) {
     router.events.subscribe(event => {
-      if (event instanceof NavigationEnd && this.foundShow.originalTitle != undefined) {
+      if (event instanceof NavigationEnd) {
         let currentUrl = this.foundShow.originalTitle
         if (currentUrl != this.formatTitle(this.route.snapshot.url[2].path)) {
           this.mainActorsName = [];
@@ -71,6 +71,16 @@ export class MediaPageComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: FullShowViewModel) => {
           this.foundShow = res;
+          this.foundShow.cast = res.cast.filter(p => p.profile_Path != undefined)
+          for(let i = 0; i < this.foundShow.cast.length; i++){
+            let name = this.foundShow.cast[i].name
+            if(i == this.foundShow.cast.length - 1){
+              this.mainActorsName.push(name += ".")
+            } else {
+              this.mainActorsName.push(name += ", ")
+            }
+            
+          }
         }
       })
   }

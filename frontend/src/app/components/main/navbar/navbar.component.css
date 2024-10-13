@@ -1,6 +1,11 @@
 p,
 a {
   color: #e0e0e0;
+  transition: all 0.3s ease;
+  border-radius: 20px;
+  height: 100%;
+  padding: 10px;
+  text-decoration: none;
 }
 
 h3 {
@@ -17,9 +22,7 @@ h3:hover {
 
 a:hover {
   cursor: pointer;
-  border-radius: 20px;
   background-color: rgba(60, 60, 60, 0.9);
-  height: 100%;
 }
 
 .nav-container {
@@ -34,12 +37,6 @@ a:hover {
   gap: 20px;
 }
 
-a {
-  padding: 10px;
-  text-decoration: none;
-  color: #e0e0e0;
-}
-
 .profile {
   display: none;
   height: 100%;
@@ -47,7 +44,7 @@ a {
   margin-left: auto;
 }
 
-svg:hover {
+.profile svg:hover {
   cursor: pointer;
   border-radius: 20px;
   background-color: rgba(60, 60, 60, 0.9);
@@ -75,6 +72,7 @@ svg {
   color: #ffffff;
   transition: all 0.3s ease;
   margin-right: auto;
+  
 }
 
 .auth-container {
@@ -90,12 +88,10 @@ svg {
   color: #aaaaaa;
 }
 
-.search-icon {
+.search-svg-container {
   position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #E50914;
+  right: 6px;
+  top: 6px;
 }
 
 .results-box {
@@ -183,9 +179,11 @@ svg {
   z-index: 1000;
 }
 
-@media (max-width: 376px) {
- 
+.items-wrapper {
+  display: flex;
+  flex-direction: column;
 }
+
 
 @media (max-width: 630px) {
   .auth-container, .home {
@@ -195,4 +193,5 @@ svg {
   .profile {
     display: block;
   }
+
 }
