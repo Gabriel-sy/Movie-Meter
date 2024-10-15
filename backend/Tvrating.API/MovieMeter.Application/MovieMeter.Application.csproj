@@ -15,4 +15,8 @@
       <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="obj\rider.project.model.nuget.info" />
+    </ItemGroup>
+
 </Project>
