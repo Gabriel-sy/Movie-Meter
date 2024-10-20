@@ -1,6 +1,5 @@
 <div class="container">
     <header>
-        <div class="logo">Movie Meter</div>
         <app-add-button (click)="openDialog()"></app-add-button>
     </header>
 
@@ -8,56 +7,86 @@
 
     <section class="media-section">
         <h2>Filmes Populares</h2>
-        <div class="media-grid">
-            <div class="media-item" *ngFor="let movie of popularMovies$ | async">
+        <div class="media-grid" *ngIf="popularMovies$ | async as popularMovies; else loading">
+            <div class="media-item" *ngFor="let movie of popularMovies">
                 <img [src]="showImage(movie.posterPath)" [alt]="movie.originalTitle"
                     [routerLink]="['media/details', formatTitle(movie.originalTitle)]">
                 <div class="media-title">{{ movie.originalTitle }}</div>
-            </div>
+            </div> 
         </div>
+        <ng-template #loading>
+            <div class="media-grid">
+                <ngx-skeleton-loader *ngFor="let item of defaultDisplayLength" [theme]="skeletonTheme" appearance="line" animation="progress-dark">
+                </ngx-skeleton-loader>
+            </div>
+        </ng-template>
     </section>
 
     <section class="media-section">
         <h2>Séries Populares</h2>
-        <div class="media-grid">
-            <div class="media-item" *ngFor="let series of popularSeries$ | async">
+        <div class="media-grid" *ngIf="popularSeries$ | async as popularSeries; else loading">
+            <div class="media-item" *ngFor="let series of popularSeries">
                 <img [src]="showImage(series.posterPath)" [alt]="series.originalTitle"
                     [routerLink]="['media/details', formatTitle(series.originalTitle)]">
                 <div class="media-title">{{ series.originalTitle }}</div>
             </div>
         </div>
+        <ng-template #loading>
+            <div class="media-grid">
+                <ngx-skeleton-loader *ngFor="let item of defaultDisplayLength" [theme]="skeletonTheme" appearance="line" animation="progress-dark">
+                </ngx-skeleton-loader>
+            </div>
+        </ng-template>
     </section>
 
     <section class="media-section">
         <h2>Filmes de Romance</h2>
-        <div class="media-grid">
-            <div class="media-item" *ngFor="let movie of popularRomanceMovies$ | async">
+        <div class="media-grid" *ngIf="popularRomanceMovies$ | async as popularRomanceMovies; else loading">
+            <div class="media-item" *ngFor="let movie of popularRomanceMovies">
                 <img [src]="showImage(movie.posterPath)" [alt]="movie.originalTitle"
                     [routerLink]="['media/details', formatTitle(movie.originalTitle)]">
                 <div class="media-title">{{ movie.originalTitle }}</div>
             </div>
         </div>
+        <ng-template #loading>
+            <div class="media-grid">
+                <ngx-skeleton-loader *ngFor="let item of defaultDisplayLength" [theme]="skeletonTheme" appearance="line" animation="progress-dark">
+                </ngx-skeleton-loader>
+            </div>
+        </ng-template>
     </section>
 
     <section class="media-section">
         <h2>Filmes de Terror</h2>
-        <div class="media-grid">
-            <div class="media-item" *ngFor="let movie of popularHorrorMovies$ | async">
+        <div class="media-grid" *ngIf="popularHorrorMovies$ | async as popularHorrorMovies; else loading">
+            <div class="media-item" *ngFor="let movie of popularHorrorMovies">
                 <img [src]="showImage(movie.posterPath)" [alt]="movie.originalTitle"
                     [routerLink]="['media/details', formatTitle(movie.originalTitle)]">
                 <div class="media-title">{{ movie.originalTitle }}</div>
             </div>
         </div>
+        <ng-template #loading>
+            <div class="media-grid">
+                <ngx-skeleton-loader *ngFor="let item of defaultDisplayLength" [theme]="skeletonTheme" appearance="line" animation="progress-dark">
+                </ngx-skeleton-loader>
+            </div>
+        </ng-template>
     </section>
 
     <section class="media-section">
         <h2>Filmes de Ficção Científica</h2>
-        <div class="media-grid">
-            <div class="media-item" *ngFor="let movie of popularScienceFicMovies$ | async">
+        <div class="media-grid" *ngIf="popularScienceFicMovies$ | async as popularScienceFicMovies; else loading">
+            <div class="media-item" *ngFor="let movie of popularScienceFicMovies">
                 <img [src]="showImage(movie.posterPath)" [alt]="movie.originalTitle"
                     [routerLink]="['media/details', formatTitle(movie.originalTitle)]">
                 <div class="media-title">{{ movie.originalTitle }}</div>
             </div>
         </div>
+        <ng-template #loading>
+            <div class="media-grid">
+                <ngx-skeleton-loader *ngFor="let item of defaultDisplayLength" [theme]="skeletonTheme" appearance="line" animation="progress-dark">
+                </ngx-skeleton-loader>
+            </div>
+        </ng-template>
     </section>
 </div>

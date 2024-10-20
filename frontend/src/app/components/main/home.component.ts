@@ -1,5 +1,5 @@
-import { Component, HostListener, Inject, OnDestroy, OnInit, PLATFORM_ID, inject } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { SearchMovieService } from '../../services/search-movie.service';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
@@ -8,15 +8,19 @@ import { AddButtonComponent } from "./add-button/add-button.component";
 import { PopupComponent } from "./popup/popup.component";
 import { AddDialogComponent } from './dialogs/add-dialog/add-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, Subject, Subscription, map, takeUntil } from 'rxjs';
+import { Observable, Subject, Subscription, delay, map } from 'rxjs';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { UserService } from '../../services/user.service';
 import { ShowSearchViewModel } from '../../domain/ShowSearchViewModel';
+import { SpinnerComponent } from "./spinner/spinner.component";
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, CarouselModule, ButtonModule, RouterLink, AddButtonComponent, PopupComponent],
+  imports: [CommonModule, CarouselModule, ButtonModule, RouterLink, 
+    AddButtonComponent, PopupComponent, SpinnerComponent, 
+    NgxSkeletonLoaderModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 
@@ -32,11 +36,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   readonly romanceId: string = '10749'
   readonly horrorId: string = '27'
   readonly ScienceFicId: string = '878'
+  defaultDisplayLength: number[] = Array.from(Array(15).keys())
   popupDisplay: boolean = false;
   popupType: boolean = true;
   title: string = '';
   subtitle: string = '';
   readonly dialog = inject(MatDialog);
+  skeletonTheme = {
+    width: '100%', 
+    height: '225px', 
+    borderRadius: '4px', 
+  };
 
   constructor(private searchMovieService: SearchMovieService,
     @Inject(PLATFORM_ID) private platformId: Object,
