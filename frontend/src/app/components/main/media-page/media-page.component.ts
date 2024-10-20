@@ -60,8 +60,6 @@ export class MediaPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.showName = this.route.snapshot.url[2].path.replace(new RegExp("-", "g"), ' ');
-
-    this.loadShow()
   }
 
   loadShow() {
@@ -72,6 +70,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
         next: (res: FullShowViewModel) => {
           this.foundShow = res;
           this.foundShow.cast = res.cast.filter(p => p.profile_Path != undefined)
+          
           for(let i = 0; i < this.foundShow.cast.length; i++){
             let name = this.foundShow.cast[i].name
             if(i == this.foundShow.cast.length - 1){
