@@ -41,10 +41,10 @@ builder.Services
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
 
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidIssuer = builder.Configuration["JwtIssuer"],
+            ValidAudience = builder.Configuration["JwtAudience"],
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                Encoding.UTF8.GetBytes(builder.Configuration["JwtKey"]))
         };
     });
 
@@ -53,7 +53,7 @@ builder.Services.AddHttpClient("TMDB", httpClient =>
     httpClient.BaseAddress = new Uri("https://api.themoviedb.org/3/");
 
     httpClient.DefaultRequestHeaders.Add(
-        "Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMGQwZjMwMWI4YTMwYzg3MDI2OGY0MzE0MWQ3YTcxMCIsIm5iZiI6MTcyMDY0NzE2MS42OTA0OTksInN1YiI6IjY2OGViYTg0MGQ1ODlkMTMzZWYxNzdkMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NjzfMPs94DIwgyR9raXICaZ-zT_iiRZIh8VYW6i7SNw");
+        "Authorization", $"Bearer {builder.Configuration["TMDBAPIKEY"]}");
 
     httpClient.DefaultRequestHeaders.Add(
         "accept", "application/json");
