@@ -23,7 +23,7 @@ jobs:
         working-directory: ./backend/Tvrating.API/MovieMeter.API
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ${{github.workspace}}/myapp
         working-directory: ./backend/Tvrating.API/MovieMeter.API 
 
       - name: Upload artifact for deployment job
