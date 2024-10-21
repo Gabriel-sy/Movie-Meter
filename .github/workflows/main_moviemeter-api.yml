@@ -30,8 +30,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
-
+          path: ${{github.workspace}}/myapp
   deploy:
     runs-on: windows-latest
     needs: build
@@ -42,10 +41,6 @@ jobs:
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
-        with:
-          name: .net-app
-          path: ${{github.workspace}}/myapp
-          retention-days: 1
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
