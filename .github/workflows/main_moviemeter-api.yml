@@ -44,6 +44,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
+          path: ${{github.workspace}}/myapp
+          retention-days: 1
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
