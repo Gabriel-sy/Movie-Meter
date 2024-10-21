@@ -7,7 +7,7 @@ import { FullShowViewModel } from '../domain/FullShowViewModel';
     providedIn: 'root'
 })
 export class ReviewService {
-    private readonly API = "https://localhost:44301/api/review"
+    private readonly API = "https://moviemeter-api.azurewebsites.net/api/review";
     constructor(private http: HttpClient) { }
 
     saveReview(show: FullShowViewModel) {

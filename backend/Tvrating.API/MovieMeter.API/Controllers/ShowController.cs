@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieMeter.Application.Services;
 
 namespace MovieMeter.API.Controllers;
@@ -16,13 +15,13 @@ public class ShowController : ControllerBase
     }
 
     [HttpGet("search")]
-    public async Task<IActionResult> SimpleTitleSearch([FromQuery]string searchTitle, [FromQuery]int? page = 1)
+    public async Task<IActionResult> SimpleTitleSearch([FromQuery] string searchTitle, [FromQuery] int? page = 1)
     {
         var result = await _service.SimpleTitleSearch(searchTitle, page);
 
         if (!result.IsSuccess)
         {
-            return BadRequest(result.Message);
+            return BadRequest(new { message = result.Message });
         }
 
         return Ok(result.Data);
@@ -37,7 +36,7 @@ public class ShowController : ControllerBase
 
         if (!result.IsSuccess)
         {
-            return BadRequest(result.Message);
+            return BadRequest(new { message = result.Message });
         }
 
         return Ok(result.Data);
@@ -45,16 +44,16 @@ public class ShowController : ControllerBase
 
     [HttpGet("movie/popular")]
     public async Task<IActionResult> GetPopularMovies(
-        [FromQuery]string? genre, 
-        [FromQuery]int? page = 1)
+        [FromQuery] string? genre,
+        [FromQuery] int? page = 1)
     {
-        var result = genre == null ? 
+        var result = genre == null ?
             await _service.GetPopularMovies(page) :
             await _service.GetPopularMoviesByGenre(genre, page);
 
         if (!result.IsSuccess)
         {
-            return BadRequest(result.Message);
+            return BadRequest(new { message = result.Message });
         }
 
         return Ok(result.Data);
@@ -67,7 +66,7 @@ public class ShowController : ControllerBase
 
         if (!result.IsSuccess)
         {
-            return BadRequest(result.Message);
+            return BadRequest(new { message = result.Message });
         }
 
         return Ok(result.Data);

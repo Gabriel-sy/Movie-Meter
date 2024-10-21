@@ -11,6 +11,7 @@ import { FormErrorComponent } from "../../form-error/form-error.component";
 import { PopupComponent } from "../../popup/popup.component";
 import { ReviewService } from '../../../../services/review.service';
 import { FullShowViewModel } from '../../../../domain/FullShowViewModel';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-dialog',
@@ -63,8 +64,8 @@ export class AddDialogComponent implements OnDestroy {
             this.reviewService.saveReview(this.foundShow)
               .pipe(takeUntil(this.unsubscribeSignal))
               .subscribe({
-                error: () => {
-                  this.dialogRef.close("openError")
+                error: (err) => {
+                  this.dialogRef.close({type: "openError", message: err.error.message})
                   this.isLoading = false
                 },
                 complete: () => {
@@ -73,9 +74,9 @@ export class AddDialogComponent implements OnDestroy {
                 }
               })
           },
-          error: () => {
+          error: (err) => {
             this.isLoading = false;
-            this.dialogRef.close("openError")
+            this.dialogRef.close({type: "openError", message: err.error.message})
           },
         })
     } else {

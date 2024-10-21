@@ -16,7 +16,7 @@ public class UserController : ControllerBase
         _service = service;
     }
 
-    
+
     [HttpPost("register")]
     public async Task<IActionResult> Register(CreateUserInputModel model)
     {
@@ -24,12 +24,12 @@ public class UserController : ControllerBase
 
         if (!result.IsSuccess)
         {
-            return BadRequest();
+            return BadRequest(new { message = result.Message });
         }
 
         return Created();
     }
-    
+
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginInputModel model)
     {
@@ -41,7 +41,7 @@ public class UserController : ControllerBase
             return Ok(token);
         }
 
-        return BadRequest();
+        return BadRequest(new { message = result.Message });
     }
 
     [Authorize]
@@ -50,58 +50,58 @@ public class UserController : ControllerBase
     {
         var header = HttpContext.User.Claims.Single(c => c.Type == "Name");
 
-        var user = await _service.FindByEmailWithShows(header.Value);
+        var result = await _service.FindByEmailWithShows(header.Value);
 
-        if (user.IsSuccess && user.Data != null)
+        if (result.IsSuccess && result.Data != null)
         {
-            return Ok(user.Data);
+            return Ok(result.Data);
         }
 
-        return BadRequest();
+        return BadRequest(new { message = result.Message });
 
     }
 
     [Authorize]
     [HttpPost("upload/picture")]
-    public async Task<IActionResult> UploadProfilePicture([FromForm]IFormFile formFile)
+    public async Task<IActionResult> UploadProfilePicture([FromForm] IFormFile formFile)
     {
         var header = HttpContext.User.Claims.Single(c => c.Type == "Name");
 
-        var user = await _service.FindByEmail(header.Value);
+        var result = await _service.FindByEmail(header.Value);
 
-        if (user.Data is null)
+        if (result.Data is null)
         {
-            return BadRequest(user.Message);
+            return BadRequest(new { message = result.Message });
         }
-        
+
         Console.WriteLine("TIPO DA IMAGEm " + formFile.ContentType);
 
         if (formFile.ContentType != "image/png" &&
             formFile.ContentType != "image/jpg" &&
             formFile.ContentType != "image/jpeg")
         {
-            return BadRequest("Tipo de arquivo inválido");
+            return BadRequest(new { message = "Tipo do arquivo inválido" });
         }
-        
+
         using var dataStream = new MemoryStream();
         await formFile.CopyToAsync(dataStream);
         byte[] imageBytes = dataStream.ToArray();
 
-        await _service.UploadProfilePicture(imageBytes, user.Data);
+        await _service.UploadProfilePicture(imageBytes, result.Data);
         return Ok();
     }
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> FindByUserName([FromQuery]string name)
+    public async Task<IActionResult> FindByUserName([FromQuery] string name)
     {
         var result = await _service.FindByUserName(name);
 
         if (!result.IsSuccess)
         {
-            return BadRequest(result.Message);
+            return BadRequest(new { message = result.Message });
         }
-        
+
         return Ok(result.Data);
     }
 
@@ -113,10 +113,10 @@ public class UserController : ControllerBase
 
         if (!result.IsSuccess)
         {
-            return BadRequest(result.Message);
+            return BadRequest(new { message = result.Message });
         }
-        
+
         return Ok();
     }
-    
+
 }

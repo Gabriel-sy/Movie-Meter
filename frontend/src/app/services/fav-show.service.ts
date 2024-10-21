@@ -9,7 +9,7 @@ import { parseArgs } from 'util';
 })
 export class FavShowService {
 
-  private readonly API = "https://localhost:44301/api/fav"
+  private readonly API = "https://moviemeter-api.azurewebsites.net/api/fav";
 
   constructor(private http: HttpClient) { }
 

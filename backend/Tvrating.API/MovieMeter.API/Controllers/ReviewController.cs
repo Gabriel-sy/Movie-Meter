@@ -1,12 +1,8 @@
-﻿
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Extensions;
 using MovieMeter.API.Extensions;
 using MovieMeter.Application.Models;
 using MovieMeter.Application.Services;
-using MovieMeter.Core.Entities;
 
 namespace MovieMeter.API.Controllers;
 
@@ -23,20 +19,21 @@ public class ReviewController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> SaveReview([FromBody]CreateReviewInputModel model)
+    public async Task<IActionResult> SaveReview([FromBody] CreateReviewInputModel model)
     {
         var header = HttpContext.User.Claims.Single(c => c.Type == "Name");
-        
+
         var result = await _service.SaveShow(model, header.Value);
-        
+
         if (!result.IsSuccess)
         {
-            return BadRequest(result.Message);
+            return BadRequest(new { message = result.Message });
         }
 
         return NoContent();
     }
-    
+
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> GetAllReviews()
     {
@@ -44,9 +41,9 @@ public class ReviewController : ControllerBase
 
         if (!shows.IsSuccess)
         {
-            return BadRequest(shows.Message);
+            return BadRequest(new { message = shows.Message });
         }
-        
+
         return Ok(shows.Data);
     }
 
@@ -57,48 +54,48 @@ public class ReviewController : ControllerBase
 
         if (!result.IsSuccess)
         {
-            return BadRequest(result.Message);
+            return BadRequest(new { message = result.Message });
         }
 
         return NoContent();
     }
 
     [HttpDelete()]
-    public async Task<IActionResult> DeleteReview([FromQuery]int id)
+    public async Task<IActionResult> DeleteReview([FromQuery] int id)
     {
         var result = await _service.DeleteShow(id);
-        
+
         if (!result.IsSuccess)
         {
-            return BadRequest(result.Message);
+            return BadRequest(new { message = result.Message });
         }
 
         return NoContent();
     }
-    
+
     [HttpGet("showByToken")]
     public async Task<IActionResult> FindByToken()
     {
         var header = HttpContext.User.Claims.Single(c => c.Type == "Name");
 
-        var user = await _service.GetAllByEmail(header.Value);
-        
-        if (user.IsSuccess && user.Data != null)
+        var result = await _service.GetAllByEmail(header.Value);
+
+        if (result.IsSuccess && result.Data != null)
         {
-            return Ok(user.Data);
+            return Ok(result.Data);
         }
 
-        return BadRequest();
+        return BadRequest(new { message = result.Message });
 
     }
-    
+
     [AllowAnonymous]
     [HttpGet("ordered")]
     public async Task<IActionResult> GetReviewsByOrigTitleOrdered(
-        [FromQuery]string originalTitle, 
-        [FromQuery]int pageNumber,
-        [FromQuery]string order = "desc", 
-        [FromQuery]string sortCategory = "rating")
+        [FromQuery] string originalTitle,
+        [FromQuery] int pageNumber,
+        [FromQuery] string order = "desc",
+        [FromQuery] string sortCategory = "rating")
     {
         var result = await _service.GetReviewsByOrigTitleOrdered(originalTitle, pageNumber,
             sortCategory, order);
@@ -111,20 +108,20 @@ public class ReviewController : ControllerBase
             return Ok(result.Data);
         }
 
-        return BadRequest("Erro ao processar a requisição");
+        return BadRequest(new { message = result.Message });
     }
 
     [Authorize]
     [HttpPost("changeLike")]
-    public async Task<IActionResult> ChangeLikes([FromBody]LikeInputModel model)
+    public async Task<IActionResult> ChangeLikes([FromBody] LikeInputModel model)
     {
         var result = await _service.ChangeLikes(model);
 
         if (!result.IsSuccess)
         {
-            return BadRequest(result.Message);
+            return BadRequest(new { message = result.Message });
         }
-        
+
         return Ok(result.Data);
     }
 
@@ -136,11 +133,11 @@ public class ReviewController : ControllerBase
 
         if (!result.IsSuccess)
         {
-            return BadRequest(result.Message);
+            return BadRequest(new { message = result.Message });
         }
 
         return Ok(result.Data);
     }
 
-    
+
 }

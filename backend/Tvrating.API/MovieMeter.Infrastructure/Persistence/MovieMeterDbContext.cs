@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MovieMeter.Core.Entities;
 
 namespace MovieMeter.Infrastructure.Persistence;
@@ -16,11 +15,11 @@ public class MovieMeterDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        
+
         builder
             .Entity<Review>(e =>
             {
-                e.HasKey(r=> r.Id);
+                e.HasKey(r => r.Id);
 
                 e.Property(r => r.UserRating).HasPrecision(10, 2);
 
@@ -42,6 +41,6 @@ public class MovieMeterDbContext : DbContext
 
             });
 
-       
+
     }
 }

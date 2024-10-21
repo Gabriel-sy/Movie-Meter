@@ -8,7 +8,7 @@ import { FullShowViewModel } from '../domain/FullShowViewModel';
 })
 export class SearchMovieService {
 
-  private readonly API = 'https://localhost:44301/api/show'
+  private readonly API = "https://moviemeter-api.azurewebsites.net/api/show";
 
   constructor(private http: HttpClient) { }
 

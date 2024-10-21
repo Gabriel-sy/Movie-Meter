@@ -8,7 +8,7 @@ import { EditUserInputModel } from '../domain/EditUserInputModel';
 })
 export class UserService {
 
-  private readonly API = "https://localhost:44301/api/user"
+  private readonly API = "https://moviemeter-api.azurewebsites.net/api/user";
   constructor(private http: HttpClient) { }
 
   findByToken() {

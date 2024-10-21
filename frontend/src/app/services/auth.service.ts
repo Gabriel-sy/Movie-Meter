@@ -7,7 +7,7 @@ import { JwtResponse } from '../domain/JwtResponse';
 })
 export class AuthService {
 
-  private readonly API = "https://localhost:44301/"
+  private readonly API = "https://moviemeter-api.azurewebsites.net/";
 
   constructor(private http: HttpClient) { }
 

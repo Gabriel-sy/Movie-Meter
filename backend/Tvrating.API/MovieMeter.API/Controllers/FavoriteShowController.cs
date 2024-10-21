@@ -25,7 +25,7 @@ public class FavoriteShowController : ControllerBase
 
         if (!result.IsSuccess)
         {
-            return BadRequest(result.Message);
+            return BadRequest(new { message = result.Message });
         }
 
         return Ok(result.Data);
@@ -38,7 +38,7 @@ public class FavoriteShowController : ControllerBase
 
         if (!result.IsSuccess)
         {
-            return BadRequest(result.Message);
+            return BadRequest(new { message = result.Message });
         }
 
         return Ok(result.Data);
@@ -51,7 +51,7 @@ public class FavoriteShowController : ControllerBase
 
         if (!result.IsSuccess)
         {
-            return BadRequest(result.Message);
+            return BadRequest(new { message = result.Message });
         }
 
         return Ok(result.Data);
