@@ -8,6 +8,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { ErrorInterceptorService } from './services/error-interceptor.service';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
@@ -21,6 +23,8 @@ export const appConfig: ApplicationConfig = {
       backgroundColor: '#2e2e2e'
     }
   })),
+  provideAnimations(), // required animations providers
+  provideToastr(),
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
   ]
