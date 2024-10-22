@@ -64,7 +64,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: AllowFront,
         configurePolicy: policy =>
         {
-            policy.WithOrigins("http://localhost:4200")
+            policy.WithOrigins("https://moviemeter-c5b54.firebaseapp.com")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
