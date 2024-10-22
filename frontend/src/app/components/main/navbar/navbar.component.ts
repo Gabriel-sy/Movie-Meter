@@ -7,7 +7,6 @@ import { Observable, catchError, delay, map, throwError } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { SpinnerComponent } from "../spinner/spinner.component";
-import { SharedService } from '../../../services/shared.service';
 import { SearchMovieService } from '../../../services/search-movie.service';
 
 
@@ -65,7 +64,6 @@ export class NavbarComponent implements OnInit {
   constructor(private localStorageService: LocalStorageService,
     private router: Router,
     private renderer: Renderer2,
-    private sharedService: SharedService,
     private searchMovieService: SearchMovieService) {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {

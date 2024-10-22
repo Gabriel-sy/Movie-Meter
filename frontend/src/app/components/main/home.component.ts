@@ -50,7 +50,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(private searchMovieService: SearchMovieService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private localStorageService: LocalStorageService, private userService: UserService) {
+    private localStorageService: LocalStorageService, 
+    private userService: UserService,
+    ) {
   }
 
   ngOnDestroy(): void {

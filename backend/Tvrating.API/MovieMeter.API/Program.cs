@@ -10,13 +10,10 @@ using MovieMeter.Infrastructure.Persistence.Repositories;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-var AllowFront = "AllowFront";
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
 
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
@@ -59,23 +56,7 @@ builder.Services.AddHttpClient("TMDB", httpClient =>
         "accept", "application/json");
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: AllowFront,
-        configurePolicy: policy =>
-        {
-            policy.WithOrigins("http://moviemeter-c5b54.firebaseapp.com",
-                    "http://moviemeter-c5b54.web.app")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
-
-});
-
 var app = builder.Build();
-
-
-app.UseCors(AllowFront);
 
 if (app.Environment.IsDevelopment())
 {
