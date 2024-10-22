@@ -69,7 +69,7 @@ export class AddDialogComponent implements OnDestroy {
                   this.isLoading = false
                 },
                 complete: () => {
-                  this.dialogRef.close("openSuccess")
+                  this.dialogRef.close({type: "openSuccess"})
                   this.isLoading = false
                 }
               })

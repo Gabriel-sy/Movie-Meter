@@ -100,9 +100,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         next: (res) => {
           if (res.type == "openError" || res.type == "openSuccess") {
             this.popupDisplay = true
-            this.popupType = res == "openSuccess" ? true : false;
-            this.title = res == "openSuccess" ? 'Sucesso!' : 'Erro ao adicionar'
-            this.subtitle = res == "openSuccess" ?
+            this.popupType = res.type == "openSuccess" ? true : false;
+            this.title = res.type == "openSuccess" ? 'Sucesso!' : 'Erro ao adicionar'
+            this.subtitle = res.type == "openSuccess" ?
               'O título foi adicionado à sua lista!' :
               res.message
             setTimeout(() => {

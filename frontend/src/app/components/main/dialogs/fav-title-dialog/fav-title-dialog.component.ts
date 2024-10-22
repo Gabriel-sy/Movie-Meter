@@ -76,7 +76,7 @@ export class FavTitleDialogComponent implements OnDestroy {
           posterPath: this.posterPath,
           userName: this.userName
         }
-        this.favShowService.addFavShow(objToSend).subscribe({next: () => console.log('aaaaa')})
+        this.favShowService.addFavShow(objToSend).subscribe()
       }), takeUntil(this.unsubscribeSignal))
 
       .subscribe({
