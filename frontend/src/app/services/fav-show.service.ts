@@ -2,14 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FavShowInputModel } from '../domain/FavShowInputModel';
 import { FavShowViewModel } from '../domain/FavShowViewModel';
-import { parseArgs } from 'util';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavShowService {
 
-  private readonly API = "https://moviemeter-api.azurewebsites.net/api/fav";
+  private readonly API = environment.API + "/api/fav";
 
   constructor(private http: HttpClient) { }
 
