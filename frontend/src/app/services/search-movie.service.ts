@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ShowSearchViewModel } from '../domain/ShowSearchViewModel';
 import { FullShowViewModel } from '../domain/FullShowViewModel';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchMovieService {
 
-  private readonly API = "https://moviemeter-api.azurewebsites.net/api/show";
+  private readonly API = environment.API + "/api/show";
 
   constructor(private http: HttpClient) { }
 

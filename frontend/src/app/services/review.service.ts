@@ -2,12 +2,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReviewViewModel } from '../domain/ReviewViewModel';
 import { FullShowViewModel } from '../domain/FullShowViewModel';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ReviewService {
-    private readonly API = "https://moviemeter-api.azurewebsites.net/api/review";
+    private readonly API = environment.API + "/api/review";
     constructor(private http: HttpClient) { }
 
     saveReview(show: FullShowViewModel) {

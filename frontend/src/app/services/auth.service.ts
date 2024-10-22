@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtResponse } from '../domain/JwtResponse';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private readonly API = "https://moviemeter-api.azurewebsites.net/";
+  private readonly API = environment.API + "/api/user";
 
   constructor(private http: HttpClient) { }
 
@@ -18,7 +19,7 @@ export class AuthService {
       password: password
     }
     
-    return this.http.post(this.API + "api/user/register", objectToSend);
+    return this.http.post(this.API + "/register", objectToSend);
   }
 
   login(email: string, password: string){
@@ -27,6 +28,6 @@ export class AuthService {
       password: password
     }
     
-    return this.http.post<JwtResponse>(this.API + "api/user/login", objectToSend);
+    return this.http.post<JwtResponse>(this.API + "/login", objectToSend);
   }
 }

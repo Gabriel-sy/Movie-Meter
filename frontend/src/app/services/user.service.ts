@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../domain/User';
 import { EditUserInputModel } from '../domain/EditUserInputModel';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private readonly API = "https://moviemeter-api.azurewebsites.net/api/user";
+  private readonly API = environment.API + "/api/user";
   constructor(private http: HttpClient) { }
 
   findByToken() {
