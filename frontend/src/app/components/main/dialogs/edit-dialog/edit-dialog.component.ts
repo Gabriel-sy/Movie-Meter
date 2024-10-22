@@ -47,13 +47,13 @@ export class EditDialogComponent implements OnInit {
 
   editUserRating(showId: string, userRating: string, userReview: string) {
     const editShow: Subscription = this.reviewService.editReviewRating(showId, userRating, userReview).subscribe({
-      error: () => {
-        this.dialogRef.close("openError")
+      error: (err) => {
+        this.dialogRef.close({type: "openError", message: err.error.message})
       },
       complete: () => {
         this.isLoading = false;
         editShow.unsubscribe()
-        this.dialogRef.close("openSuccess")
+        this.dialogRef.close({type: "openSuccess"})
       }
     });
   }
