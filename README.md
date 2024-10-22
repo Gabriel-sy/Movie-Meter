@@ -45,20 +45,12 @@ Movie Meter é um site em que você pode descobrir, avaliar, compartilhar suas o
 
 ## Como Utilizar
 
-1. Crie uma conta
-2. Configure seu perfil do jeito que gostar
-3. Avalie e resenhe seus títulos favoritos
-4. Interaja com avaliações de outros usuários
-
-## Como rodar
-1. **Clone o repositório:** `git clone https://github.com/Gabriel-sy/Movie-Meter.git`
-2. **Instale as dependências:** `npm install`
-3. **Execute o projeto:** `dotnet run`
-4. **Faça o registro:** `localhost:4200/register`
+1. Acesse o site [aqui](https://moviemeter-c5b54.web.app/)
+2. Crie uma conta
+3. Configure seu perfil do jeito que gostar
+4. Avalie e resenhe seus títulos favoritos
+5. Interaja com avaliações de outros usuários
 
 ## Desenvolvimento
-
 Fiz esse projeto com o objetivo principal de mostrar e melhorar minhas habilidades em ASP.NET Core e Angular, no processo, eu aprendi muitas coisas, batendo a cabeça para resolver os problemas que surgiam no desenvolvimento, o que foi muito bom.
 
-## TODO
-- Colocar o site no ar usando Azure
