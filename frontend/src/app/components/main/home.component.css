@@ -37,11 +37,16 @@ h2 {
   margin-bottom: 40px;
 }
 
+.toast-container {
+  background-color: black !important;
+}
+
 .media-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
 }
+
 
 .media-item {
   position: relative;

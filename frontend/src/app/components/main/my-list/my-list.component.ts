@@ -9,14 +9,13 @@ import { CommonModule } from '@angular/common';
 import { CardComponent } from '../card/card.component';
 import { MatButtonModule } from '@angular/material/button';
 import { AddButtonComponent } from "../add-button/add-button.component";
-import { PopupComponent } from "../popup/popup.component";
 import { ReviewService } from '../../../services/review.service';
 import { ReviewViewModel } from '../../../domain/ReviewViewModel';
 
 @Component({
   selector: 'app-my-list',
   standalone: true,
-  imports: [MatButtonModule, MatDialogModule, CommonModule, AddButtonComponent, PopupComponent, CardComponent],
+  imports: [MatButtonModule, MatDialogModule, CommonModule, AddButtonComponent, CardComponent],
   templateUrl: './my-list.component.html',
   styleUrl: './my-list.component.css',
   animations: [
@@ -47,10 +46,6 @@ import { ReviewViewModel } from '../../../domain/ReviewViewModel';
 export class MyListComponent implements OnInit {
   readonly dialog = inject(MatDialog);
   shows$: Observable<ReviewViewModel[]> = new Observable<ReviewViewModel[]>()
-  popupDisplay: boolean = false;
-  popupType: boolean = true;
-  title: string = '';
-  subtitle: string = '';
   dropdownDisplay: boolean = false
 
   constructor(private reviewService: ReviewService, private localStorageService: LocalStorageService) { }
@@ -62,26 +57,6 @@ export class MyListComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(AddDialogComponent);
-
-    const closeDialog: Subscription = dialogRef.afterClosed().subscribe({
-      next: (res) => {
-        if (res.type == "openError" || res.type == "openSuccess") {
-          this.shows$ = this.reviewService.findAllUserReviews()
-          this.popupDisplay = true
-          this.popupType = res == "openSuccess" ? true : false;
-          this.title = res == "openSuccess" ? 'Sucesso!' : 'Erro ao adicionar'
-          this.subtitle = res == "openSuccess" ?
-            'O título foi adicionado à sua lista!' :
-            res.message
-          setTimeout(() => {
-            this.popupDisplay = false;
-          }, 2500);
-        }
-      },
-      complete: () =>
-        closeDialog.unsubscribe()
-
-    })
   }
 
   filterShowsByNameAsc() {

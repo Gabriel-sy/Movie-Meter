@@ -3,16 +3,14 @@ import { Component, OnDestroy, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../services/auth.service';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { FormErrorComponent } from "../../form-error/form-error.component";
 import { Subject, delay, takeUntil } from 'rxjs';
-import { PopupComponent } from "../../popup/popup.component";
+import { PopupService } from '../../../../services/popup.service';
 
 @Component({
   selector: 'app-register-page',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, FormErrorComponent, PopupComponent],
+  imports: [ReactiveFormsModule, CommonModule, FormErrorComponent],
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.css'
 })
@@ -22,10 +20,6 @@ export class RegisterPageComponent implements OnDestroy {
   isSubmitted: boolean = false;
   spinnerDisplay: boolean = false;
   isLoading: boolean = false;
-  popupDisplay: boolean = false;
-  popupType: boolean = true;
-  title: string = '';
-  subtitle: string = '';
   unsubscribeSignal: Subject<void> = new Subject();
   formData = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
@@ -33,7 +27,10 @@ export class RegisterPageComponent implements OnDestroy {
     password: ['', Validators.required]
   })
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(private fb: FormBuilder, 
+    private authService: AuthService, 
+    private router: Router,
+    private popupService: PopupService) { }
 
   ngOnDestroy(): void {
     this.unsubscribeSignal.next()
@@ -49,11 +46,8 @@ export class RegisterPageComponent implements OnDestroy {
         this.isLoading = true;
         this.authService.registerUser(values.name, values.email, values.password)
           .pipe(
-            delay(2000),
             takeUntil(this.unsubscribeSignal))
           .subscribe({
-            next: () => {
-            },
             error: (err) => {
               this.spinnerDisplay = false;
               this.isLoading = false;
@@ -61,14 +55,7 @@ export class RegisterPageComponent implements OnDestroy {
                 this.emailExists = true;
               } else {
                 this.emailExists = false
-                this.popupDisplay = true
-                this.popupType = false
-                this.title = "Erro ao registrar"
-                this.subtitle = "Ocorreu um erro ao se comunicar com o servidor, tente novamente"
-
-                setTimeout(() => {
-                  this.popupDisplay = false;
-                }, 2500);
+                this.popupService.showError("Ocorreu um erro interno", "Houve um problema ao se comunicar com o servidor, tente novamente mais tarde.")
               }
 
             },
@@ -90,7 +77,6 @@ export class RegisterPageComponent implements OnDestroy {
   }
 
   fieldHasRequiredError(fieldName: string): boolean {
-
     return this.formData.get(fieldName)?.hasError('required') && this.formData.get(fieldName)?.touched || false;
   }
 

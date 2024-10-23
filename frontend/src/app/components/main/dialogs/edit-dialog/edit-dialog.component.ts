@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { Subscription } from 'rxjs';
 import { FormErrorComponent } from "../../form-error/form-error.component";
 import { ReviewService } from '../../../../services/review.service';
+import { PopupService } from '../../../../services/popup.service';
 
 @Component({
   selector: 'app-edit-dialog',
@@ -24,7 +25,8 @@ export class EditDialogComponent implements OnInit {
   constructor(private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: {currentRating: string, currentReview: string, showId: string},
     private reviewService: ReviewService,
-    private dialogRef: MatDialogRef<EditDialogComponent>) { }
+    private dialogRef: MatDialogRef<EditDialogComponent>,
+    private popupService: PopupService) { }
 
     ngOnInit(): void {
       this.formData.patchValue({
@@ -48,12 +50,14 @@ export class EditDialogComponent implements OnInit {
   editUserRating(showId: string, userRating: string, userReview: string) {
     const editShow: Subscription = this.reviewService.editReviewRating(showId, userRating, userReview).subscribe({
       error: (err) => {
-        this.dialogRef.close({type: "openError", message: err.error.message})
+        this.popupService.showError("Ocorreu um erro", "Ocorreu um erro ao editar a avaliação, tente novamente mais tarde.")
+        this.dialogRef.close()
       },
       complete: () => {
         this.isLoading = false;
         editShow.unsubscribe()
-        this.dialogRef.close({type: "openSuccess"})
+        this.popupService.showSuccess("Sucesso!", "Avaliação editada.")
+        this.dialogRef.close()
       }
     });
   }

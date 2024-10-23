@@ -6,23 +6,19 @@ import { CommonModule } from '@angular/common';
 import { JwtResponse } from '../../../../domain/JwtResponse';
 import { LocalStorageService } from '../../../../services/local-storage.service';
 import { Subject, delay, takeUntil } from 'rxjs';
-import { PopupComponent } from "../../popup/popup.component";
 import { FormErrorComponent } from "../../form-error/form-error.component";
+import { PopupService } from '../../../../services/popup.service';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, PopupComponent, FormErrorComponent],
+  imports: [ReactiveFormsModule, CommonModule, FormErrorComponent],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
 export class LoginPageComponent implements OnDestroy{
 
   isLoading: boolean = false;
-  popupDisplay: boolean = false;
-  popupType: boolean = true;
-  title: string = '';
-  subtitle: string = '';
   invalidCredentials: boolean = false;
   unsubscribeSignal: Subject<void> = new Subject();
   formData = this.fb.group({
@@ -30,8 +26,11 @@ export class LoginPageComponent implements OnDestroy{
     password: ['', Validators.required]
   })
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router,
-    private localStorageService: LocalStorageService) { }
+  constructor(private fb: FormBuilder, 
+    private authService: AuthService, 
+    private router: Router,
+    private localStorageService: LocalStorageService,
+    private popupService: PopupService) { }
 
   ngOnDestroy(): void {
     this.unsubscribeSignal.next()
@@ -53,7 +52,6 @@ export class LoginPageComponent implements OnDestroy{
       if (values.email && values.password) {
         this.isLoading = true;
         this.authService.login(values.email, values.password).pipe(
-          delay(1500),
           takeUntil(this.unsubscribeSignal))
           .subscribe({
             next: (res: JwtResponse) => {
@@ -64,21 +62,13 @@ export class LoginPageComponent implements OnDestroy{
 
                 this.router.navigateByUrl('')
               }
-
             },
             error: (err) => {
               if (err.status == 400) {
                 this.invalidCredentials = true
               } else {
                 this.invalidCredentials = false
-                this.popupDisplay = true
-                this.popupType = false
-                this.title = "Erro ao fazer login"
-                this.subtitle = "Ocorreu um erro ao se comunicar com o servidor, tente novamente"
-
-                setTimeout(() => {
-                  this.popupDisplay = false;
-                }, 2500);
+                this.popupService.showError("Ocorreu um erro interno", "Houve um problema ao se comunicar com o servidor, tente novamente mais tarde.")
               }
               this.isLoading = false
             },
