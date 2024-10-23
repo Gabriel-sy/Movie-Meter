@@ -11,6 +11,7 @@ import { FavShowService } from '../../../services/fav-show.service';
 import { FavShowViewModel } from '../../../domain/FavShowViewModel';
 import { ReviewService } from '../../../services/review.service';
 import { ReviewViewModel } from '../../../domain/ReviewViewModel';
+import { PopupService } from '../../../services/popup.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -37,7 +38,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private favShowService: FavShowService,
     private reviewService: ReviewService,
-    private router: Router) {
+    private router: Router,
+    private popupService: PopupService) {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.userName = this.route.snapshot.url[1].path
@@ -79,10 +81,11 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         data: this.localStorageService.get('userName')
       })
 
-      const closeDialog: Subscription = dialog.afterClosed()
+      dialog.afterClosed()
         .pipe(takeUntil(this.unsubscribeSignal))
         .subscribe({
           next: () => {
+            this.popupService.showSuccess("Sucesso!", "Título favorito adicionado com sucesso.")
             this.updateFavShows()
           }
         })
@@ -95,6 +98,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
         complete: () => {
+          this.popupService.showSuccess("Sucesso!", "Título favorito removido com sucesso.")
           this.updateFavShows()
         }
       })
@@ -112,7 +116,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   updateFavShows() {
     this.favShowService.getFavShows(this.userName)
       .pipe(
-        delay(1000),
         takeUntil(this.unsubscribeSignal))
       .subscribe({
         next: (res: FavShowViewModel[]) => {

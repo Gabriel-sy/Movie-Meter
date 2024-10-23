@@ -8,7 +8,7 @@
     ],
     "rewrites": [ {
       "source": "**",
-      "destination": "dist/frontend/browser/index.html"
+      "destination": "/index.html"
     } ]
   }
 }
