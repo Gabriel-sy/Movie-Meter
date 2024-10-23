@@ -3,17 +3,14 @@ import { Component, OnDestroy, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../services/auth.service';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { ErrorDialogComponent } from '../../dialogs/error-dialog/error-dialog.component';
 import { FormErrorComponent } from "../../form-error/form-error.component";
 import { Subject, delay, takeUntil } from 'rxjs';
-import { PopupComponent } from "../../popup/popup.component";
 import { PopupService } from '../../../../services/popup.service';
 
 @Component({
   selector: 'app-register-page',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, FormErrorComponent, PopupComponent],
+  imports: [ReactiveFormsModule, CommonModule, FormErrorComponent],
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.css'
 })

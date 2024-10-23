@@ -6,14 +6,13 @@ import { CommonModule } from '@angular/common';
 import { JwtResponse } from '../../../../domain/JwtResponse';
 import { LocalStorageService } from '../../../../services/local-storage.service';
 import { Subject, delay, takeUntil } from 'rxjs';
-import { PopupComponent } from "../../popup/popup.component";
 import { FormErrorComponent } from "../../form-error/form-error.component";
 import { PopupService } from '../../../../services/popup.service';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, PopupComponent, FormErrorComponent],
+  imports: [ReactiveFormsModule, CommonModule, FormErrorComponent],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })

@@ -7,7 +7,6 @@ import { AddButtonComponent } from "../add-button/add-button.component";
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { AddDialogComponent } from '../dialogs/add-dialog/add-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { PopupComponent } from "../popup/popup.component";
 import { ReviewComponent } from "../review/review.component";
 import { FullShowViewModel } from '../../../domain/FullShowViewModel';
 import { PopupService } from '../../../services/popup.service';
@@ -15,7 +14,7 @@ import { PopupService } from '../../../services/popup.service';
 @Component({
   selector: 'app-media-page',
   standalone: true,
-  imports: [CommonModule, AddButtonComponent, PopupComponent, ReviewComponent],
+  imports: [CommonModule, AddButtonComponent, ReviewComponent],
   templateUrl: './media-page.component.html',
   styleUrl: './media-page.component.css'
 })

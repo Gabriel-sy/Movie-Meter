@@ -5,7 +5,6 @@ import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { AddButtonComponent } from "./add-button/add-button.component";
-import { PopupComponent } from "./popup/popup.component";
 import { AddDialogComponent } from './dialogs/add-dialog/add-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject, Subscription, catchError, delay, map, throwError } from 'rxjs';
@@ -20,7 +19,7 @@ import { PopupService } from '../../services/popup.service';
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, CarouselModule, ButtonModule, RouterLink, 
-    AddButtonComponent, PopupComponent, SpinnerComponent, 
+    AddButtonComponent, SpinnerComponent, 
     NgxSkeletonLoaderModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',

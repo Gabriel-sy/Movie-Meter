@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ShowSearchViewModel } from '../../../../domain/ShowSearchViewModel';
 import { FormErrorComponent } from "../../form-error/form-error.component";
-import { PopupComponent } from "../../popup/popup.component";
 import { ReviewService } from '../../../../services/review.service';
 import { FullShowViewModel } from '../../../../domain/FullShowViewModel';
 import { PopupService } from '../../../../services/popup.service';
@@ -16,7 +15,7 @@ import { PopupService } from '../../../../services/popup.service';
 @Component({
   selector: 'app-add-dialog',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatProgressSpinnerModule, CommonModule, ReactiveFormsModule, FormErrorComponent, PopupComponent],
+  imports: [MatDialogModule, MatButtonModule, MatProgressSpinnerModule, CommonModule, ReactiveFormsModule, FormErrorComponent],
   templateUrl: './add-dialog.component.html',
   styleUrl: './add-dialog.component.css'
 })

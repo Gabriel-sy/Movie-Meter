@@ -5,13 +5,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.component';
 import { EditDialogComponent } from '../dialogs/edit-dialog/edit-dialog.component';
 import { RouterLink } from '@angular/router';
-import { PopupComponent } from "../popup/popup.component";
 import { ReviewViewModel } from '../../../domain/ReviewViewModel';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule, RouterLink, PopupComponent],
+  imports: [CommonModule, RouterLink],
   templateUrl: './card.component.html',
   styleUrl: './card.component.css'
 })
