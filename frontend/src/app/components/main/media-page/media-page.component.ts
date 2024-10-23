@@ -5,13 +5,12 @@ import { Observable, Subject, Subscription, map, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AddButtonComponent } from "../add-button/add-button.component";
 import { LocalStorageService } from '../../../services/local-storage.service';
-import { UserService } from '../../../services/user.service';
 import { AddDialogComponent } from '../dialogs/add-dialog/add-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from "../popup/popup.component";
 import { ReviewComponent } from "../review/review.component";
-import { ReviewService } from '../../../services/review.service';
 import { FullShowViewModel } from '../../../domain/FullShowViewModel';
+import { PopupService } from '../../../services/popup.service';
 
 @Component({
   selector: 'app-media-page',
@@ -25,20 +24,16 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   readonly dialog = inject(MatDialog);
   unsubscribeSignal: Subject<void> = new Subject();
   mainActorsName: string[] = [];
-  popupDisplay: boolean = false;
-  popupType: boolean = true;
-  title: string = '';
-  subtitle: string = '';
   showName: string = "";
   userRating: string = ''
   director: string = '';
   foundShow: FullShowViewModel = new FullShowViewModel()
 
-  constructor(private route: ActivatedRoute, private reviewService: ReviewService,
+  constructor(private route: ActivatedRoute,
     private searchMovieService: SearchMovieService,
     private localStorageService: LocalStorageService,
-    private userService: UserService,
-    private router: Router) {
+    private router: Router,
+    private popupService: PopupService) {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         let currentUrl = this.foundShow.originalTitle
@@ -77,46 +72,23 @@ export class MediaPageComponent implements OnInit, OnDestroy {
               this.mainActorsName.push(name += ".")
             } else {
               this.mainActorsName.push(name += ", ")
-            }
-            
+            }  
           }
-        }
+        },
+        error: (err) => {
+          this.popupService.showError("Ocorreu um erro", err.error.message)
+          this.router.navigateByUrl('')
+        },
       })
   }
 
   openDialog(title: string) {
     if (this.localStorageService.isLoggedIn()) {
-      const dialogRef = this.dialog.open(AddDialogComponent, {
+      this.dialog.open(AddDialogComponent, {
         data: title
       });
-
-      const closeDialog: Subscription = dialogRef.afterClosed().subscribe({
-        next: (res) => {
-          if (res.type == "openError" || res.type == "openSuccess") {
-            this.popupDisplay = true
-            this.popupType = res == "openSuccess" ? true : false;
-            this.title = res == "openSuccess" ? 'Sucesso!' : 'Erro ao adicionar'
-            this.subtitle = res == "openSuccess" ?
-              'O título foi adicionado à sua lista!' :
-              res.message
-            setTimeout(() => {
-              this.popupDisplay = false;
-            }, 2500);
-          }
-        },
-        complete: () => {
-          closeDialog.unsubscribe()
-        }
-      }
-      )
     } else {
-      this.popupDisplay = true;
-      this.popupType = false;
-      this.title = "Você precisa estar logado"
-      this.subtitle = "Para avaliar um título, você precisa fazer login primeiro"
-      setTimeout(() => {
-        this.popupDisplay = false;
-      }, 2500);
+      this.popupService.showError("Ocorreu um erro", "Para adicionar uma avaliação, você precisa estar logado.")
     }
   }
 

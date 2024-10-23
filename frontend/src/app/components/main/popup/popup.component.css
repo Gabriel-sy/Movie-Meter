@@ -1,51 +1,30 @@
 .success {
-  position: fixed;
-  top: 8px;
-  left: 4px;
-  color: aliceblue;
+  color: #e2e8f0;
   display: flex;
   flex-direction: column;
-  min-width: 400px;
-  gap: 3px;
+  width: fit-content;
   min-height: 60px;
-  border-radius: 8px;
-  padding: 10px;
+  gap: 8px;
+  border-radius: 12px;
+  padding: 16px;
   margin-left: 5px;
-  background-color: rgb(58, 218, 58);
+  background-color: rgba(34, 197, 94, 0.2); 
+  border: 1px solid rgba(34, 197, 94, 0.5); 
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.1), 
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.error {
-  position: fixed;
-  top: 8px;
-  left: 4px;
-  color: aliceblue;
-  display: flex;
-  flex-direction: column;
-  min-width: fit-content;
-  gap: 3px;
-  min-height: 60px;
-  border-radius: 8px;
-  padding: 10px;
-  margin-left: 5px;
-  background-color: rgb(228, 63, 33);
-}
-
-p, h4 {
+.success .title {
+  color: #22c55e;
   margin: 0;
-}
-
-h4 {
+  font-size: 1.1rem;
   font-weight: 600;
 }
 
-@media (max-width: 424px) {
-  .wrapper {
-    width: 350px;
-  }
+.success .subtitle {
+  color: #94a3b8;
+  margin: 0;
+  font-size: 0.95rem;
 }
 
-@media (max-width: 370px) {
-  .wrapper {
-    width: 300px;
-  }
-}

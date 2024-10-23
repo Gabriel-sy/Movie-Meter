@@ -3,8 +3,6 @@
         <app-add-button (click)="openDialog()"></app-add-button>
     </header>
 
-    <app-popup [popupDisplay]="popupDisplay" [title]="title" [subtitle]="subtitle" [type]="popupType"></app-popup>
-
     <section class="media-section">
         <h2>Filmes Populares</h2>
         <div class="media-grid" *ngIf="popularMovies$ | async as popularMovies; else loading">

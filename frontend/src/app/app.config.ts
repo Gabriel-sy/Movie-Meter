@@ -10,21 +10,27 @@ import { ErrorInterceptorService } from './services/error-interceptor.service';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
+import { PopupComponent } from './components/main/popup/popup.component';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
   provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: "top" })),
   provideClientHydration(),
   provideHttpClient(withInterceptorsFromDi(), withFetch()),
-  provideAnimationsAsync(),
   importProvidersFrom(NgxSkeletonLoaderModule.forRoot({
     animation: 'pulse', theme: {
       extendsFromRoot: true,
       backgroundColor: '#2e2e2e'
     }
   })),
-  provideAnimations(), // required animations providers
-  provideToastr(),
+  provideAnimations(),
+  provideToastr({
+    maxOpened: 1,
+    timeOut: 2500,
+    toastClass: '',
+    autoDismiss: true,
+    positionClass: 'toast-top-left'
+  }),
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
   ]

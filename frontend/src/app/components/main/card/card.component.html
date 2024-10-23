@@ -1,5 +1,3 @@
-<app-popup [popupDisplay]="popupDisplay" [title]="title" [subtitle]="subtitle" [type]="popupType"></app-popup>
-
 <div [routerLink]="['/media/details', formatTitle(show.originalTitle)]" class="card-container" *ngFor="let show of shows$ | async">
   <div class="card-header">
     <div class="title-rating">

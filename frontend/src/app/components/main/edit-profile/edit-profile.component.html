@@ -13,9 +13,9 @@
           <div class="spinner-c">
             <app-spinner *ngIf="isLoading"></app-spinner>
           </div>
-          <button *ngIf="!isLoading" type="button" (click)="picture.click()">Adicionar nova foto (8Mb)</button>
+          <button *ngIf="!isLoading" type="button" (click)="picture.click()">Adicionar nova foto (2Mb)</button>
           <app-form-error [condition]="fileIsBiggerError"
-            text="Tamanho da imagem precisa ser menor que 8 MB"></app-form-error>
+            text="Tamanho da imagem precisa ser menor que 2 MB"></app-form-error>
         </div>
       </div>
       <div class="img-input">

@@ -13,7 +13,7 @@ import { Toast, ToastPackage, ToastrService } from 'ngx-toastr';
       state('inactive', style({
         opacity: 0,
       })),
-      transition('inactive => active', animate('400ms ease-in', keyframes([
+      transition('inactive => active', animate('400ms ease-out', keyframes([
         style({
           transform: 'translate3d(100%, 0, 0) skewX(-30deg)',
           opacity: 0,

@@ -9,6 +9,7 @@ import { Subject, delay, takeUntil } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EditUserInputModel } from '../../../domain/EditUserInputModel';
 import { Router } from '@angular/router';
+import { PopupService } from '../../../services/popup.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -36,7 +37,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService,
     private localStorageService: LocalStorageService,
     private fb: FormBuilder,
-    private router: Router) { }
+    private router: Router,
+    private popupService: PopupService) { }
 
   ngOnDestroy(): void {
     this.unsubscribeSignal.next()
@@ -53,7 +55,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     const picture: File = event.target.files[0];
     const formData = new FormData();
 
-    if (picture.size > 8000000) {
+    if (picture.size > 2000000) {
       this.fileIsBiggerError = true
       this.isLoading = false
     } else {
@@ -61,10 +63,14 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       this.fileIsBiggerError = false;
       this.userService.uploadProfilePicture(formData)
         .pipe(
-          delay(1000),
           takeUntil(this.unsubscribeSignal))
         .subscribe({
+          error: (err) => {
+            this.popupService.showError("Ocorreu um erro", "Ocorreu um problema ao fazer o upload, tente novamente mais tarde.")
+            this.isLoading = false;
+          },
           complete: () => {
+            this.popupService.showSuccess("Sucesso!", "Upload feito com sucesso.")
             this.getProfilePicture()
           }
         })
@@ -103,7 +109,6 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       }
       this.userService.editUserDetails(obj as EditUserInputModel)
         .pipe(
-          delay(1000),
           takeUntil(this.unsubscribeSignal))
         .subscribe({
           error: () => {
@@ -114,6 +119,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
             this.localStorageService.set('userName', newUserName || '')
             this.isSubmitLoading = false
             this.router.navigateByUrl('user/' + newUserName + '/profile')
+            this.popupService.showSuccess("Sucesso!", "Seus dados foram modificados!")
           }
         })
     }

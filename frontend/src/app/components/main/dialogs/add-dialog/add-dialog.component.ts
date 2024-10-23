@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchMovieService } from '../../../../services/search-movie.service';
-import { Observable, Subject, finalize, takeUntil } from 'rxjs';
+import { Observable, Subject, catchError, finalize, takeUntil, throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ShowSearchViewModel } from '../../../../domain/ShowSearchViewModel';
@@ -11,7 +11,7 @@ import { FormErrorComponent } from "../../form-error/form-error.component";
 import { PopupComponent } from "../../popup/popup.component";
 import { ReviewService } from '../../../../services/review.service';
 import { FullShowViewModel } from '../../../../domain/FullShowViewModel';
-import { HttpErrorResponse } from '@angular/common/http';
+import { PopupService } from '../../../../services/popup.service';
 
 @Component({
   selector: 'app-add-dialog',
@@ -42,6 +42,7 @@ export class AddDialogComponent implements OnDestroy {
     private reviewService: ReviewService,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
+    private popupService: PopupService,
     private dialogRef: MatDialogRef<AddDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: string) { }
 
@@ -65,18 +66,21 @@ export class AddDialogComponent implements OnDestroy {
               .pipe(takeUntil(this.unsubscribeSignal))
               .subscribe({
                 error: (err) => {
-                  this.dialogRef.close({type: "openError", message: err.error.message})
+                  this.popupService.showError("Ocorreu um erro", err.error.message + ', tente novamente.')
+                  this.dialogRef.close()
                   this.isLoading = false
                 },
                 complete: () => {
-                  this.dialogRef.close({type: "openSuccess"})
+                  this.popupService.showSuccess("Sucesso!", "A avaliação foi salva na sua lista.")
+                  this.dialogRef.close()
                   this.isLoading = false
                 }
               })
           },
           error: (err) => {
             this.isLoading = false;
-            this.dialogRef.close({type: "openError", message: err.error.message})
+            this.popupService.showError("Ocorreu um erro", err.error.message + ', tente novamente.')
+            this.dialogRef.close()
           },
         })
     } else {
@@ -92,7 +96,8 @@ export class AddDialogComponent implements OnDestroy {
     this.timer = setTimeout(() => {
       if (length > 3) {
         this.foundSearch$ = this.searchMovieService.searchTitle(event.target.value)
-          .pipe(finalize(() => this.isExpanded = true))
+          .pipe(
+            finalize(() => this.isExpanded = true))
       } else if (length == 0) {
         this.foundSearch$ = new Observable<ShowSearchViewModel[]>()
         this.isExpanded = false;

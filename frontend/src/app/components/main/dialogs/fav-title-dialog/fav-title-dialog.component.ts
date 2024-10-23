@@ -8,6 +8,7 @@ import { FavShowService } from '../../../../services/fav-show.service';
 import { LocalStorageService } from '../../../../services/local-storage.service';
 import { FavShowInputModel } from '../../../../domain/FavShowInputModel';
 import { SearchMovieService } from '../../../../services/search-movie.service';
+import { PopupService } from '../../../../services/popup.service';
 
 @Component({
   selector: 'app-fav-title-dialog',
@@ -32,7 +33,8 @@ export class FavTitleDialogComponent implements OnDestroy {
     private dialogRef: MatDialogRef<FavTitleDialogComponent>,
     private favShowService: FavShowService,
     private localStorageService: LocalStorageService,
-    private searchMovieService: SearchMovieService) { }
+    private searchMovieService: SearchMovieService,
+    private popupService: PopupService) { }
 
   ngOnDestroy(): void {
     this.unsubscribeSignal.next()
@@ -76,7 +78,11 @@ export class FavTitleDialogComponent implements OnDestroy {
           posterPath: this.posterPath,
           userName: this.userName
         }
-        this.favShowService.addFavShow(objToSend).subscribe()
+        this.favShowService.addFavShow(objToSend).subscribe({
+          error: (err) => {
+            this.popupService.showError("Ocorreu um erro", err.error.message)
+          }
+        })
       }), takeUntil(this.unsubscribeSignal))
 
       .subscribe({
