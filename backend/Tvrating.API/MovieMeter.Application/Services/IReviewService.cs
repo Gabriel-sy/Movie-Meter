@@ -6,7 +6,7 @@ namespace MovieMeter.Application.Services;
 public interface IReviewService
 {
     Task<ResultViewModel<List<ReviewViewModel>>> GetAllShows();
-    Task<ResultViewModel<List<ReviewViewModel>>> GetAllByEmail(string email);
+    Task<ResultViewModel<List<MyListReviewViewModel>>> GetAllByEmail(string email);
     Task<ResultViewModel> SaveShow(CreateReviewInputModel model, string userEmail);
     Task<ResultViewModel> DeleteShow(int id);
     Task<ResultViewModel> EditShow(EditReviewInputModel model);

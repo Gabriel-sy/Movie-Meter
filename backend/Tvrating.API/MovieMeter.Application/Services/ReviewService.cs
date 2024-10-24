@@ -29,12 +29,10 @@ public class ReviewService : IReviewService
         return ResultViewModel<List<ReviewViewModel>>.Success(model);
     }
 
-    public async Task<ResultViewModel<List<ReviewViewModel>>> GetAllByEmail(string email)
+    public async Task<ResultViewModel<List<MyListReviewViewModel>>> GetAllByEmail(string email)
     {
         var user = await _userService.FindByEmail(email);
 
-        var httpClient = _httpClientFactory.CreateClient("TMDB");
-        
         
 
         if (user.Data != null)
@@ -42,12 +40,12 @@ public class ReviewService : IReviewService
             var shows = await _repository.GetAll();
 
             var model = shows.Where(r => r.UserId == user.Data.Id)
-                .Select(s => ReviewViewModel.FromEntity(s)).ToList();
+                .Select(s => MyListReviewViewModel.FromEntity(s)).ToList();
 
-            return ResultViewModel<List<ReviewViewModel>>.Success(model);
+            return ResultViewModel<List<MyListReviewViewModel>>.Success(model);
         }
         
-        return ResultViewModel<List<ReviewViewModel>>.Error("Usuário não encontrado");
+        return ResultViewModel<List<MyListReviewViewModel>>.Error("Usuário não encontrado");
         
     }
 
