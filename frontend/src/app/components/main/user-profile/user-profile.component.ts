@@ -84,7 +84,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       dialog.afterClosed()
         .pipe(takeUntil(this.unsubscribeSignal))
         .subscribe({
-          next: () => {
+          complete: () => {
             this.updateFavShows()
           }
         })
@@ -97,11 +97,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
         complete: () => {
-          this.updateFavShows()
           this.popupService.showSuccess("Sucesso!", "Título favorito removido com sucesso.")
+          this.updateFavShows()
         }
       })
-
   }
 
   stopPropagation(event: Event) {
