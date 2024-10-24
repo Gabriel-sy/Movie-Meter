@@ -85,7 +85,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribeSignal))
         .subscribe({
           next: () => {
-            this.popupService.showSuccess("Sucesso!", "Título favorito adicionado com sucesso.")
             this.updateFavShows()
           }
         })
@@ -98,8 +97,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribeSignal))
       .subscribe({
         complete: () => {
-          this.popupService.showSuccess("Sucesso!", "Título favorito removido com sucesso.")
           this.updateFavShows()
+          this.popupService.showSuccess("Sucesso!", "Título favorito removido com sucesso.")
         }
       })
 

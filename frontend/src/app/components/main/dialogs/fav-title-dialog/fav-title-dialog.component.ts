@@ -81,12 +81,16 @@ export class FavTitleDialogComponent implements OnDestroy {
         this.favShowService.addFavShow(objToSend).subscribe({
           error: (err) => {
             this.popupService.showError("Ocorreu um erro", err.error.message)
+            this.dialogRef.close()
           }
         })
       }), takeUntil(this.unsubscribeSignal))
 
       .subscribe({
-        complete: () => this.dialogRef.close()
+        complete: () => {
+          this.dialogRef.close()
+          this.popupService.showSuccess("Sucesso!", `"${title}" favoritado com sucesso`)
+        }
       })
 
   }
