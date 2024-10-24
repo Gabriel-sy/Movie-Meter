@@ -26,7 +26,7 @@
   </div>
   
   <div class="buttons">
-    <button class="edit" (click)="openEditDialog(show.id, show.userRating, show.userReview, $event)">Editar nota</button>
-    <button class="delete" (click)="openDeleteDialog(show.id, $event)">Remover avaliação</button>
+    <button class="edit" (click)="openEditDialog(show.showId.toString(), show.userRating, show.userReview, $event)">Editar nota</button>
+    <button class="delete" (click)="openDeleteDialog(show.showId.toString(), $event)">Remover avaliação</button>
   </div>
 </div>
