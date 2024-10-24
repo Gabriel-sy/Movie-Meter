@@ -51,13 +51,13 @@ export class EditDialogComponent implements OnInit {
     const editShow: Subscription = this.reviewService.editReviewRating(showId, userRating, userReview).subscribe({
       error: (err) => {
         this.popupService.showError("Ocorreu um erro", "Ocorreu um erro ao editar a avaliação, tente novamente mais tarde.")
-        this.dialogRef.close()
+        this.dialogRef.close(true)
       },
       complete: () => {
         this.isLoading = false;
         editShow.unsubscribe()
         this.popupService.showSuccess("Sucesso!", "Avaliação editada.")
-        this.dialogRef.close()
+        this.dialogRef.close(true)
       }
     });
   }

@@ -66,12 +66,12 @@ export class AddDialogComponent implements OnDestroy {
               .subscribe({
                 error: (err) => {
                   this.popupService.showError("Ocorreu um erro", err.error.message + ', tente novamente.')
-                  this.dialogRef.close()
+                  this.dialogRef.close(true)
                   this.isLoading = false
                 },
                 complete: () => {
                   this.popupService.showSuccess("Sucesso!", "A avaliação foi salva na sua lista.")
-                  this.dialogRef.close()
+                  this.dialogRef.close(true)
                   this.isLoading = false
                 }
               })
@@ -79,7 +79,7 @@ export class AddDialogComponent implements OnDestroy {
           error: (err) => {
             this.isLoading = false;
             this.popupService.showError("Ocorreu um erro", err.error.message + ', tente novamente.')
-            this.dialogRef.close()
+            this.dialogRef.close(true)
           },
         })
     } else {

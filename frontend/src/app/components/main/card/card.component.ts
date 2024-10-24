@@ -42,6 +42,7 @@ export class CardComponent implements OnInit {
     dialogRef.afterClosed()
     .subscribe({
       complete: () => {
+        console.log("Here")
         this.shows$ = this.reviewService.findAllUserReviews()
       }
     })

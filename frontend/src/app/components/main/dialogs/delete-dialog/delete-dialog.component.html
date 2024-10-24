@@ -5,7 +5,7 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="deleteReviewById(data)" [disabled]="isLoading">
+    <button mat-button cdkFocusInitial (click)="deleteReviewById(data)" [disabled]="isLoading">
       <span *ngIf="!isLoading">
         Remover
       </span>
