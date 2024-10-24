@@ -6,6 +6,7 @@ import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.co
 import { EditDialogComponent } from '../dialogs/edit-dialog/edit-dialog.component';
 import { RouterLink } from '@angular/router';
 import { ReviewViewModel } from '../../../domain/ReviewViewModel';
+import { ReviewService } from '../../../services/review.service';
 
 @Component({
   selector: 'app-card',
@@ -18,7 +19,7 @@ export class CardComponent implements OnInit {
   readonly dialog = inject(MatDialog);
   @Input() shows$: Observable<ReviewViewModel[]> = new Observable<ReviewViewModel[]>()
 
-  constructor() { }
+  constructor(private reviewService: ReviewService) { }
 
   ngOnInit(): void {
   }
@@ -34,15 +35,29 @@ export class CardComponent implements OnInit {
 
   openDeleteDialog(showId: string, event: Event) {
     event.stopPropagation();
-    this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: showId
+    })
+
+    dialogRef.afterClosed()
+    .subscribe({
+      complete: () => {
+        this.shows$ = this.reviewService.findAllUserReviews()
+      }
     })
   }
 
   openEditDialog(showId: string, currentRating: number, currentReview: string, event: Event) {
     event.stopPropagation();
-    this.dialog.open(EditDialogComponent, {
+    const dialogRef = this.dialog.open(EditDialogComponent, {
       data: { currentRating: currentRating, currentReview: currentReview, showId: showId }
+    })
+
+    dialogRef.afterClosed()
+    .subscribe({
+      complete: () => {
+        this.shows$ = this.reviewService.findAllUserReviews()
+      }
     })
   }
 

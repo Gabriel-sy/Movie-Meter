@@ -57,6 +57,13 @@ export class MyListComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(AddDialogComponent);
+
+    dialogRef.afterClosed()
+    .subscribe({
+      complete: () => {
+        this.shows$ = this.reviewService.findAllUserReviews()
+      }
+    })
   }
 
   filterShowsByNameAsc() {
