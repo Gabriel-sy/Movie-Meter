@@ -254,7 +254,7 @@ public class ShowService : IShowService
 
     private static (string? userReview, decimal userRating) GetUserReviewAndRating(User user, string searchTitle)
     {
-        var review = user.Reviews.SingleOrDefault(r => r.OriginalTitle == searchTitle);
+        var review = user.Reviews.SingleOrDefault(r => r.OriginalTitle == searchTitle && !r.IsDeleted);
         return review != null ? (review.UserReview, review.UserRating) : (string.Empty, -1);
     }
 
