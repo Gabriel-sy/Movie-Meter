@@ -66,7 +66,7 @@ export class AddDialogComponent implements OnDestroy {
               .subscribe({
                 error: (err) => {
                   this.popupService.showError("Ocorreu um erro", err.error.message + ', tente novamente.')
-                  this.dialogRef.close(true)
+                  this.dialogRef.close(false)
                   this.isLoading = false
                 },
                 complete: () => {
@@ -79,7 +79,7 @@ export class AddDialogComponent implements OnDestroy {
           error: (err) => {
             this.isLoading = false;
             this.popupService.showError("Ocorreu um erro", err.error.message + ', tente novamente.')
-            this.dialogRef.close(true)
+            this.dialogRef.close(false)
           },
         })
     } else {

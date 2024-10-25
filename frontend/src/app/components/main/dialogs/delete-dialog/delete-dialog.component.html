@@ -4,7 +4,7 @@
     <p class="sub">Tem certeza que quer remover?</p>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button [mat-dialog-close]="false">Cancelar</button>
     <button mat-button cdkFocusInitial (click)="deleteReviewById(data)" [disabled]="isLoading">
       <span *ngIf="!isLoading">
         Remover

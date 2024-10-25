@@ -1,10 +1,10 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using MovieMeter.Core.Services;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using MovieMeter.Core.Services;
 
 namespace MovieMeter.Infrastructure.AuthServices;
 
@@ -25,7 +25,7 @@ public class AuthService : IAuthService
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-        
+
         //Informações do usuário que tem o token
         var claims = new List<Claim>
         {
@@ -33,9 +33,9 @@ public class AuthService : IAuthService
             new Claim(ClaimTypes.Role, role)
         };
 
-        var token = new JwtSecurityToken(issuer: issuer, 
+        var token = new JwtSecurityToken(issuer: issuer,
             audience: audience,
-            expires: DateTime.Now.AddHours(8), 
+            expires: DateTime.Now.AddHours(8),
             signingCredentials: credentials,
             claims: claims);
 
@@ -54,7 +54,7 @@ public class AuthService : IAuthService
 
             //Converte byte array para string
             StringBuilder builder = new StringBuilder();
-            
+
             for (var i = 0; i < bytes.Length; i++)
             {
                 builder.Append(bytes[i].ToString("x2"));

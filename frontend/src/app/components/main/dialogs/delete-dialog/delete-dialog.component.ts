@@ -24,7 +24,7 @@ export class DeleteDialogComponent {
     this.isLoading = true;
     const deleteShow: Subscription = this.reviewService.deleteReviewById(showId).subscribe({
       error: (err) => {
-        this.dialogRef.close(true)
+        this.dialogRef.close(false)
         this.popupService.showError("Ocorreu um erro", "Houve um problema ao remover a avaliação, tente novamente mais tarde.")
         this.isLoading = false
       },

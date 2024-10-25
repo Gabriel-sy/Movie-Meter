@@ -11,6 +11,7 @@ public interface IReviewRepository
     Task<Review> EditReview(Review review, decimal rating, string reviewText);
     Task<Review?> GetById(int id);
     Task<Review?> GetByTitle(string title, int userId);
+    Task<List<Review>> GetAllByUserId(int id);
     Task<PagedList<Review>> GetReviewsByShowOrigTitle(string originalTitle, int pageNumber);
     Task<PagedList<Review>> GetReviewsByOrigTitleAscLike(string originalTitle, int pageNumber);
     Task<PagedList<Review>> GetReviewsByOrigTitleDescRating(string originalTitle, int pageNumber);

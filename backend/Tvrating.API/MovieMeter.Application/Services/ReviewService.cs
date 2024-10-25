@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata;
-using Microsoft.Extensions.Http;
-using MovieMeter.Application.Models;
+﻿using MovieMeter.Application.Models;
 using MovieMeter.Core.Entities;
 using MovieMeter.Core.Repositories;
 using MovieMeter.Core.Services;
@@ -33,20 +31,18 @@ public class ReviewService : IReviewService
     {
         var user = await _userService.FindByEmail(email);
 
-        
-
         if (user.Data != null)
         {
-            var shows = await _repository.GetAll();
+            var shows = await _repository.GetAllByUserId(user.Data.Id);
 
-            var model = shows.Where(r => r.UserId == user.Data.Id)
+            var model = shows
                 .Select(s => MyListReviewViewModel.FromEntity(s)).ToList();
 
             return ResultViewModel<List<MyListReviewViewModel>>.Success(model);
         }
-        
+
         return ResultViewModel<List<MyListReviewViewModel>>.Error("Usuário não encontrado");
-        
+
     }
 
 
@@ -62,15 +58,15 @@ public class ReviewService : IReviewService
             {
                 return ResultViewModel.Error("Usuário já possui esse titulo");
             }
-            
+
             var showToSave = model.FromEntity(user.Data, user.Data.Id);
 
             var userReview = model.UserReview != null ? model.UserReview : "";
-            
+
             showToSave.UpdateReviewText(userReview);
-            
+
             await _repository.SaveReview(showToSave);
-            
+
             return ResultViewModel.Success();
         }
         return ResultViewModel.Error("Usuário não encontrado");
@@ -84,9 +80,9 @@ public class ReviewService : IReviewService
         {
             return ResultViewModel.Error("Show não encontrado");
         }
-        
+
         await _repository.DeleteReview(show.Result);
-        
+
         return ResultViewModel.Success();
     }
 
@@ -100,11 +96,11 @@ public class ReviewService : IReviewService
         }
 
         await _repository.EditReview(show.Result, model.Rating, model.Review);
-        
+
         return ResultViewModel.Success();
     }
 
-    public async Task<ResultViewModel<PagedList<SimpleReviewViewModel>>> GetReviewsByOrigTitle(string originalTitle, 
+    public async Task<ResultViewModel<PagedList<SimpleReviewViewModel>>> GetReviewsByOrigTitle(string originalTitle,
         int pageNumber)
     {
         var reviews = await _repository.GetReviewsByShowOrigTitle(originalTitle, pageNumber);
@@ -135,9 +131,9 @@ public class ReviewService : IReviewService
 
             _ => throw new InvalidDataException("Categoria inválida")
         };
-        
+
         var model = reviews.Select(c => SimpleReviewViewModel.FromEntity(c)).ToList();
-        
+
 
         var returnModel = new PagedList<SimpleReviewViewModel>(model, pageNumber, reviews.TotalPages,
             reviews.PageSize, reviews.TotalItems);
@@ -149,24 +145,24 @@ public class ReviewService : IReviewService
     public async Task<ResultViewModel<LikeInputModel?>> ChangeLikes(LikeInputModel model)
     {
         var review = await _repository.FindReviewByShowIdAndUserName(model.ShowId, model.ReviewUserName);
-        
+
         if (review == null) return ResultViewModel<LikeInputModel?>.Error("Review não encontrada");
-        
+
         review.UpdateLikeAmount(model.IsLiked, model.LikeUserName);
-        
+
         review.User.UpdateTotalLikes(model.IsLiked);
-        
+
         if (!model.IsLiked)
         {
             review.RemoveLikeName(model.LikeUserName);
-            await _repository.DeleteUserLike(review.User, review);   
+            await _repository.DeleteUserLike(review.User, review);
         }
-        
+
         await _repository.ChangeLikes(review);
-        
+
         var returnModel = new LikeInputModel(review.User.Name, review.UserReview, review.UserRating
         , review.LikeAmount, review.IsLiked, review.ShowId);
-            
+
         return ResultViewModel<LikeInputModel?>.Success(returnModel);
 
     }
@@ -182,38 +178,39 @@ public class ReviewService : IReviewService
 
         var reviews = await _repository.FindRecentUserReviews(user.Data);
 
-        
+
 
         if (reviews is null)
         {
-            return ResultViewModel<List<ReviewViewModel>>.Error("Usuário não tem reviews recentes"); 
+            return ResultViewModel<List<ReviewViewModel>>.Error("Usuário não tem reviews recentes");
         }
 
         var model = reviews
             .Select(r => ReviewViewModel.FromEntity(r))
             .ToList();
-        
+
         model = FormatTimes(model);
 
         return ResultViewModel<List<ReviewViewModel>>.Success(model);
     }
-    
+
     public List<ReviewViewModel> FormatTimes(List<ReviewViewModel> reviews)
     {
         var timeSinceInt = 0;
         var timeTypeString = "";
         var since = " atrás.";
-        
+
         reviews.ForEach(r =>
         {
             var timeSince = r.CreatedAt - DateTime.Now;
-            
+
             if (timeSince.Value.Days == 00 && timeSince.Value.Hours == 00)
             {
                 timeSinceInt = Math.Abs(timeSince.Value.Minutes);
                 timeTypeString = " Minutos";
-                
-            } else if (timeSince.Value.Days == 00)
+
+            }
+            else if (timeSince.Value.Days == 00)
             {
                 timeSinceInt = Math.Abs(timeSince.Value.Hours);
                 timeTypeString = " Horas";
@@ -223,10 +220,10 @@ public class ReviewService : IReviewService
                 timeSinceInt = Math.Abs(timeSince.Value.Days);
                 timeTypeString = " Dias";
             }
-            
+
             r.TimeSinceCreation = timeSinceInt + timeTypeString + since;
         });
-        
+
         return reviews;
     }
 }

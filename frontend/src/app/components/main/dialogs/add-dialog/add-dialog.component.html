@@ -41,7 +41,7 @@
           
       </div>
       <mat-dialog-actions align="end" >
-        <button mat-button mat-dialog-close="b">Cancelar</button>
+        <button mat-button [mat-dialog-close]="false">Cancelar</button>
         <button mat-button cdkFocusInitial type="submit" [disabled]="isLoading">
           <span *ngIf="!isLoading">
             Adicionar

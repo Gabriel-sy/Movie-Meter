@@ -39,11 +39,12 @@ export class CardComponent implements OnInit {
       data: showId
     })
 
-    dialogRef.afterClosed()
+    const dialog = dialogRef.beforeClosed()
     .subscribe({
-      complete: () => {
-        console.log("Here")
-        this.shows$ = this.reviewService.findAllUserReviews()
+      next: (res) => {
+        if(res == true){
+          this.shows$ = this.reviewService.findAllUserReviews()
+        } 
       }
     })
   }
@@ -54,10 +55,12 @@ export class CardComponent implements OnInit {
       data: { currentRating: currentRating, currentReview: currentReview, showId: showId }
     })
 
-    dialogRef.afterClosed()
+    const dialog = dialogRef.beforeClosed()
     .subscribe({
-      complete: () => {
-        this.shows$ = this.reviewService.findAllUserReviews()
+      next: (res) => {
+        if(res == true){
+          this.shows$ = this.reviewService.findAllUserReviews()
+        } 
       }
     })
   }

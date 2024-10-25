@@ -58,10 +58,12 @@ export class MyListComponent implements OnInit {
   openDialog() {
     const dialogRef = this.dialog.open(AddDialogComponent);
 
-    const subscription = dialogRef.afterClosed()
+    const subscription = dialogRef.beforeClosed()
     .subscribe({
-      next: () => {
-        this.shows$ = this.reviewService.findAllUserReviews()
+      next: (res) => {
+        if(res == true){
+          this.shows$ = this.reviewService.findAllUserReviews()
+        }
       }
     })
   }

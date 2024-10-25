@@ -57,10 +57,19 @@ public class ReviewRepository : IReviewRepository
     public async Task<Review?> GetByTitle(string title, int userId)
     {
         var review = await _context.Reviews.SingleOrDefaultAsync(s => s.OriginalTitle == title
-                                                                    && s.UserId == userId                                                          
+                                                                    && s.UserId == userId
                                                                     && !s.IsDeleted);
-        
+
         return review;
+    }
+
+    public async Task<List<Review>> GetAllByUserId(int id)
+    {
+        var reviews = await _context.Reviews
+            .Where(r => !r.IsDeleted && r.User.Id == id)
+            .ToListAsync();
+
+        return reviews;
     }
 
     public async Task<PagedList<Review>> GetReviewsByShowOrigTitle(string originalTitle, int pageNumber)
@@ -73,7 +82,7 @@ public class ReviewRepository : IReviewRepository
 
         return await PaginationHelper.CreateAsync(query, pageNumber, 5);
     }
-    
+
     public async Task<PagedList<Review>> GetReviewsByOrigTitleAscLike(string originalTitle, int pageNumber)
     {
         var query = _context.Reviews
@@ -84,7 +93,7 @@ public class ReviewRepository : IReviewRepository
 
         return await PaginationHelper.CreateAsync(query, pageNumber, 5);
     }
-    
+
     public async Task<PagedList<Review>> GetReviewsByOrigTitleDescRating(string originalTitle, int pageNumber)
     {
         var query = _context.Reviews
@@ -95,7 +104,7 @@ public class ReviewRepository : IReviewRepository
 
         return await PaginationHelper.CreateAsync(query, pageNumber, 5);
     }
-    
+
     public async Task<PagedList<Review>> GetReviewsByOrigTitleAscRating(string originalTitle, int pageNumber)
     {
         var query = _context.Reviews
@@ -109,11 +118,11 @@ public class ReviewRepository : IReviewRepository
 
     public async Task<Review> ChangeLikes(Review review)
     {
-        
+
         _context.Reviews.Update(review);
         _context.Users.Update(review.User);
         await _context.SaveChangesAsync();
-        
+
         return review;
     }
 
