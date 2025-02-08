@@ -13,7 +13,7 @@ export class ErrorInterceptorService implements HttpInterceptor {
   constructor(private localStorageService: LocalStorageService, private popupService: PopupService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const longRequestThreshold = 6000;
+    const longRequestThreshold = 5500;
     const requestId = req.url + (Math.random() * 10000);
     const startTime = Date.now();
     let timeoutId: any;
@@ -22,10 +22,10 @@ export class ErrorInterceptorService implements HttpInterceptor {
       timeoutId = setTimeout(() => {
         const request = this.activeRequests.get(requestId);
         if (request && Date.now() - request.startTime >= longRequestThreshold) {
-          this.popupService.showError(
+          this.popupService.showSuccess(
             "Servidor inicializando",
             "Por favor aguarde enquanto o servidor é inicializado",
-            3000
+            4000
           );
         }
       }, longRequestThreshold);
