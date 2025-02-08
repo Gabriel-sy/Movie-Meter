@@ -1,76 +1,142 @@
 <div class="main-wrapper">
   <div class="main-container">
     <div class="content-wrapper">
-      <div class="img-container">
+
+      <div class="img-container" *ngIf="foundShow.posterPath">
         <img class="img" [src]="showImage(foundShow.posterPath)">
       </div>
+      <div class="img-container" *ngIf="!foundShow.posterPath">
+        <ngx-skeleton-loader class="img" [theme]="imgTheme" appearance="line" animation="progress-dark">
+        </ngx-skeleton-loader>
+      </div>
       <main class="main-content">
-        <h2 class="title"> {{ foundShow.translatedTitle }} </h2>
+        <div *ngIf="!foundShow.translatedTitle">
+          <ngx-skeleton-loader class="title-skeleton-container" [theme]="titleTheme" appearance="line" animation="progress-dark">
+          </ngx-skeleton-loader>
+        </div>
+        <h2 class="title" *ngIf="foundShow.translatedTitle">
+          {{ foundShow.translatedTitle }}
+        </h2>
+
         <div class="overview-content">
-          <div class="genres">
+          <div class="genres" *ngIf="!foundShow.genreNames?.length">
+            <ngx-skeleton-loader *ngFor="let i of [1,2,3]" [theme]="genreTheme" appearance="line"
+              animation="progress-dark">
+            </ngx-skeleton-loader>
+          </div>
+          <div class="genres" *ngIf="foundShow.genreNames?.length">
             <div class="genre" *ngFor="let genre of foundShow.genreNames">
-              <span> {{ genre }} </span>
+              <span>{{ genre }}</span>
             </div>
           </div>
+
           <div class="rating">
-            <span class="public-rating">
-              <i class="fas fa-star"></i> Nota geral: {{ foundShow.voteAverage }}/10
-            </span>
+            <div class="public-rating">
+              <ng-container *ngIf="!foundShow.voteAverage">
+                <ngx-skeleton-loader [theme]="ratingTheme" appearance="line" animation="progress-dark">
+                </ngx-skeleton-loader>
+              </ng-container>
+              <ng-container *ngIf="foundShow.voteAverage">
+                <i class="fas fa-star"></i> Nota geral: {{ foundShow.voteAverage }}/10
+              </ng-container>
+            </div>
             <span class="user-rating">
               <app-add-button class="add-button" (click)="openDialog(foundShow.originalTitle)"
-                *ngIf="foundShow.userRating == -1"></app-add-button>
-              <i class="fas fa-user-star"></i><span *ngIf="isLoggedIn() && this.foundShow.userRating != -1">Sua
-                nota: {{ foundShow.userRating }}</span>
+                *ngIf="foundShow.userRating == -1">
+              </app-add-button>
+              <ng-container *ngIf="isLoggedIn() && foundShow.userRating != -1">
+                <i class="fas fa-user-star"></i>
+                Sua nota: {{ foundShow.userRating }}
+              </ng-container>
             </span>
           </div>
+
           <div class="sinopsis">
             <h4 class="sinopsis-title">Sinopse</h4>
-            <p class="sinopsis-text">
+            <ng-container *ngIf="!foundShow.overview">
+              <ngx-skeleton-loader [theme]="overviewTheme" [count]="3" appearance="line" animation="progress-dark">
+              </ngx-skeleton-loader>
+            </ng-container>
+            <p class="sinopsis-text" *ngIf="foundShow.overview">
               {{ foundShow.overview }}
             </p>
           </div>
-          <div class="sinopsis" *ngIf="foundShow.userReview != ''">
+
+          <div class="sinopsis" *ngIf="foundShow.userReview">
             <h4 class="sinopsis-title">Sua avaliação</h4>
             <p class="sinopsis-text">
-              <em>
-                {{ foundShow.userReview }}
-              </em>
+              <em>{{ foundShow.userReview }}</em>
             </p>
           </div>
         </div>
       </main>
     </div>
+
     <aside class="additional-info">
-      <div class="info-card" *ngIf="foundShow.directorName != ''">
+      <div class="info-card">
         <h4 class="info-card-title">Diretor</h4>
-        <p class="info-card-content">{{ foundShow.directorName }}</p>
+        <ng-container *ngIf="!foundShow.directorName">
+          <ngx-skeleton-loader [theme]="infoCardTheme" appearance="line" animation="progress-dark">
+          </ngx-skeleton-loader>
+        </ng-container>
+        <p class="info-card-content" *ngIf="foundShow.directorName">
+          {{ foundShow.directorName }}
+        </p>
       </div>
-      <div class="info-card" *ngIf="foundShow.releaseDate">
+
+      <div class="info-card">
         <h4 class="info-card-title">Ano de Lançamento</h4>
-        <p class="info-card-content">{{ foundShow.releaseDate.substring(0, 4) }}</p>
+        <ng-container *ngIf="!foundShow.releaseDate">
+          <ngx-skeleton-loader [theme]="infoCardTheme" appearance="line" animation="progress-dark">
+          </ngx-skeleton-loader>
+        </ng-container>
+        <p class="info-card-content" *ngIf="foundShow.releaseDate">
+          {{ foundShow.releaseDate.substring(0, 4) }}
+        </p>
       </div>
+
       <div class="info-card">
         <h4 class="info-card-title">Elenco Principal</h4>
-        <p class="info-card-content"><span *ngFor="let name of mainActorsName">{{ name }} </span></p>
+        <ng-container *ngIf="!mainActorsName.length">
+          <ngx-skeleton-loader [theme]="castTheme" [count]="2" appearance="line" animation="progress-dark">
+          </ngx-skeleton-loader>
+        </ng-container>
+        <p class="info-card-content" *ngIf="mainActorsName.length">
+          <span *ngFor="let name of mainActorsName">{{ name }}</span>
+        </p>
       </div>
     </aside>
   </div>
+
   <div class="actors-container">
-    <div class="actor" *ngFor="let actor of foundShow.cast">
-      <img class="actor-image" [src]="showImage(actor.profile_Path)" alt="">
-      <div class="actor-text-container">
-        <span class="actor-name"> {{ actor.name }} </span>
-        <span class="character-name"> {{ actor.character }} </span>
+    <ng-container *ngIf="!foundShow.cast?.length">
+      <div class="actor" *ngFor="let i of [1,2,3,4,5]">
+        <ngx-skeleton-loader [theme]="actorImageTheme" appearance="line" animation="progress-dark">
+        </ngx-skeleton-loader>
+        <div class="actor-text-container">
+          <ngx-skeleton-loader [theme]="actorNameTheme" appearance="line" animation="progress-dark">
+          </ngx-skeleton-loader>
+          <ngx-skeleton-loader [theme]="characterNameTheme" appearance="line" animation="progress-dark">
+          </ngx-skeleton-loader>
+        </div>
       </div>
-    </div>
+    </ng-container>
+    <ng-container *ngIf="foundShow.cast?.length">
+      <div class="actor" *ngFor="let actor of foundShow.cast">
+        <img class="actor-image" [src]="showImage(actor.profile_Path)" alt="">
+        <div class="actor-text-container">
+          <span class="actor-name">{{ actor.name }}</span>
+          <span class="character-name">{{ actor.character }}</span>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>
 
-<hr>
 <section class="user-reviews-section">
   <h2 class="user-reviews-title">Avaliações dos Usuários</h2>
   <div class="wrapper">
-
-    <app-review *ngIf="foundShow.showId" [title]="showName" [showId]="foundShow.showId.toString()"></app-review>
+    <app-review *ngIf="foundShow.showId" [title]="showName" [showId]="foundShow.showId.toString()">
+    </app-review>
   </div>
 </section>

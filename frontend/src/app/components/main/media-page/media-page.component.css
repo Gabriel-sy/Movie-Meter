@@ -296,3 +296,24 @@
   margin: 15px auto 0;
 }
 
+
+
+@media (max-width: 968px) {
+  .title-skeleton-container ::ng-deep .ngx-skeleton-loader {
+    width: 80% !important;
+    margin: 0 auto 30px auto;
+  }
+
+  .title-skeleton-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .title-skeleton-container ::ng-deep .ngx-skeleton-loader {
+    width: 90% !important;
+  }
+}
+

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { SearchMovieService } from '../../../services/search-movie.service';
-import { Observable, Subject, Subscription, map, takeUntil } from 'rxjs';
+import { Observable, Subject, Subscription, delay, map, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AddButtonComponent } from "../add-button/add-button.component";
 import { LocalStorageService } from '../../../services/local-storage.service';
@@ -10,11 +10,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { ReviewComponent } from "../review/review.component";
 import { FullShowViewModel } from '../../../domain/FullShowViewModel';
 import { PopupService } from '../../../services/popup.service';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @Component({
   selector: 'app-media-page',
   standalone: true,
-  imports: [CommonModule, AddButtonComponent, ReviewComponent],
+  imports: [CommonModule, AddButtonComponent, ReviewComponent, NgxSkeletonLoaderModule],
   templateUrl: './media-page.component.html',
   styleUrl: './media-page.component.css'
 })
@@ -27,6 +28,82 @@ export class MediaPageComponent implements OnInit, OnDestroy {
   userRating: string = ''
   director: string = '';
   foundShow: FullShowViewModel = new FullShowViewModel()
+  imgTheme = {
+    width: '100%',
+    height: '750px',
+    borderRadius: '15px',
+    backgroundColor: '#2a2a2a'
+  };
+
+  titleTheme = {
+    width: '60%',
+    height: '3rem',
+    marginTop: '50px',
+    backgroundColor: '#2a2a2a',
+    borderRadius: '8px',
+  };
+
+  genreTheme = {
+    width: '100px',
+    height: '40px',
+    borderRadius: '30px',
+    backgroundColor: '#2a2a2a',
+    display: 'inline-block',
+    margin: '0 10px 10px 0'
+  };
+
+  ratingTheme = {
+    width: '150px',
+    height: '24px',
+    borderRadius: '4px',
+    backgroundColor: '#2a2a2a'
+  };
+
+  overviewTheme = {
+    width: '100%',
+    height: '20px',
+    marginBottom: '10px',
+    borderRadius: '4px',
+    backgroundColor: '#2a2a2a'
+  };
+
+  infoCardTheme = {
+    width: '100%',
+    height: '24px',
+    borderRadius: '4px',
+    backgroundColor: '#2a2a2a'
+  };
+
+  castTheme = {
+    width: '100%',
+    height: '20px',
+    marginBottom: '8px',
+    borderRadius: '4px',
+    backgroundColor: '#2a2a2a'
+  };
+
+  actorImageTheme = {
+    width: '180px',
+    height: '270px',
+    borderRadius: '15px 15px 0 0',
+    backgroundColor: '#2a2a2a'
+  };
+
+  actorNameTheme = {
+    width: '80%',
+    height: '20px',
+    marginBottom: '8px',
+    borderRadius: '4px',
+    backgroundColor: '#2a2a2a'
+  };
+
+  characterNameTheme = {
+    width: '60%',
+    height: '16px',
+    borderRadius: '4px',
+    backgroundColor: '#2a2a2a'
+  };
+
 
   constructor(private route: ActivatedRoute,
     private searchMovieService: SearchMovieService,
@@ -60,6 +137,7 @@ export class MediaPageComponent implements OnInit, OnDestroy {
     this.searchMovieService
       .getFullDetailShow(this.showName, this.localStorageService.get('userName'))
       .pipe(takeUntil(this.unsubscribeSignal))
+      
       .subscribe({
         next: (res: FullShowViewModel) => {
           this.foundShow = res;
