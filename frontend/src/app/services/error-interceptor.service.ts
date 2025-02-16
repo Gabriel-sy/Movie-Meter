@@ -24,8 +24,8 @@ export class ErrorInterceptorService implements HttpInterceptor {
         if (request && Date.now() - request.startTime >= longRequestThreshold) {
           this.popupService.showSuccess(
             "Servidor inicializando",
-            "Por favor aguarde enquanto o servidor é inicializado",
-            4000
+            "Por favor aguarde enquanto o servidor é inicializado, isso pode levar até 40 segundos.",
+            5000
           );
         }
       }, longRequestThreshold);
